@@ -1,0 +1,15 @@
+.filterList{
+   text-align:center;
+   padding-bottom:10px;
+   border-bottom:2px solid black;
+   margin-bottom:10px;
+}
+
+.pubLogo{
+   display:inline;
+}
+
+.pubLogo img{
+  max-height:80px;
+  padding:5px;
+}
