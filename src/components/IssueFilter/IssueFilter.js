@@ -1,22 +1,44 @@
 import React, { Component } from 'react';
 import './IssueFilter.css';
-import marvelLogo from './marvel.png';
-import dcLogo from './dc.png';
-
 
 class IssueFilter extends Component {
+  constructor(props){
+    super(props);
+
+    this.handleFilterChange = this.handleFilterChange.bind(this);
+  }
+
+  handleFilterChange(event){
+    let publisher = event.target.parentElement.getAttribute("data-publisher");
+    this.props.applyFilter(publisher);
+//      console.log("filter");
+//      console.log("filter:" + this.state.pubFilter);
+//      let newPubList = this.state.pubFilter.push(publisher);
+//      console.log("new filter:" + newPubList);
+//      this.setState({pubFilter: newPubList});
+//      var pubs = document.querySelectorAll("[data-publisher]:not([data-publisher=" + publisher + "])");
+//      pubs.forEach(x => {
+//        if (x.parentElement.classList.contains("Issue")){
+//          x.parentElement.style.display = 'none';
+//        }
+//      });
+//      console.log("done");
+  }
+
+  renderButton(){
+    if (this.props.filter.imageUrl){
+      return <img src={this.props.filter.imageUrl}  alt={this.props.filter.publisher}/>
+    }
+    else{
+      return <span>{this.props.filter.publisher} </span>
+    }
+  }
+
   render(){
     return(
-      <div className="IssueFilter">
-        <div className="filterList">
-          <div className="pubLogo">
-              <img src={dcLogo} data-publisher="dc" />
-          </div>
-          <div className="pubLogo">
-              <img src={marvelLogo} data-publisher="marvel" />
-          </div>
-        </div>
-      </div>
+      <button className={"pubLogo " + (this.props.active ? '' : 'inactive')} key={this.props.filter.publisher} data-publisher={this.props.filter.publisher} onClick={this.handleFilterChange}>
+        {this.renderButton()}
+      </button>
     );
   };
 }

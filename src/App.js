@@ -1,18 +1,33 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
-import logo2 from './logo125.png';
-import banner from './background_search_desktop.jpg';
+import logo from './logo125.png';
+import banner from './banner.jpeg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import SearchBar from './components/SearchBar/SearchBar';
 import IssueList from './components/IssueList/IssueList';
-
+import ClosetSpaceComicsApi from './utils/ClosetSpaceComicsApi';
 
 class App extends Component {
   constructor(props){
     super(props);
 
-    this.state = {businesses: []};
+    this.state = {issues: [], filters:[]};
 
+    this.searchByDate = this.searchByDate.bind(this);
+    this.issueListElement = React.createRef();
+  }
+
+  searchByDate(date){
+    ClosetSpaceComicsApi.searchByDate(date).then(response => {
+      this.setState({issues: response.Issues, filters: response.Filters});
+    });
+    if (this.issueListElement != null ){
+      if (this.issueListElement.current != null){
+        if (this.issueListElement.current.resetFilter != null){
+          this.issueListElement.current.resetFilter();
+        }
+      }
+    }
   }
 
   render(){
@@ -21,13 +36,13 @@ class App extends Component {
         <div className="container-fluid">
             <div className="legend">
                 <div className="logo">
-                    <img src={logo2} />
+                    <img src={logo} alt="logo"/>
                 </div>
                 <div>
-                    <img className="title-big" src={banner} />
+                    <img className="title-big" src={banner} alt="banner"/>
                 </div>
-                <SearchBar searchYelp={this.searchYelp}/>
-                <IssueList/>
+                <SearchBar searchByDate={this.searchByDate}/>
+                <IssueList issues={this.state.issues} filters={this.state.filters} ref={this.issueListElement} />
             </div>
           </div>
       </div>

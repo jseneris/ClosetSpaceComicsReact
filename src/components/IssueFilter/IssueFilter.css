@@ -7,9 +7,22 @@
 
 .pubLogo{
    display:inline;
+   background-color: white;
+   height: 80px;
+   border-color: white;
+   border: 0;
+   border-radius: 0;
+   background:none;
+   webkit-appearance: none;
+
 }
 
 .pubLogo img{
   max-height:80px;
   padding:5px;
+}
+
+.inactive{
+  background-color: light-grey !important;
+  opacity: .4;
 }
