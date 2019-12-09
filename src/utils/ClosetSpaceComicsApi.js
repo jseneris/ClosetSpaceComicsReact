@@ -1,4 +1,5 @@
-const clientUrl = 'http://localhost:53089/api'
+//const clientUrl = 'http://localhost:53089/api'
+const clientUrl = 'http://closetspacecomics-api.azurewebsites.net/api'
 
 let ClosetSpaceComicsApi = {
   searchByDate: function(date){
