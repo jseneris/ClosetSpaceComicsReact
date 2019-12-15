@@ -1,9 +1,8 @@
-//const clientUrl = 'http://localhost:53089/api'
-const clientUrl = 'http://closetspacecomics-api.azurewebsites.net/api'
+const clientUrl = 'http://localhost:53089/api'
+//const clientUrl = 'http://closetspacecomics-api.azurewebsites.net/api';
 
 let ClosetSpaceComicsApi = {
   searchByDate: function(date){
-    console.log('search: ' + date);
 //    let urlToFetch = `https://cors-anywhere.herokuapp.com/${clientUrl}/home/homepage`;
     let urlToFetch = `${clientUrl}/home/issues?date=${date}`;
     return fetch(urlToFetch,{})
@@ -16,7 +15,9 @@ let ClosetSpaceComicsApi = {
             imageUrl: issue.ImageUrl,
             title: issue.Title,
             issueNum: issue.IssueNum,
-            publisher: issue.Publisher
+            publisher: issue.Publisher,
+            description: issue.Description,
+            coverPrice: issue.CoverPrice
           }
         });
         if (jsonResponse.Filters){
