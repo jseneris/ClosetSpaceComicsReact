@@ -8,6 +8,8 @@ class Home extends Component {
     super(props);
 }
 
+
+
   render(){
     return (
       <div className="App">
@@ -24,7 +26,40 @@ class Home extends Component {
             <ul>
               <li><Link to='/'>Home</Link></li>
               <li><Link to='/catalog'>Catalog</Link></li>
+              <li><Link to='/purchases'>Purchase List</Link></li>
             </ul>
+            </div>
+            <div>
+              <h4>Catalog</h4>
+                <ul>
+                  <li>Title Search</li>
+                  <li>Clean Up Zoom</li>
+                  <li>Home Text</li>
+                  <li>Demo</li>
+                </ul>
+              <h4>Collection</h4>
+                <ul>
+                  <li>Location List</li>
+                  <ul>
+                    <li>Add New</li>
+                  </ul>
+                  <li>Box List</li>
+                  <ul>
+                    <li>Add New</li>
+                  </ul>
+                  <li>Display</li>
+                  <ul>
+                    <li>Move Books</li>
+                  </ul>
+                </ul>
+              <h4>Purchases</h4>
+                <ul>
+                  <li>Purchase List</li>
+                  <ul>
+                    <li>Add new</li>
+                  </ul>
+                  <li>Add New Books</li>
+                </ul>
             </div>
           </div>
       </div>
