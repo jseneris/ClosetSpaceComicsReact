@@ -38,13 +38,14 @@ class PurchaseList extends Component {
   handleDescriptionChange(event){
     this.setState({description: event.target.value});
   }
+
   handleDateChange(event){
     this.setState({purchaseDate: event.target.value});
   }
+
   handlePriceChange(event){
     this.setState({price: event.target.value});
   }
-
 
   showPurchases(event){
     var parent = event.target.parentElement;

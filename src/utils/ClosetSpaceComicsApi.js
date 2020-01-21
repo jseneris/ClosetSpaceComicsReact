@@ -69,9 +69,9 @@ let ClosetSpaceComicsApi = {
     return fetch(urlToFetch,{})
     .then(response => response.json())
     .then(jsonResponse => {
-      let response = {Locations: []};
+      let response = {locations: []};
       if (jsonResponse.Locations){
-        response.Locations = jsonResponse.Locations.map(location => {
+        response.locations = jsonResponse.Locations.map(location => {
           return {
             id: location.Id,
             name: location.Name,
@@ -81,6 +81,24 @@ let ClosetSpaceComicsApi = {
                 name: box.Name
               }
             })
+          }
+        });
+        return response;
+      }
+    });
+  },
+
+  getBoxList: function(locationId, boxId){
+    let urlToFetch = `${clientUrl}/user/collection/location/${locationId}/box/${boxId}`;
+    return fetch(urlToFetch,{})
+    .then(response => response.json())
+    .then(jsonResponse => {
+      let response = {items: []};
+      if (jsonResponse){
+        response.items = jsonResponse.map(item => {
+          return {
+            id: item.Id,
+            imageUrl: item.ImageUrl
           }
         });
         return response;

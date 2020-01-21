@@ -27,6 +27,7 @@ class Home extends Component {
               <li><Link to='/'>Home</Link></li>
               <li><Link to='/catalog'>Catalog</Link></li>
               <li><Link to='/purchases'>Purchase List</Link></li>
+              <li><Link to='/collection'>Collection</Link></li>
             </ul>
             </div>
             <div>
