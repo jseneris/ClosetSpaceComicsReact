@@ -12,6 +12,7 @@ let ClosetSpaceComicsApi = {
       if (jsonResponse.Issues){
         response.Issues = jsonResponse.Issues.map(issue => {
           return {
+            id: issue.Id,
             imageUrl: issue.ImageUrl,
             title: issue.Title,
             issueNum: issue.IssueNum,
@@ -64,9 +65,13 @@ let ClosetSpaceComicsApi = {
     });
   },
 
-  getCollections: function(){
+  getCollections: function(userId){
     let urlToFetch = `${clientUrl}/user/collection`;
-    return fetch(urlToFetch,{})
+    return fetch(urlToFetch,{
+      headers: {
+        'userId': userId
+      }
+    })
     .then(response => response.json())
     .then(jsonResponse => {
       let response = {locations: []};
@@ -88,9 +93,13 @@ let ClosetSpaceComicsApi = {
     });
   },
 
-  getBoxList: function(locationId, boxId){
+  getBoxList: function(userId, locationId, boxId){
     let urlToFetch = `${clientUrl}/user/collection/location/${locationId}/box/${boxId}`;
-    return fetch(urlToFetch,{})
+    return fetch(urlToFetch,{
+      headers: {
+        'userId': userId
+      }
+    })
     .then(response => response.json())
     .then(jsonResponse => {
       let response = {items: []};
@@ -106,9 +115,13 @@ let ClosetSpaceComicsApi = {
     });
   },
 
-  getPurchases: function(page){
+  getPurchases: function(userId, page){
     let urlToFetch = `${clientUrl}/user/purchases`;
-    return fetch(urlToFetch,{})
+    return fetch(urlToFetch,{
+      headers: {
+        'userId': userId
+      }
+    })
     .then(response => response.json())
     .then(jsonResponse => {
       let response = {Purchases: []};
@@ -133,11 +146,14 @@ let ClosetSpaceComicsApi = {
     });
   },
 
-  addIssueToPurchase: function(purchaseId, issueId){
+  addIssueToPurchase: function(userId, purchaseId, issueId){
 //    let urlToFetch = `https://cors-anywhere.herokuapp.com/${clientUrl}/home/homepage`;
     let urlToFetch = `${clientUrl}/user/purchase/${purchaseId}/${issueId}`;
     return fetch(urlToFetch,{
-      method: 'post'
+      method: 'post',
+      headers: {
+        'userId': userId
+      }
     })
     .then(response => response.json())
     .then(jsonResponse => {
@@ -148,7 +164,7 @@ let ClosetSpaceComicsApi = {
     });
   },
 
-  addPurchase: function(purchaseId, description, purchaseDate, price){
+  addPurchase: function(userId, purchaseId, description, purchaseDate, price){
 //    let urlToFetch = `https://cors-anywhere.herokuapp.com/${clientUrl}/home/homepage`;
     var data = {
       Description: description,
@@ -159,9 +175,10 @@ let ClosetSpaceComicsApi = {
     return fetch(urlToFetch,{
       method: 'post',
       headers: {
-            'Content-Type': 'application/json'
-            // 'Content-Type': 'application/x-www-form-urlencoded',
-          },
+        'userId': userId,
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
       body: JSON.stringify(data)
     })
     .then(response => response.json())

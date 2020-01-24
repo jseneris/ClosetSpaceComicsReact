@@ -13,6 +13,25 @@ const firebaseApp = firebase.initializeApp(firebaseConfig);
 class App extends Component {
   constructor(props){
     super(props);
+
+    this.state = {
+      authenticated:false,
+      userId: 0
+    }
+  }
+
+  componentWillMount(){
+    this.removeAuthListener = firebaseAppAuth.onAuthStateChanged((user) => {
+      if (user){
+        console.log(user.uid);
+        this.setState({authenticated: true, userId: 1});
+      }
+      else{
+        console.log('no user');
+        this.setState({authenticated: true, userId: 0});
+      }
+    });
+    console.log("no auth change yet");
   }
 
   render(){
@@ -33,11 +52,11 @@ class App extends Component {
         {user ? (
           <div>
             <button onClick={signOut}>Sign out</button>
-            <Main />
           </div>
         )
           :
           <button onClick={signInWithGoogle}>Sign in with Google</button>}
+          <Main authenticated={this.state.authenticated} userId={this.state.userId}/>
       </div>
     );
   }

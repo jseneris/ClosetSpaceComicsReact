@@ -9,19 +9,29 @@ class Purchases extends Component {
   constructor(props){
     super(props);
 
-    this.state = {purchaseList: []};
+    this.state = {
+      purchaseList: [],
+      loaded: false,
+      refresh: false
+    };
 
     this.getPurchaseList = this.getPurchaseList.bind(this);
     this.issueListElement = React.createRef();
   }
 
   componentDidMount(){
-    this.getPurchaseList();
+    //this.getPurchaseList();
+  }
+
+  componentWillReceiveProps (newProps) {
+    if( newProps.userId !== this.props.userId ){
+      this.setState({refresh: true});
+    }
   }
 
   getPurchaseList(){
-    ClosetSpaceComicsApi.getPurchases().then(response => {
-      this.setState({purchaseList: response.Purchases});
+    ClosetSpaceComicsApi.getPurchases(this.props.userId).then(response => {
+      this.setState({purchaseList: response.Purchases, loaded: true, refresh: false});
     });
 //    if (this.issueListElement != null ){
 //      if (this.issueListElement.current != null){
@@ -34,6 +44,11 @@ class Purchases extends Component {
 
 
   render(){
+    if ((this.state.loaded && this.state.refresh) || (!this.state.loaded && this.props.authenticated)){
+      this.getPurchaseList();
+    }
+
+    if (this.state.loaded && this.props.authenticated){
     return (
       <div className="App">
         <div className="container-fluid">
@@ -42,12 +57,17 @@ class Purchases extends Component {
                     <img src={logo} alt="logo"/>
                 </div>
             </div>
-            <PurchaseList purchases={this.state.purchaseList} ref={this.issueListElement} />
+            <PurchaseList purchases={this.state.purchaseList} ref={this.issueListElement} userId={this.props.userId}/>
           </div>
       </div>
     );
+    }
+    else{
+        return(
+          <div>loading</div>
+        )
+    }
   }
-
 }
 
 export default Purchases

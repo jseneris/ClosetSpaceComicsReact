@@ -8,6 +8,15 @@ import './PurchaseList.css';
 class PurchaseList extends Component {
   constructor(props){
     super(props);
+
+    let currentDate = new Date();
+    let dayOffset = currentDate.getDay();
+    if (dayOffset < 3){
+      dayOffset += 7;
+    }
+    let closestWed = new Date(new Date().setDate(currentDate.getDate() - dayOffset + 3));
+    let closestDateString = (closestWed.getMonth()+1) + '/' + closestWed.getDate() + '/' + closestWed.getFullYear();
+
     this.state = {
       purchaseItems: [],
       description: "",
@@ -18,21 +27,40 @@ class PurchaseList extends Component {
       showPurchaseDetail: false,
       showPurchaseIssues: false,
       searchTitles: [],
-      titleIssues: []
+      titleIssues: [],
+      dateSearch:closestDateString
     };
 
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
     this.handlePriceChange = this.handlePriceChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
 
     this.showPurchases = this.showPurchases.bind(this);
     this.searchByTitle = this.searchByTitle.bind(this);
+    this.searchByDate = this.searchByDate.bind(this);
     this.showTitleIssues = this.showTitleIssues.bind(this);
     this.toggleSearch = this.toggleSearch.bind(this);
     this.addIssueToPurchase = this.addIssueToPurchase.bind(this);
     this.showPurchaseAdd = this.showPurchaseAdd.bind(this);
     this.addNewPurchase = this.addNewPurchase.bind(this);
     this.closePurchaseDetail = this.closePurchaseDetail.bind(this);
+  }
+
+  renderSortByOptions() {
+    let currentDate = new Date();
+    let options = [];
+    let dayOffset = currentDate.getDay();
+    if (dayOffset < 3){
+      dayOffset += 7;
+    }
+    for(var x = 0; x < 10; x++){
+      let closestWed = new Date(new Date().setDate(currentDate.getDate() - dayOffset + 3 - (7*x)));
+      options.push((closestWed.getMonth()+1) + '/' + closestWed.getDate() + '/' + closestWed.getFullYear());
+    }
+    return options.map(closestWedDate => {
+      return <option key={closestWedDate} value={closestWedDate}>{closestWedDate}</option>;
+    });
   }
 
   handleDescriptionChange(event){
@@ -66,7 +94,7 @@ class PurchaseList extends Component {
   }
 
   addNewPurchase(){
-    ClosetSpaceComicsApi.addPurchase(null, this.state.description, this.state.purchaseDate, this.state.price)
+    ClosetSpaceComicsApi.addPurchase(this.props.userId, null, this.state.description, this.state.purchaseDate, this.state.price)
       .then(newPurchase => {
         this.props.purchases.unshift(newPurchase);
         this.setState({activePurchaseId: newPurchase.id, showPurchaseList: false, showSearch:true});
@@ -75,7 +103,7 @@ class PurchaseList extends Component {
 
   addIssueToPurchase(event){
     var targetId = event.target.getAttribute('data-id');
-    ClosetSpaceComicsApi.addIssueToPurchase(this.state.activePurchaseId, targetId)
+    ClosetSpaceComicsApi.addIssueToPurchase(this.props.userId, this.state.activePurchaseId, targetId)
     .then(newIssue => {
       var targetPurchase = this.props.purchases.find(element => {
         return element.id == this.state.activePurchaseId;
@@ -84,9 +112,7 @@ class PurchaseList extends Component {
       targetPurchase.issues.unshift(newIssue);
       this.setState({
         purchaseItems: targetPurchase.issues,
-        description: targetPurchase.description,
-        size: targetPurchase.size,
-        activePurchaseId: targetId,
+        size: targetPurchase.size
       });
     });
   }
@@ -96,6 +122,16 @@ class PurchaseList extends Component {
 
     ClosetSpaceComicsApi.searchByTitle(target.value).then(response => {
       this.setState({searchTitles: response.Titles});
+    });
+  }
+
+  handleDateChange(event){
+    this.setState({dateSearch: event.target.value});
+  }
+
+  searchByDate(event){
+    ClosetSpaceComicsApi.searchByDate(this.state.dateSearch).then(response => {
+      this.setState({titleIssues: response.Issues});
     });
   }
 
@@ -207,6 +243,10 @@ class PurchaseList extends Component {
           title: <input type="text" id="txtSearch" />
           <button onClick={this.searchByTitle}>Search</button>
           <button onClick={this.toggleSearch}>Close</button>
+          <select id="weekSelect" onChange={this.handleDateChange}>
+            { this.renderSortByOptions()}
+          </select>
+          <button onClick={this.searchByDate}>Search</button>
         </Row>
           <Row className="searchTitles">
           {this.state.searchTitles.map(title => {

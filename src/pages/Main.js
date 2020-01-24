@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import { Switch, Route } from 'react-router-dom'
 import Home from './Home'
 import Catalog from './Catalog'
@@ -12,15 +12,23 @@ import Collection from './Collection'
 // and /schedule routes will match any pathname that starts
 // with /roster or /schedule. The / route will only match
 // when the pathname is exactly the string "/"
-const Main = () => (
-  <main>
-    <Switch>
-      <Route exact path='/' component={Home}/>
-      <Route path='/catalog' component={Catalog}/>
-      <Route path='/purchases' component={Purchases}/>
-      <Route path='/collection' component={Collection}/>
-    </Switch>
-  </main>
-)
+class Main extends Component {
+  constructor(props){
+    super(props);
+  }
+
+  render(){
+    return (
+      <main>
+        <Switch>
+          <Route exact path='/' component={Home}/>
+          <Route path='/catalog' component={Catalog}/>
+          <Route path='/purchases' render={(props) => <Purchases authenticated={this.props.authenticated} userId={this.props.userId}/>}/>          
+          <Route path='/collection' render={(props) => <Collection authenticated={this.props.authenticated} userId={this.props.userId}/>}/>
+        </Switch>
+      </main>
+
+    )};
+}
 
 export default Main

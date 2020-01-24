@@ -34,7 +34,7 @@ class CollectionList extends Component {
   showBoxIssues(event){
     var target = event.target.closest(".boxDetail");
     var targetId = target.getAttribute('data-id');
-    ClosetSpaceComicsApi.getBoxList(this.state.activeLocationId, targetId)
+    ClosetSpaceComicsApi.getBoxList(this.props.userId, this.state.activeLocationId, targetId)
       .then(response => {
         this.setState({boxItems: response.items, showBoxList: false, showBoxItems: true});
       });
