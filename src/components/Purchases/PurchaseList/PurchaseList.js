@@ -32,7 +32,7 @@ class PurchaseList extends Component {
     };
 
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-    this.handleDateChange = this.handleDateChange.bind(this);
+    this.handlePurchaseDateChange = this.handlePurchaseDateChange.bind(this);
     this.handlePriceChange = this.handlePriceChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
 
@@ -40,6 +40,7 @@ class PurchaseList extends Component {
     this.searchByTitle = this.searchByTitle.bind(this);
     this.searchByDate = this.searchByDate.bind(this);
     this.showTitleIssues = this.showTitleIssues.bind(this);
+    this.fillTitle = this.fillTitle.bind(this);
     this.toggleSearch = this.toggleSearch.bind(this);
     this.addIssueToPurchase = this.addIssueToPurchase.bind(this);
     this.showPurchaseAdd = this.showPurchaseAdd.bind(this);
@@ -67,7 +68,7 @@ class PurchaseList extends Component {
     this.setState({description: event.target.value});
   }
 
-  handleDateChange(event){
+  handlePurchaseDateChange(event){
     this.setState({purchaseDate: event.target.value});
   }
 
@@ -136,13 +137,25 @@ class PurchaseList extends Component {
   }
 
   showTitleIssues(event){
-    var parent = event.target.parentElement;
-    var targetId = parent.getAttribute('data-id');
+    var target = event.target.closest(".title");
+    var targetId = target.getAttribute('data-name');
     var targetPurchase = this.state.searchTitles.find(element => {
       return element.title == targetId;
     });
 
     this.setState({titleIssues: targetPurchase.issues});
+  }
+
+  fillTitle(event){
+    var target = event.target.closest(".title");
+    var targetId = target.getAttribute('data-id');
+    ClosetSpaceComicsApi.fillTitle(targetId).then(response => {
+      var target = document.getElementById("txtSearch");
+
+      ClosetSpaceComicsApi.searchByTitle(target.value).then(response => {
+        this.setState({searchTitles: response.Titles});
+      });
+    });
   }
 
   showPurchaseAdd(){
@@ -220,7 +233,7 @@ class PurchaseList extends Component {
             <span>Description:</span><span><input type="text" name="despcription" id="despcription" value={this.state.description} onChange={this.handleDescriptionChange}/></span>
           </div>
           <div>
-            <span>Price:</span><span><input type="text" name="purchaseDate" id="purchaseDate" value={this.state.purchaseDate} onChange={this.handleDateChange}/></span>
+            <span>Price:</span><span><input type="text" name="purchaseDate" id="purchaseDate" value={this.state.purchaseDate} onChange={this.handlePurchaseDateChange}/></span>
           </div>
           <div>
             <span>Date:</span><span><input type="text" name="price" id="price" value={this.state.price} onChange={this.handlePriceChange}/></span>
@@ -251,9 +264,12 @@ class PurchaseList extends Component {
           <Row className="searchTitles">
           {this.state.searchTitles.map(title => {
             return (
-              <Col className="title" md="1" data-id={title.title} onClick={this.showTitleIssues}>
-                <img src={title.imageUrl} height="100"/>
-                <div>{title.title}</div>
+              <Col className="title" md="1" data-id={title.id} data-name={title.title}>
+                <div onClick={this.showTitleIssues}>
+                  <img src={title.imageUrl} height="100"/>
+                  <div>{title.title}</div>
+                </div>
+                <div onClick={this.fillTitle}>(fill title)</div>
               </Col>
             )
           })}
