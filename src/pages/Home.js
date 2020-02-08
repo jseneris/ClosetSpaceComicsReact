@@ -28,6 +28,7 @@ class Home extends Component {
               <li><Link to='/catalog'>Catalog</Link></li>
               <li><Link to='/purchases'>Purchase List</Link></li>
               <li><Link to='/collection'>Collection</Link></li>
+              <li><Link to='/collectionbytitle'>Collection By Title</Link></li>
             </ul>
             </div>
             <div>
@@ -41,13 +42,7 @@ class Home extends Component {
               <h4>Collection</h4>
                 <ul>
                   <li>Location List</li>
-                  <ul>
-                    <li>Add New</li>
-                  </ul>
                   <li>Box List</li>
-                  <ul>
-                    <li>Add New</li>
-                  </ul>
                   <li>Display</li>
                   <ul>
                     <li>Move Books</li>
@@ -56,10 +51,6 @@ class Home extends Component {
               <h4>Purchases</h4>
                 <ul>
                   <li>Purchase List</li>
-                  <ul>
-                    <li>Add new</li>
-                  </ul>
-                  <li>Add New Books</li>
                 </ul>
             </div>
           </div>

@@ -4,8 +4,7 @@ import Home from './Home'
 import Catalog from './Catalog'
 import Purchases from './Purchases'
 import Collection from './Collection'
-//import Roster from './Roster'
-//import Schedule from './Schedule'
+import CollectionByTitle from './CollectionByTitle'
 
 // The Main component renders one of the three provided
 // Routes (provided that one matches). Both the /roster
@@ -23,8 +22,9 @@ class Main extends Component {
         <Switch>
           <Route exact path='/' component={Home}/>
           <Route path='/catalog' component={Catalog}/>
-          <Route path='/purchases' render={(props) => <Purchases authenticated={this.props.authenticated} userId={this.props.userId}/>}/>          
+          <Route path='/purchases' render={(props) => <Purchases authenticated={this.props.authenticated} userId={this.props.userId}/>}/>
           <Route path='/collection' render={(props) => <Collection authenticated={this.props.authenticated} userId={this.props.userId}/>}/>
+          <Route path='/collectionbytitle' render={(props) => <CollectionByTitle authenticated={this.props.authenticated} userId={this.props.userId}/>}/>
         </Switch>
       </main>
 

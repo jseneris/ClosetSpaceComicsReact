@@ -24,11 +24,11 @@ class App extends Component {
     this.removeAuthListener = firebaseAppAuth.onAuthStateChanged((user) => {
       if (user){
         console.log(user.uid);
-        this.setState({authenticated: true, userId: 1});
+        this.setState({authenticated: true, userId: user.uid});
       }
       else{
         console.log('no user');
-        this.setState({authenticated: true, userId: 0});
+        this.setState({authenticated: true, userId: null});
       }
     });
     console.log("no auth change yet");

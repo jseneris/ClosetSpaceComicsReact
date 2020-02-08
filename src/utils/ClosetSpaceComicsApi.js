@@ -1,6 +1,6 @@
-const clientUrl = 'http://api.closetspacecomics.com/api'
+//const clientUrl = 'http://api.closetspacecomics.com/api'
 //const clientUrl = 'http://localhost:53089/api'
-//const clientUrl = 'http://closetspacecomics-api.azurewebsites.net/api';
+const clientUrl = 'http://closetspacecomics-api2.azurewebsites.net/api';
 
 let ClosetSpaceComicsApi = {
   searchByDate: function(date){
