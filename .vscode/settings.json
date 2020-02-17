@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/da91939b-081d-4755-9ca9-bce7d6927ed5/resourceGroups/ClosetSpaceComics/providers/Microsoft.Web/sites/ClosetSpaceComics",
+    "appService.deploySubpath": ""
+}
