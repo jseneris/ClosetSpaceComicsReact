@@ -2,3 +2,22 @@
   border: 2px solid black;
   margin: 3px;
 }
+
+.purchaseHeader {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.addPurchaseBtn {
+  color: green;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.purchaseImage {
+  height: 140px;
+  margin: auto;
+  display: block;
+}

@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -28,7 +30,9 @@ class PurchaseList extends Component {
       showPurchaseIssues: false,
       searchTitles: [],
       titleIssues: [],
-      dateSearch:closestDateString
+      dateSearch:closestDateString,
+      page: 1,
+      purchases: props.purchases
     };
 
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
@@ -46,6 +50,7 @@ class PurchaseList extends Component {
     this.showPurchaseAdd = this.showPurchaseAdd.bind(this);
     this.addNewPurchase = this.addNewPurchase.bind(this);
     this.closePurchaseDetail = this.closePurchaseDetail.bind(this);
+    this.loadMorePurchase = this.loadMorePurchase.bind(this);
   }
 
   renderSortByOptions() {
@@ -81,7 +86,7 @@ class PurchaseList extends Component {
 //    var targetId = parent.getAttribute('data-id');
     var target = event.target.closest(".purchaseDetail");
     var targetId = target.getAttribute('data-id');
-    var targetPurchase = this.props.purchases.find(element => {
+    var targetPurchase = this.state.purchases.find(element => {
       return element.id == targetId;
     });
 
@@ -158,6 +163,12 @@ class PurchaseList extends Component {
     });
   }
 
+  loadMorePurchase(event){
+    ClosetSpaceComicsApi.getPurchases(this.props.userId, this.state.page+1).then(response => {
+      this.setState({purchases: this.state.purchases.concat(response.Purchases), page: this.state.page+1});
+    });
+  }
+
   showPurchaseAdd(){
     var nowDate = new Date();
     var date = (nowDate.getMonth()+1) +'/'+ nowDate.getDate() +'/'+ nowDate.getFullYear();
@@ -204,21 +215,27 @@ class PurchaseList extends Component {
     if (this.state.showPurchaseList){
       return(
         <div>
-          <div className="purchaseTitle">
-            <span>Purchases</span>
-            <span className="addPurchaseBtn" onClick={this.showPurchaseAdd}>(new)</span>
-          </div>
+          <Row className="purchaseTitle">
+            <Col md={{span:10, offset:1}} className="text-center purchaseHeader">Purchases</Col>
+            <Col md="1" className="addPurchaseBtn" onClick={this.showPurchaseAdd}><FontAwesomeIcon icon={faPlusCircle} className="clickable"/></Col>
+          </Row>
           <Row className="purchases">
-            {this.props.purchases.map(purchase => {
+            {this.state.purchases.map(purchase => {
               return (
-                <Col className="purchaseDetail" md="2" data-id={purchase.id} onClick={this.showPurchases}>
+                <Col className="purchaseDetail clickable" md="2" data-id={purchase.id} onClick={this.showPurchases}>
                   <div>
+                    <div>
+                      <img className="purchaseImage" src={purchase.size > 0 ? purchase.issues[0].imageUrl : ""} />
+                    </div>
                     <span>{purchase.description}</span><span>({purchase.size})</span>
                     <div>{purchase.purchaseDate}</div>
                   </div>
                 </Col>
               )
             })}
+          </Row>
+          <Row>
+            <Col md="12" className="text-center"><span onClick={this.loadMorePurchase}>More</span></Col>
           </Row>
         </div>
       )

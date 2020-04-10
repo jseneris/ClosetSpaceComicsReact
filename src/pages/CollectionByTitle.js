@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import logo from '../logo125.png';
 import CollectionList from '../components/CollectionByTitle/CollectionList/CollectionList';
 import App from '../App';
 
@@ -24,10 +23,10 @@ class CollectionByTitle extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-  if( newProps.userId !== this.props.userId ){
-    this.setState({refresh: true});
+    if( newProps.userId !== this.props.userId ){
+      this.setState({refresh: true});
+    }
   }
-}
 
   getCollectionList(){
     ClosetSpaceComicsApi.getCollections(this.props.userId).then(response => {
@@ -44,11 +43,6 @@ class CollectionByTitle extends Component {
       return (
         <div className="App">
           <div className="container-fluid">
-              <div className="legend">
-                  <div className="logo">
-                      <img src={logo} alt="logo"/>
-                  </div>
-              </div>
               <CollectionList locations={this.state.locations} ref={this.issueListElement} userId={this.props.userId} />
             </div>
         </div>

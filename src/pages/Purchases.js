@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import logo from '../logo125.png';
 import PurchaseList from '../components/Purchases/PurchaseList/PurchaseList';
 
 //import IssueList from '../components/Catalog/IssueList/IssueList';
@@ -52,13 +51,8 @@ class Purchases extends Component {
     return (
       <div className="App">
         <div className="container-fluid">
-            <div className="legend">
-                <div className="logo">
-                    <img src={logo} alt="logo"/>
-                </div>
-            </div>
-            <PurchaseList purchases={this.state.purchaseList} ref={this.issueListElement} userId={this.props.userId}/>
-          </div>
+          <PurchaseList purchases={this.state.purchaseList} ref={this.issueListElement} userId={this.props.userId}/>
+        </div>
       </div>
     );
     }

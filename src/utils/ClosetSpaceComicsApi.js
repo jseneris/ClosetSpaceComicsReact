@@ -1,6 +1,6 @@
 //const clientUrl = 'http://api.closetspacecomics.com/api'
-//const clientUrl = 'http://localhost:53089/api'
-const clientUrl = 'http://closetspacecomics-api2.azurewebsites.net/api';
+const clientUrl = 'http://localhost:53089/api'
+//const clientUrl = 'http://closetspacecomics-api2.azurewebsites.net/api';
 
 let ClosetSpaceComicsApi = {
   searchByDate: function(date){
@@ -125,7 +125,7 @@ let ClosetSpaceComicsApi = {
   },
 
   getPurchases: function(userId, page){
-    let urlToFetch = `${clientUrl}/user/purchases`;
+    let urlToFetch = `${clientUrl}/user/purchases?page=${page}`;
     return fetch(urlToFetch,{
       headers: {
         'userId': userId

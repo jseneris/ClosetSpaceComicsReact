@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import logo from '../logo125.png';
 import banner from '../banner.jpeg';
 
 import SearchBar from '../components/Catalog/SearchBar/SearchBar';
@@ -35,9 +34,6 @@ class Catalog extends Component {
       <div className="App">
         <div className="container-fluid">
             <div className="legend">
-                <div className="logo">
-                    <img src={logo} alt="logo"/>
-                </div>
                 <div>
                     <img className="title-big" src={banner} alt="banner"/>
                 </div>

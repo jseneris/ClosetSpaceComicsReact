@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import logo from '../logo125.png';
 import CollectionList from '../components/Collection/CollectionList/CollectionList';
 import App from '../App';
 
@@ -44,11 +43,6 @@ class Collection extends Component {
       return (
         <div className="App">
           <div className="container-fluid">
-              <div className="legend">
-                  <div className="logo">
-                      <img src={logo} alt="logo"/>
-                  </div>
-              </div>
               <CollectionList locations={this.state.locations} ref={this.issueListElement} userId={this.props.userId} />
             </div>
         </div>
