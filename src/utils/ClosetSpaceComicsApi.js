@@ -1,6 +1,11 @@
-const clientUrl = 'http://api.closetspacecomics.com/api'
-//const clientUrl = 'http://localhost:53089/api'
-//const clientUrl = 'http://closetspacecomics-api2.azurewebsites.net/api';
+//const herokuPrefix = ''
+const herokuPrefix = 'https://cors-anywhere.herokuapp.com/'
+const baseClientUrl = 'http://api.closetspacecomics.com/api'
+//const baseClientUrl = 'http://localhost:53089/api'
+//const baseClientUrl = 'http://closetspacecomics-api2.azurewebsites.net/api';
+
+
+const clientUrl = herokuPrefix + baseClientUrl;
 
 let ClosetSpaceComicsApi = {
   searchByDate: function(date){
