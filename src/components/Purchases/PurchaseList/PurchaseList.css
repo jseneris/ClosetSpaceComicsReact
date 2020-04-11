@@ -1,6 +1,4 @@
 .purchaseDetail{
-  border: 2px solid black;
-  margin: 3px;
 }
 
 .purchaseHeader {
@@ -20,4 +18,13 @@
   height: 140px;
   margin: auto;
   display: block;
+}
+
+.purchaseItems {
+  border-top: 2px solid black;
+}
+
+.purchaseItemsHeader {
+  font-size: 1.5em;
+  font-weight: bold;
 }

@@ -310,7 +310,7 @@ class PurchaseList extends Component {
     if (this.state.showPurchaseIssues){
       return(
         <div className="purchaseItems">
-          <div>{this.state.description}<span>({this.state.size})</span></div>
+          <div className="purchaseItemsHeader text-center">{this.state.description}<span>({this.state.size})</span></div>
           <span>(edit)</span><span onClick={this.toggleSearch}>(add)</span>
           <Row className="items">
             {this.state.purchaseItems.map(item => {
@@ -329,12 +329,12 @@ class PurchaseList extends Component {
 
   render(){
     return(
-      <Container className="purchaseList" fluid="true">
+      <div>
         {this.renderPurchaseList()}
         {this.renderPurchaseDetail()}
         {this.renderSearch()}
         {this.renderPurchaseItems()}
-      </Container>
+      </div>
     );
   }
 }

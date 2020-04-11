@@ -52,6 +52,7 @@ class App extends Component {
             <Col md="2">
               <div>
                 <ul>
+                  <li><Link to='/'>Home</Link></li>
                   <li><Link to='/purchases'>Purchase List</Link></li>
                   <li><Link to='/collection'>Collection</Link></li>
                   <li><Link to='/collectionbytitle'>Collection By Title</Link></li>
@@ -74,7 +75,10 @@ class App extends Component {
                 </div>
               )
                 :
-                <button onClick={signInWithGoogle}>Sign in with Google</button>}
+                <div>
+                  <button onClick={signInWithGoogle}>Sign in with Google</button>
+                </div>
+              }
 
             </Col>
           </Row>

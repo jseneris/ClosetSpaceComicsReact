@@ -20,3 +20,8 @@
 .title-big {
   width:100%;
 }
+
+.aboutHeader {
+  font-size: 2em;
+  font-weight: bold;
+}
