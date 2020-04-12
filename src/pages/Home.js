@@ -17,8 +17,9 @@ class Home extends Component {
   }
 
   searchByDate(date){
+    this.setState({loading: true});
     ClosetSpaceComicsApi.searchByDate(date).then(response => {
-      this.setState({issues: response.Issues, filters: response.Filters});
+      this.setState({issues: response.Issues, filters: response.Filters, loading:false});
     });
     if (this.issueListElement != null ){
       if (this.issueListElement.current != null){
@@ -39,7 +40,7 @@ class Home extends Component {
                 </div>
             </div>
             <SearchBar searchByDate={this.searchByDate}/>
-            <IssueList issues={this.state.issues} filters={this.state.filters} ref={this.issueListElement} />
+            <IssueList issues={this.state.issues} filters={this.state.filters} ref={this.issueListElement} loading={this.state.loading} />
           </div>
       </div>
     );

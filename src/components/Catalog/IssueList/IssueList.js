@@ -69,35 +69,40 @@ class IssueList extends Component {
           <IssueZoom issue={this.state.issue} issues={this.issues} handleZoomChange={this.zoomChange} handleZoomExit={this.zoomExit}/>
       );
     }
+    else if(this.props.loading){
+      return (
+        <div className="center-text">
+            loading
+        </div>
+      );
+    }
+    else if(this.issues.length == 0){
+      return (
+        <div className="center-text">
+            No books released this week
+        </div>
+      );
+    }
     else{
-      if (this.issues.length == 0){
-        return (
-          <div className="center-text">
-              No books released this week
+      return(
+        <div className="IssueList">
+          <div className="filterDiv">
+            <span className="filterLabel">Filter</span>
           </div>
-        );
-      }
-      else{
-        return(
-          <div className="IssueList">
-            <div className="filterDiv">
-              <span className="filterLabel">Filter</span>
-            </div>
-            <div className="IssueFilter">
-              <div className="filterList">
-                {this.props.filters.map(filter => {
-                  return <IssueFilter filter={filter} key={filter.publisher} active={this.state.pubFilter.length === 0 || this.state.pubFilter.includes(filter.publisher)} applyFilter={this.applyFilter}/>
-                })}
-              </div>
-            </div>
-            <div className="row">
-              {this.issues.map(issue => {
-                return <Issue issue={issue} zoomToIssue={this.zoomToIssue}/>
+          <div className="IssueFilter">
+            <div className="filterList">
+              {this.props.filters.map(filter => {
+                return <IssueFilter filter={filter} key={filter.publisher} active={this.state.pubFilter.length === 0 || this.state.pubFilter.includes(filter.publisher)} applyFilter={this.applyFilter}/>
               })}
             </div>
           </div>
-        );
-      }
+          <div className="row">
+            {this.issues.map(issue => {
+              return <Issue issue={issue} zoomToIssue={this.zoomToIssue}/>
+            })}
+          </div>
+        </div>
+      );
     }
   };
 }
