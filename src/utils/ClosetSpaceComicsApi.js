@@ -30,7 +30,7 @@ let ClosetSpaceComicsApi = {
         if (jsonResponse.Filters){
           response.Filters = jsonResponse.Filters.map(filter => {
             return {
-              publisher: filter.Publisher,
+              publisher: filter.Name,
               imageUrl: filter.ImageUrl
             }
           });

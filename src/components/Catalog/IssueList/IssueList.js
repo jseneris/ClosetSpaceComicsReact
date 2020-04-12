@@ -16,6 +16,7 @@ class IssueList extends Component {
     this.handleIssueClick = this.applyFilter.bind(this);
     this.zoomToIssue = this.zoomToIssue.bind(this);
     this.zoomChange = this.zoomChange.bind(this);
+    this.zoomExit = this.zoomExit.bind(this);
     this.updateIssues = this.updateIssues.bind(this);
   }
 
@@ -47,6 +48,10 @@ class IssueList extends Component {
     this.setState({issue: target});
   }
 
+  zoomExit(){
+    this.setState({zoom:false});
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     this.updateIssues(nextProps.issues);
     return true;
@@ -61,29 +66,38 @@ class IssueList extends Component {
   render(){
     if (this.state.zoom){
       return (
-        <IssueZoom issue={this.state.issue} issues={this.issues} handleZoomChange={this.zoomChange}/>
+          <IssueZoom issue={this.state.issue} issues={this.issues} handleZoomChange={this.zoomChange} handleZoomExit={this.zoomExit}/>
       );
     }
     else{
-      return(
-        <div className="IssueList">
-          <div className="filterDiv">
-            <span className="filterLabel">Filter</span>
+      if (this.issues.length == 0){
+        return (
+          <div className="center-text">
+              No books released this week
           </div>
-          <div className="IssueFilter">
-            <div className="filterList">
-              {this.props.filters.map(filter => {
-                return <IssueFilter filter={filter} key={filter.publisher} active={this.state.pubFilter.length === 0 || this.state.pubFilter.includes(filter.publisher)} applyFilter={this.applyFilter}/>
+        );
+      }
+      else{
+        return(
+          <div className="IssueList">
+            <div className="filterDiv">
+              <span className="filterLabel">Filter</span>
+            </div>
+            <div className="IssueFilter">
+              <div className="filterList">
+                {this.props.filters.map(filter => {
+                  return <IssueFilter filter={filter} key={filter.publisher} active={this.state.pubFilter.length === 0 || this.state.pubFilter.includes(filter.publisher)} applyFilter={this.applyFilter}/>
+                })}
+              </div>
+            </div>
+            <div className="row">
+              {this.issues.map(issue => {
+                return <Issue issue={issue} zoomToIssue={this.zoomToIssue}/>
               })}
             </div>
           </div>
-          <div className="row">
-            {this.issues.map(issue => {
-              return <Issue issue={issue} zoomToIssue={this.zoomToIssue}/>
-            })}
-          </div>
-        </div>
-      );
+        );
+      }
     }
   };
 }

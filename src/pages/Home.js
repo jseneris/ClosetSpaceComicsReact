@@ -14,10 +14,9 @@ class Home extends Component {
 
     this.searchByDate = this.searchByDate.bind(this);
     this.issueListElement = React.createRef();
+  }
 
-}
-
-searchByDate(date){
+  searchByDate(date){
     ClosetSpaceComicsApi.searchByDate(date).then(response => {
       this.setState({issues: response.Issues, filters: response.Filters});
     });
@@ -29,7 +28,6 @@ searchByDate(date){
       }
     }
   }
-
 
   render(){
     return (

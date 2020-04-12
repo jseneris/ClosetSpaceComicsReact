@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import './IssueZoom.css';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -9,11 +10,16 @@ class IssueZoom extends Component {
     super(props);
 
     this.changeZoom = this.changeZoom.bind(this);
+    this.exitZoom = this.exitZoom.bind(this);
   }
 
   changeZoom(event){
     var tartgetIndex = event.target.getAttribute('data-index');
     this.props.handleZoomChange(this.props.issues[tartgetIndex]);
+  }
+
+  exitZoom(){
+    this.props.handleZoomExit();
   }
 
   render(){
@@ -27,7 +33,10 @@ class IssueZoom extends Component {
     };
     return(
       <Container>
-        <h1>{this.props.issue.title}</h1>
+        <Row>
+          <Col md="10" className="zoomHeader">{this.props.issue.title}</Col>
+          <Col md="2" className="clickable" onClick={this.exitZoom}>X</Col>
+        </Row>
         <Row>
           <Col sm={7}>
             <img className="img-responsive" src={this.props.issue.imageUrl} height={400} />
