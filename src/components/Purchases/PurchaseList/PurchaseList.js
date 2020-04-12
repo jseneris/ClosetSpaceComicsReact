@@ -222,8 +222,8 @@ class PurchaseList extends Component {
           <Row className="purchases">
             {this.state.purchases.map(purchase => {
               return (
-                <Col className="purchaseDetail clickable" md="2" data-id={purchase.id} onClick={this.showPurchases}>
-                  <div>
+                <Col className="purchaseDetail clickable" md="2" sm="4" xs="6" data-id={purchase.id} onClick={this.showPurchases}>
+                  <div className="text-center">
                     <div>
                       <img className="purchaseImage" src={purchase.size > 0 ? purchase.issues[0].imageUrl : ""} />
                     </div>
@@ -315,7 +315,7 @@ class PurchaseList extends Component {
           <Row className="items">
             {this.state.purchaseItems.map(item => {
               return (
-                <Col md="1" >
+                <Col md="1" sm="3" xs="4" >
                   <img src={item.imageUrl} height="200px"/>
                 </Col>
               )

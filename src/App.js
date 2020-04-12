@@ -50,25 +50,10 @@ class App extends Component {
         <div className="container-fluid">
           <Row className="top-bar">
             <Col md="2">
-              <div>
-                <ul>
-                  <li><Link to='/'>Home</Link></li>
-                  <li><Link to='/purchases'>Purchase List</Link></li>
-                  <li><Link to='/collection'>Collection</Link></li>
-                  <li><Link to='/collectionbytitle'>Collection By Title</Link></li>
-                  <li><Link to='/about'>About</Link></li>
-                </ul>
-              </div>
-            </Col>
-            <Col md="8">
-                <img  className="logo" src={logo} alt="logo"/>
-            </Col>
-            <Col md="2">
               {user ?
                 <p>Hello, {user.displayName}</p>
                :
-                <p>Please sign in.</p>}
-
+                <p>Demo</p>}
               {user ? (
                 <div>
                   <button onClick={signOut}>Sign out</button>
@@ -76,10 +61,22 @@ class App extends Component {
               )
                 :
                 <div>
-                  <button onClick={signInWithGoogle}>Sign in with Google</button>
+                  <button onClick={signInWithGoogle}>Sign In</button>
                 </div>
               }
-
+            </Col>
+            <Col md="8">
+                <img  className="logo" src={logo} alt="logo"/>
+            </Col>
+            <Col md="2">
+              <div>
+                <ul>
+                  <li><Link to='/'>Home</Link></li>
+                  <li><Link to='/purchases'>Purchase List</Link></li>
+                  <li><Link to='/collection'>Collection</Link></li>
+                  <li><Link to='/about'>About</Link></li>
+                </ul>
+              </div>
             </Col>
           </Row>
         </div>
