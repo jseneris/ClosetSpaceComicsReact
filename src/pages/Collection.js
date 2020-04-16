@@ -1,7 +1,5 @@
 import React, {Component} from 'react';
 import CollectionList from '../components/Collection/CollectionList/CollectionList';
-
-//import IssueList from '../components/Catalog/IssueList/IssueList';
 import ClosetSpaceComicsApi from '../utils/ClosetSpaceComicsApi';
 
 class Collection extends Component {
@@ -56,7 +54,6 @@ class Collection extends Component {
         )
     }
   }
-
 }
 
 export default Collection

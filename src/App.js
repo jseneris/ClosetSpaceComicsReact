@@ -1,15 +1,21 @@
 import React, {Component} from 'react';
 import './App.css';
-import Main from './pages/Main'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from 'react-router-dom'
+import logo from './logo125.png';
+import banner from './banner.jpeg';
 import withFirebaseAuth from 'react-with-firebase-auth'
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import firebaseConfig from './firebaseConfig';
-import logo from './logo125.png';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Button from 'react-bootstrap/Button';
+import Catalog from './pages/Catalog';
+import Purchases from './pages/Purchases';
+import Collection from './pages/Collection';
+import About from './pages/About';
 
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
@@ -19,8 +25,21 @@ class App extends Component {
 
     this.state = {
       authenticated:false,
-      userId: 0
+      userId: 0,
+      navCatalog: true,
+      navPurchases: false,
+      navCollection: false,
+      navAbout: false,
     }
+
+    this.displayCatalog = this.displayCatalog.bind(this);
+    this.displayCollection = this.displayCollection.bind(this);
+    this.displayPurchases = this.displayPurchases.bind(this);
+    this.displayAbout = this.displayAbout.bind(this);
+    this.renderCatalog = this.renderCatalog.bind(this);
+    this.renderCollection = this.renderCollection.bind(this);
+    this.renderPurchases = this.renderPurchases.bind(this);
+    this.renderAbout = this.renderAbout.bind(this);
   }
 
   componentWillMount(){
@@ -34,6 +53,58 @@ class App extends Component {
     });
   }
 
+  displayCatalog(){
+    this.setState({navCatalog: true, navCollection: false, navPurchases:false, navAbout:false})
+  }
+
+  displayCollection(){
+    this.setState({navCatalog: false, navCollection: true, navPurchases:false, navAbout:false})
+  }
+
+  displayPurchases(){
+    this.setState({navCatalog: false, navCollection: false, navPurchases:true, navAbout:false})
+  }
+
+  displayAbout(){
+    this.setState({navCatalog: false, navCollection: false, navPurchases:false, navAbout:true})
+  }
+
+  renderCatalog(){
+    if (this.state.navCatalog)
+    {
+      return (
+        <Catalog />
+      );
+    }
+  }
+
+  renderCollection(){
+    if (this.state.navCollection)
+    {
+      return (
+        <Collection authenticated={this.state.authenticated} userId={this.state.userId}/>
+      );
+    }
+  }
+
+  renderPurchases(){
+    if (this.state.navPurchases)
+    {
+      return (
+        <Purchases authenticated={this.state.authenticated} userId={this.state.userId}/>
+      );
+    }
+  }
+
+  renderAbout(){
+    if (this.state.navAbout)
+    {
+      return (
+        <About />
+      );
+    }
+  }
+
   render(){
     const
     {
@@ -43,8 +114,7 @@ class App extends Component {
     } = this.props;
 
     return (
-      <div className="App">
-        <div className="container-fluid">
+        <Container className="App" fluid>
           <Row className="top-bar">
             <Col md="2">
               {user ?
@@ -65,20 +135,23 @@ class App extends Component {
             <Col md="8">
                 <img  className="logo" src={logo} alt="logo"/>
             </Col>
-            <Col md="2">
-              <div>
-                <ul>
-                  <li><Link to='/'>Home</Link></li>
-                  <li><Link to='/purchases'>Purchase List</Link></li>
-                  <li><Link to='/collection'>Collection</Link></li>
-                  <li><Link to='/about'>About</Link></li>
-                </ul>
-              </div>
-            </Col>
           </Row>
-        </div>
-        <Main authenticated={this.state.authenticated} userId={this.state.userId}/>
-      </div>
+          <Row className="legend">
+            <img className="title-big" src={banner} alt="banner"/>
+          </Row>
+          <Row className="justify-content-md-center">
+              <Button className="nav-button" variant="outline-primary" active={this.state.navCatalog} onClick={this.displayCatalog}>Catalog</Button>
+              <Button className="nav-button" variant="outline-primary" active={this.state.navCollection} onClick={this.displayCollection}>Collection</Button>
+              <Button className="nav-button" variant="outline-primary" active={this.state.navPurchases} onClick={this.displayPurchases}>Purchases</Button>
+              <Button className="nav-button" variant="outline-primary" active={this.state.navAbout} onClick={this.displayAbout}>About</Button>
+          </Row>
+          <Row>
+            {this.renderCatalog()}
+            {this.renderCollection()}
+            {this.renderPurchases()}
+            {this.renderAbout()}
+          </Row>
+      </Container>
     );
   }
 }
