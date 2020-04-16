@@ -3,6 +3,7 @@ import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import './CollectionList.css';
 
 class CollectionList extends Component {
   constructor(props){
@@ -51,13 +52,10 @@ class CollectionList extends Component {
     if (this.state.showLocationList){
       return(
         <div>
-          <div className="locationHeader">
-            <span>Locations</span>
-          </div>
           <Row className="locationList">
             {this.state.locations.map(location => {
               return (
-                <Col className="locationDetail" md="2" data-id={location.id} onClick={this.showLocationBoxes}>
+                <Col className="locationDetail clickable" md="2" data-id={location.id} onClick={this.showLocationBoxes}>
                   <div>
                     <span>{location.name}</span>
                   </div>
@@ -74,12 +72,12 @@ class CollectionList extends Component {
     if (this.state.showBoxList){
       return(
         <div className="locationBoxHeader">
-          <div>{this.state.locationName}</div>
+          <div className="boxHeader">{this.state.locationName}</div>
           <span>(edit)</span><span>(add)</span>
           <Row className="boxes">
             {this.state.boxes.map(box => {
               return (
-                <Col className="boxDetail" md="2" data-id={box.id} onClick={this.showBoxIssues}>
+                <Col className="boxDetail clickable" md="2" data-id={box.id} onClick={this.showBoxIssues}>
                   <div>
                     <span>{box.name}</span>
                   </div>
@@ -118,6 +116,11 @@ class CollectionList extends Component {
   render(){
     return(
       <Container className="collectionList" fluid="true">
+        <div className="locationHeader">
+          <Row className="locationTitle">
+            <Col md={{span:12}} className="text-center">Locations</Col>
+          </Row>
+        </div>
         {this.renderLocationList()}
         {this.renderBoxList()}
         {this.renderBoxItems()}

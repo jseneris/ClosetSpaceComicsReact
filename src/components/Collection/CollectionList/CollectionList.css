@@ -1,0 +1,12 @@
+.locationHeader {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.boxHeader {
+  font-weight: 600;
+}
+
+.clickable {
+  cursor: pointer;
+}
