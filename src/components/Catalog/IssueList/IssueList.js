@@ -76,7 +76,7 @@ class IssueList extends Component {
         </div>
       );
     }
-    else if(this.issues.length == 0){
+    else if(this.issues.length === 0){
       return (
         <div className="center-text">
             No books released this week

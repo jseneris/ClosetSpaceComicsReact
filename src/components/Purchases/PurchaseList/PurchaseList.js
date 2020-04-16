@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './PurchaseList.css';
@@ -53,6 +52,12 @@ class PurchaseList extends Component {
     this.loadMorePurchase = this.loadMorePurchase.bind(this);
   }
 
+  componentWillReceiveProps (newProps) {
+    if( newProps.purchases !== this.props.purchases ){
+      this.setState({purchases: newProps.purchases});
+    }
+  }
+
   renderSortByOptions() {
     let currentDate = new Date();
     let options = [];
@@ -82,12 +87,10 @@ class PurchaseList extends Component {
   }
 
   showPurchases(event){
-    var parent = event.target.parentElement;
-//    var targetId = parent.getAttribute('data-id');
     var target = event.target.closest(".purchaseDetail");
     var targetId = target.getAttribute('data-id');
     var targetPurchase = this.state.purchases.find(element => {
-      return element.id == targetId;
+      return element.id === targetId;
     });
 
     this.setState({
@@ -112,7 +115,7 @@ class PurchaseList extends Component {
     ClosetSpaceComicsApi.addIssueToPurchase(this.props.userId, this.state.activePurchaseId, targetId)
     .then(newIssue => {
       var targetPurchase = this.props.purchases.find(element => {
-        return element.id == this.state.activePurchaseId;
+        return element.id === this.state.activePurchaseId;
       });
       targetPurchase.size++;
       targetPurchase.issues.unshift(newIssue);
@@ -145,7 +148,7 @@ class PurchaseList extends Component {
     var target = event.target.closest(".title");
     var targetId = target.getAttribute('data-name');
     var targetPurchase = this.state.searchTitles.find(element => {
-      return element.title == targetId;
+      return element.title === targetId;
     });
 
     this.setState({titleIssues: targetPurchase.issues});
@@ -222,10 +225,10 @@ class PurchaseList extends Component {
           <Row className="purchases">
             {this.state.purchases.map(purchase => {
               return (
-                <Col className="purchaseDetail clickable" md="2" sm="4" xs="6" data-id={purchase.id} onClick={this.showPurchases}>
+                <Col className="purchaseDetail clickable" md="2" sm="4" xs="6" data-id={purchase.id} onClick={this.showPurchases} key={purchase.id}>
                   <div className="text-center">
                     <div>
-                      <img className="purchaseImage" src={purchase.size > 0 ? purchase.issues[0].imageUrl : ""} />
+                      <img className="purchaseImage" src={purchase.size > 0 ? purchase.issues[0].imageUrl : ""} alt={purchase.description} />
                     </div>
                     <span>{purchase.description}</span><span>({purchase.size})</span>
                     <div>{purchase.purchaseDate}</div>
@@ -283,7 +286,7 @@ class PurchaseList extends Component {
             return (
               <Col className="title" md="1" data-id={title.id} data-name={title.title}>
                 <div onClick={this.showTitleIssues}>
-                  <img src={title.imageUrl} height="100"/>
+                  <img src={title.imageUrl} height="100" alt={title.title}/>
                   <div>{title.title}</div>
                 </div>
                 <div onClick={this.fillTitle}>(fill title)</div>
@@ -295,7 +298,7 @@ class PurchaseList extends Component {
             {this.state.titleIssues.map(item => {
               return (
                 <Col md="1" >
-                  <img src={item.imageUrl} data-id={item.id} height="200px" onClick={this.addIssueToPurchase}/>
+                  <img src={item.imageUrl} data-id={item.id} height="200px" onClick={this.addIssueToPurchase} alt={item.issueNum}/>
                   <div>{item.issueNum}</div>
                 </Col>
               )
@@ -316,7 +319,7 @@ class PurchaseList extends Component {
             {this.state.purchaseItems.map(item => {
               return (
                 <Col md="1" sm="3" xs="4" >
-                  <img src={item.imageUrl} height="200px"/>
+                  <img src={item.imageUrl} height="200px" alt={item.title}/>
                 </Col>
               )
             })}

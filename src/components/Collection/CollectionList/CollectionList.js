@@ -10,7 +10,8 @@ class CollectionList extends Component {
     this.state = {
       showLocationList: true,
       showBoxList: false,
-      showBoxItems: false
+      showBoxItems: false,
+      locations: props.locations
     };
 
     this.showLocationBoxes = this.showLocationBoxes.bind(this);
@@ -21,11 +22,17 @@ class CollectionList extends Component {
 
   }
 
+  componentWillReceiveProps (newProps) {
+    if( newProps.locations !== this.props.locations ){
+      this.setState({locations: newProps.locations});
+    }
+  }
+
   showLocationBoxes(event){
     var target = event.target.closest(".locationDetail");
     var targetId = target.getAttribute('data-id');
     var targetLocation = this.props.locations.find(element => {
-      return element.id == targetId;
+      return element.id === targetId;
     });
 
     this.setState({activeLocationId: targetId, locationName: targetLocation.name, boxes: targetLocation.boxes, showLocationList: false, showBoxList: true});
@@ -48,7 +55,7 @@ class CollectionList extends Component {
             <span>Locations</span>
           </div>
           <Row className="locationList">
-            {this.props.locations.map(location => {
+            {this.state.locations.map(location => {
               return (
                 <Col className="locationDetail" md="2" data-id={location.id} onClick={this.showLocationBoxes}>
                   <div>
@@ -95,7 +102,7 @@ class CollectionList extends Component {
               return (
                 <Col className="issueDetail" md="2" data-id={item.id} >
                   <div>
-                    <img src={item.imageUrl} height="200px"/>
+                    <img src={item.imageUrl} height="200px" alt={item.imageUrl}/>
                   </div>
                 </Col>
               )

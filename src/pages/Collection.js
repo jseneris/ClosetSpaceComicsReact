@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import CollectionList from '../components/Collection/CollectionList/CollectionList';
-import App from '../App';
 
 //import IssueList from '../components/Catalog/IssueList/IssueList';
 import ClosetSpaceComicsApi from '../utils/ClosetSpaceComicsApi';

@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import banner from '../banner.jpeg';
-import { Link } from 'react-router-dom'
 import SearchBar from '../components/Catalog/SearchBar/SearchBar';
 import IssueList from '../components/Catalog/IssueList/IssueList';
 import ClosetSpaceComicsApi from '../utils/ClosetSpaceComicsApi';

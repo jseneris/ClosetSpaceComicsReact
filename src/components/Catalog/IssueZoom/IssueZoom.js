@@ -39,7 +39,7 @@ class IssueZoom extends Component {
         </Row>
         <Row>
           <Col sm={7}>
-            <img className="img-responsive" src={this.props.issue.imageUrl} height={400} />
+            <img className="img-responsive" src={this.props.issue.imageUrl} height={400} alt={this.props.issue.title}/>
           </Col>
           <Col sm={5}>
             <span>{this.props.issue.description}</span>
@@ -50,7 +50,7 @@ class IssueZoom extends Component {
           {this.props.issues.map((issue, index) => {
             return (
               <div>
-                <img src={issue.imageUrl} data-index={index} height={80} onClick={this.changeZoom}/>
+                <img src={issue.imageUrl} data-index={index} height={80} onClick={this.changeZoom}  alt={this.props.issue.title}/>
               </div>
             )
           })}

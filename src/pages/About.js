@@ -1,11 +1,5 @@
 import React, {Component} from 'react';
 import banner from '../banner.jpeg';
-import { Link } from 'react-router-dom'
-import Home from './Home'
-import Catalog from './Catalog'
-import Purchases from './Purchases'
-import Collection from './Collection'
-import CollectionByTitle from './CollectionByTitle'
 
 class About extends Component {
   constructor(props){
