@@ -90,7 +90,7 @@ class PurchaseList extends Component {
     var target = event.target.closest(".purchaseDetail");
     var targetId = target.getAttribute('data-id');
     var targetPurchase = this.state.purchases.find(element => {
-      return element.id === targetId;
+      return element.id === parseInt(targetId);
     });
 
     this.setState({

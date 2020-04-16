@@ -32,7 +32,7 @@ class CollectionList extends Component {
     var target = event.target.closest(".locationDetail");
     var targetId = target.getAttribute('data-id');
     var targetLocation = this.props.locations.find(element => {
-      return element.id === targetId;
+      return element.id === parseInt(targetId);
     });
 
     this.setState({activeLocationId: targetId, locationName: targetLocation.name, boxes: targetLocation.boxes, showLocationList: false, showBoxList: true});
