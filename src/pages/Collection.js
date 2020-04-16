@@ -28,6 +28,9 @@ class Collection extends Component {
 }
 
   getCollectionList(){
+    if (this.state.loaded){
+      this.setState({loaded:false, locations: []});
+    }
     ClosetSpaceComicsApi.getCollections(this.props.userId).then(response => {
       this.setState({locations: response.locations, loaded: true, refresh: false});
     });

@@ -29,18 +29,13 @@ class Purchases extends Component {
   }
 
   getPurchaseList(){
+    if (this.state.loaded){
+      this.setState({loaded:false, purchaseList:[]});
+    }
     ClosetSpaceComicsApi.getPurchases(this.props.userId).then(response => {
       this.setState({purchaseList: response.Purchases, loaded: true, refresh: false});
     });
-//    if (this.issueListElement != null ){
-//      if (this.issueListElement.current != null){
-//        if (this.issueListElement.current.resetFilter != null){
-//          this.issueListElement.current.resetFilter();
-//        }
-//      }
-//    }
   }
-
 
   render(){
     if ((this.state.loaded && this.state.refresh) || (!this.state.loaded && this.props.authenticated)){
