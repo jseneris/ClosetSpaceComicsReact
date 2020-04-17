@@ -21,14 +21,12 @@ class About extends Component {
               <li>Clean Up Zoom</li>
               <ul>
                 <li>Fix margins for sections</li>
-                <li>Return to list button</li>
                 <li>Extend filter to bottom scroll</li>
                 <li>Switch to title issue scroll?</li>
               </ul>
               <li>Demo</li>
                 <ul>
-                  <li>Seed data to run in logged out state</li>
-                  <li>Setup for new users</li>
+                  <li>Check setup for new users</li>
                 </ul>
             </ul>
           <h4>Collection</h4>
@@ -63,6 +61,9 @@ class About extends Component {
                   <li>Refactor</li>
                 </ul>
             </ul>
+        </div>
+        <div>
+          <a href = "mailto: hello@closetspacecomics.com">Email Me!!</a>
         </div>
       </div>
     );

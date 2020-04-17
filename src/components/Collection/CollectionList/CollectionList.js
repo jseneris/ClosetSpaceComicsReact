@@ -55,8 +55,11 @@ class CollectionList extends Component {
           <Row className="locationList">
             {this.state.locations.map(location => {
               return (
-                <Col className="locationDetail clickable" md="2" data-id={location.id} onClick={this.showLocationBoxes}>
-                  <div>
+                <Col className="locationDetail clickable" md="2" data-id={location.id} onClick={this.showLocationBoxes} key={location.id}>
+                  <div className="text-center">
+                    <div>
+                      <img className="locationImage" src={location.imageUrl} alt={location.name} />
+                    </div>
                     <span>{location.name}</span>
                   </div>
                 </Col>
@@ -77,8 +80,11 @@ class CollectionList extends Component {
           <Row className="boxes">
             {this.state.boxes.map(box => {
               return (
-                <Col className="boxDetail clickable" md="2" data-id={box.id} onClick={this.showBoxIssues}>
-                  <div>
+                <Col className="boxDetail clickable" md="2" data-id={box.id} onClick={this.showBoxIssues} key={box.id}>
+                  <div className="text-center">
+                    <div>
+                      <img className="boxImage" src={box.imageUrl} alt={box.name} />
+                    </div>
                     <span>{box.name}</span>
                   </div>
                 </Col>
@@ -111,7 +117,6 @@ class CollectionList extends Component {
     }
 
   }
-
 
   render(){
     return(

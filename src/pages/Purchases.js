@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import PurchaseList from '../components/Purchases/PurchaseList/PurchaseList';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 //import IssueList from '../components/Catalog/IssueList/IssueList';
 import ClosetSpaceComicsApi from '../utils/ClosetSpaceComicsApi';
@@ -43,17 +45,15 @@ class Purchases extends Component {
     }
 
     if (this.state.loaded && this.props.authenticated){
-    return (
-      <div className="App">
-        <div className="container-fluid">
-          <PurchaseList purchases={this.state.purchaseList} ref={this.issueListElement} userId={this.props.userId}/>
-        </div>
-      </div>
-    );
+      return (
+        <PurchaseList purchases={this.state.purchaseList} ref={this.issueListElement} userId={this.props.userId}/>
+      );
     }
     else{
         return(
-          <div>loading</div>
+          <Row className="purchaseTitle">
+            <Col md="12" className="text-center purchaseHeader">loading</Col>
+          </Row>
         )
     }
   }

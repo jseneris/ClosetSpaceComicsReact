@@ -94,10 +94,12 @@ let ClosetSpaceComicsApi = {
           return {
             id: location.Id,
             name: location.Name,
+            imageUrl: location.ImageUrl,
             boxes: location.Boxes.map(box => {
               return {
                 id: box.Id,
-                name: box.Name
+                name: box.Name,
+                imageUrl: box.ImageUrl
               }
             })
           }
@@ -147,6 +149,7 @@ let ClosetSpaceComicsApi = {
             purchaseDate: purchase.PurchaseDate,
             price: purchase.Price,
             size: purchase.Size,
+            imageUrl: purchase.ImageUrl,
             issues: purchase.Issues.map(issue => {
               return {
                 id: issue.Id,

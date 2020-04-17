@@ -10,7 +10,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Button from 'react-bootstrap/Button';
 import Catalog from './pages/Catalog';
 import Purchases from './pages/Purchases';
@@ -117,18 +116,20 @@ class App extends Component {
         <Container className="App" fluid>
           <Row className="top-bar">
             <Col md="2">
-              {user ?
-                <p>Hello, {user.displayName}</p>
-               :
-                <p>Demo</p>}
               {user ? (
                 <div>
-                  <button onClick={signOut}>Sign out</button>
+                  {user.displayName}
+                  <span>
+                    (<a href="#" onClick={signOut}>sign out</a>)
+                  </span>
                 </div>
               )
                 :
                 <div>
-                  <button onClick={signInWithGoogle}>Sign In</button>
+                  Demo
+                  <span>
+                    (<a href="#" onClick={signInWithGoogle}>sign in</a>)
+                  </span>
                 </div>
               }
             </Col>
@@ -145,12 +146,12 @@ class App extends Component {
               <Button className="nav-button" variant="outline-primary" active={this.state.navPurchases} onClick={this.displayPurchases}>Purchases</Button>
               <Button className="nav-button" variant="outline-primary" active={this.state.navAbout} onClick={this.displayAbout}>About</Button>
           </Row>
-          <Row>
+          <div>
             {this.renderCatalog()}
             {this.renderCollection()}
             {this.renderPurchases()}
             {this.renderAbout()}
-          </Row>
+          </div>
       </Container>
     );
   }

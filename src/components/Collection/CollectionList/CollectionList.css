@@ -7,6 +7,12 @@
   font-weight: 600;
 }
 
-.clickable {
-  cursor: pointer;
+.locationImage {
+  height: 80px;
+  width: 80px;
+}
+
+.boxImage {
+  height: 60px;
+  width: 60px;
 }

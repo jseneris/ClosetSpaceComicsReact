@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faPenSquare } from '@fortawesome/free-solid-svg-icons';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './PurchaseList.css';
@@ -219,8 +219,7 @@ class PurchaseList extends Component {
       return(
         <div>
           <Row className="purchaseTitle">
-            <Col md={{span:10, offset:1}} className="text-center purchaseHeader">Purchases</Col>
-            <Col md="1" className="addPurchaseBtn" onClick={this.showPurchaseAdd}><FontAwesomeIcon icon={faPlusCircle} className="clickable"/></Col>
+            <Col md={{span:1, offset:11}} className="addPurchaseBtn" onClick={this.showPurchaseAdd}><FontAwesomeIcon icon={faPlusCircle} className="clickable"/></Col>
           </Row>
           <Row className="purchases">
             {this.state.purchases.map(purchase => {
@@ -228,7 +227,7 @@ class PurchaseList extends Component {
                 <Col className="purchaseDetail clickable" md="2" sm="4" xs="6" data-id={purchase.id} onClick={this.showPurchases} key={purchase.id}>
                   <div className="text-center">
                     <div>
-                      <img className="purchaseImage" src={purchase.size > 0 ? purchase.issues[0].imageUrl : ""} alt={purchase.description} />
+                      <img className="purchaseImage" src={purchase.imageUrl} alt={purchase.description} />
                     </div>
                     <span>{purchase.description}</span><span>({purchase.size})</span>
                     <div>{purchase.purchaseDate}</div>
@@ -313,8 +312,13 @@ class PurchaseList extends Component {
     if (this.state.showPurchaseIssues){
       return(
         <div className="purchaseItems">
-          <div className="purchaseItemsHeader text-center">{this.state.description}<span>({this.state.size})</span></div>
-          <span>(edit)</span><span onClick={this.toggleSearch}>(add)</span>
+          <Row>
+            <Col md={{offset:1, span:10}} className="purchaseItemsHeader text-center">{this.state.description}<span>({this.state.size})</span></Col>
+            <Col md={{span:1}} className="addPurchaseBtn">
+              <FontAwesomeIcon icon={faPenSquare} className="clickable" />
+              <FontAwesomeIcon icon={faPlusCircle} className="clickable" onClick={this.toggleSearch}/>
+            </Col>
+          </Row>
           <Row className="items">
             {this.state.purchaseItems.map(item => {
               return (
@@ -329,10 +333,9 @@ class PurchaseList extends Component {
     }
   }
 
-
   render(){
     return(
-      <div>
+      <div className="purchases">
         {this.renderPurchaseList()}
         {this.renderPurchaseDetail()}
         {this.renderSearch()}
