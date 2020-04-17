@@ -120,7 +120,7 @@ class App extends Component {
                 <div>
                   {user.displayName}
                   <span>
-                    (<a href="#" onClick={signOut}>sign out</a>)
+                    (<span className="loginLink" onClick={signOut}>sign out</span>)
                   </span>
                 </div>
               )
@@ -128,7 +128,7 @@ class App extends Component {
                 <div>
                   Demo
                   <span>
-                    (<a href="#" onClick={signInWithGoogle}>sign in</a>)
+                    (<span className="loginLink" onClick={signInWithGoogle}>sign in</span>)
                   </span>
                 </div>
               }

@@ -24,10 +24,6 @@ class About extends Component {
                 <li>Extend filter to bottom scroll</li>
                 <li>Switch to title issue scroll?</li>
               </ul>
-              <li>Demo</li>
-                <ul>
-                  <li>Check setup for new users</li>
-                </ul>
             </ul>
           <h4>Collection</h4>
             <ul>

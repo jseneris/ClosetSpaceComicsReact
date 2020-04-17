@@ -21,6 +21,17 @@
   width:100%;
 }
 
+.loginLink{
+  cursor:pointer;
+  color: blue;
+
+}
+
+.loginLink:hover{
+    color: blue;
+    text-decoration: underline;
+}
+
 .nav-button{
     border-radius: 1.5rem !important;
     padding: .15rem 1.75rem !important;
