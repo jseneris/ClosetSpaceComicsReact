@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PurchaseModal from './PurchaseModal';
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faPenSquare } from '@fortawesome/free-solid-svg-icons';
@@ -219,7 +220,9 @@ class PurchaseList extends Component {
       return(
         <div>
           <Row className="purchaseTitle">
-            <Col md={{span:1, offset:11}} className="addPurchaseBtn" onClick={this.showPurchaseAdd}><FontAwesomeIcon icon={faPlusCircle} className="clickable"/></Col>
+            <Col md={{span:1, offset:11}} className="addPurchaseBtn">
+              <PurchaseModal Description={this.state.description} PurchaseDate={this.state.purchaseDate} Price={this.state.price}/>
+            </Col>
           </Row>
           <Row className="purchases">
             {this.state.purchases.map(purchase => {
@@ -241,25 +244,6 @@ class PurchaseList extends Component {
           </Row>
         </div>
       )
-    }
-  }
-
-  renderPurchaseDetail(){
-    if (this.state.showPurchaseDetail){
-      return(
-        <div>
-          <div>
-            <span>Description:</span><span><input type="text" name="despcription" id="despcription" value={this.state.description} onChange={this.handleDescriptionChange}/></span>
-          </div>
-          <div>
-            <span>Price:</span><span><input type="text" name="purchaseDate" id="purchaseDate" value={this.state.purchaseDate} onChange={this.handlePurchaseDateChange}/></span>
-          </div>
-          <div>
-            <span>Date:</span><span><input type="text" name="price" id="price" value={this.state.price} onChange={this.handlePriceChange}/></span>
-          </div>
-          <div><span onClick={this.addNewPurchase}>(save)</span><span onClick={this.closePurchaseDetail}>(cancel)</span></div>
-        </div>
-      );
     }
   }
 
@@ -337,7 +321,6 @@ class PurchaseList extends Component {
     return(
       <div className="purchases">
         {this.renderPurchaseList()}
-        {this.renderPurchaseDetail()}
         {this.renderSearch()}
         {this.renderPurchaseItems()}
       </div>
