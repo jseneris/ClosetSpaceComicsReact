@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlusCircle, faPenSquare } from '@fortawesome/free-solid-svg-icons';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -42,7 +44,7 @@ class CollectionList extends Component {
   showBoxIssues(event){
     var target = event.target.closest(".boxDetail");
     var targetId = target.getAttribute('data-id');
-    ClosetSpaceComicsApi.getBoxList(this.props.userId, this.state.activeLocationId, targetId)
+    ClosetSpaceComicsApi.getBoxList(this.props.UserId, this.state.activeLocationId, targetId)
       .then(response => {
         this.setState({boxItems: response.items, showBoxList: false, showBoxItems: true});
       });
@@ -75,8 +77,13 @@ class CollectionList extends Component {
     if (this.state.showBoxList){
       return(
         <div className="locationBoxHeader">
-          <div className="boxHeader">{this.state.locationName}</div>
-          <span>(edit)</span><span>(add)</span>
+          <Row>
+            <Col md={{offset:1, span:10}} className="boxHeader text-center">{this.state.locationName}</Col>
+            <Col md={{span:1}} className="addPurchaseBtn">
+              <FontAwesomeIcon icon={faPenSquare} className="clickable" />
+              <FontAwesomeIcon icon={faPlusCircle} className="clickable" />
+            </Col>
+          </Row>
           <Row className="boxes">
             {this.state.boxes.map(box => {
               return (
@@ -123,7 +130,7 @@ class CollectionList extends Component {
       <Container className="collectionList" fluid="true">
         <div className="locationHeader">
           <Row className="locationTitle">
-            <Col md={{span:12}} className="text-center">Locations</Col>
+            <Col md={{span:1, offset:11}} className="addPurchaseBtn" onClick={this.showPurchaseAdd}><FontAwesomeIcon icon={faPlusCircle} className="clickable"/></Col>
           </Row>
         </div>
         {this.renderLocationList()}

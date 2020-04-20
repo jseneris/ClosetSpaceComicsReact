@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import CollectionList from '../components/Collection/CollectionList/CollectionList';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import ClosetSpaceComicsApi from '../utils/ClosetSpaceComicsApi';
 
 class Collection extends Component {
@@ -20,7 +22,7 @@ class Collection extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-  if( newProps.userId !== this.props.userId ){
+  if( newProps.UserId !== this.props.UserId ){
     this.setState({refresh: true});
   }
 }
@@ -29,29 +31,31 @@ class Collection extends Component {
     if (this.state.loaded){
       this.setState({loaded:false, locations: []});
     }
-    ClosetSpaceComicsApi.getCollections(this.props.userId).then(response => {
+    ClosetSpaceComicsApi.getCollections(this.props.UserId).then(response => {
       this.setState({locations: response.locations, loaded: true, refresh: false});
     });
   }
 
   render(){
-    if ((this.state.loaded && this.state.refresh) || (!this.state.loaded && this.props.authenticated)){
+    if ((this.state.loaded && this.state.refresh) || (!this.state.loaded && this.props.Authenticated)){
       this.getCollectionList();
     }
 
-    if (this.state.loaded && this.props.authenticated){
+    if (this.state.loaded && this.props.Authenticated){
       return (
         <div className="App">
           <div className="container-fluid">
-              <CollectionList locations={this.state.locations} ref={this.issueListElement} userId={this.props.userId} />
+              <CollectionList locations={this.state.locations} ref={this.issueListElement} UserId={this.props.UserId} />
             </div>
         </div>
       );
     }
     else{
-        return(
-          <div>loading</div>
-        )
+      return(
+        <Row className="purchaseTitle">
+          <Col md="12" className="text-center purchaseHeader">loading</Col>
+        </Row>
+      )
     }
   }
 }

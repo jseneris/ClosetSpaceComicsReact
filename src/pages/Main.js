@@ -23,10 +23,10 @@ class Main extends Component {
         <Switch>
           <Route exact path='/' component={Home}/>
           <Route path='/catalog' component={Catalog}/>
-          <Route path='/purchases' render={(props) => <Purchases authenticated={this.props.authenticated} userId={this.props.userId}/>}/>
-          <Route path='/collection' render={(props) => <Collection authenticated={this.props.authenticated} userId={this.props.userId}/>}/>
-          <Route path='/collectionbytitle' render={(props) => <CollectionByTitle authenticated={this.props.authenticated} userId={this.props.userId}/>}/>
-          <Route path='/about' render={(props) => <About authenticated={this.props.authenticated} userId={this.props.userId}/>}/>
+          <Route path='/purchases' render={(props) => <Purchases Authenticated={this.props.Authenticated} UserId={this.props.UserId}/>}/>
+          <Route path='/collection' render={(props) => <Collection Authenticated={this.props.Authenticated} UserId={this.props.UserId}/>}/>
+          <Route path='/collectionbytitle' render={(props) => <CollectionByTitle Authenticated={this.props.Authenticated} UserId={this.props.UserId}/>}/>
+          <Route path='/about' render={(props) => <About Authenticated={this.props.Authenticated} UserId={this.props.UserId}/>}/>
         </Switch>
       </main>
 

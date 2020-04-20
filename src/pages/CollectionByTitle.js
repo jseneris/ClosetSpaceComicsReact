@@ -22,27 +22,27 @@ class CollectionByTitle extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-    if( newProps.userId !== this.props.userId ){
+    if( newProps.UserId !== this.props.UserId ){
       this.setState({refresh: true});
     }
   }
 
   getCollectionList(){
-    ClosetSpaceComicsApi.getCollections(this.props.userId).then(response => {
+    ClosetSpaceComicsApi.getCollections(this.props.UserId).then(response => {
       this.setState({locations: response.locations, loaded: true, refresh: false});
     });
   }
 
   render(){
-    if ((this.state.loaded && this.state.refresh) || (!this.state.loaded && this.props.authenticated)){
+    if ((this.state.loaded && this.state.refresh) || (!this.state.loaded && this.props.Authenticated)){
       this.getCollectionList();
     }
 
-    if (this.state.loaded && this.props.authenticated){
+    if (this.state.loaded && this.props.Authenticated){
       return (
         <div className="App">
           <div className="container-fluid">
-              <CollectionList locations={this.state.locations} ref={this.issueListElement} userId={this.props.userId} />
+              <CollectionList locations={this.state.locations} ref={this.issueListElement} UserId={this.props.UserId} />
             </div>
         </div>
       );

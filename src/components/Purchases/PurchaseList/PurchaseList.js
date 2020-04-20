@@ -32,12 +32,9 @@ class PurchaseList extends Component {
       titleIssues: [],
       dateSearch:closestDateString,
       page: 1,
-      purchases: props.purchases
+      purchases: props.Purchases
     };
 
-    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-    this.handlePurchaseDateChange = this.handlePurchaseDateChange.bind(this);
-    this.handlePriceChange = this.handlePriceChange.bind(this);
     this.handleDateChange = this.handleDateChange.bind(this);
 
     this.showPurchases = this.showPurchases.bind(this);
@@ -46,16 +43,16 @@ class PurchaseList extends Component {
     this.showTitleIssues = this.showTitleIssues.bind(this);
     this.fillTitle = this.fillTitle.bind(this);
     this.toggleSearch = this.toggleSearch.bind(this);
+    this.handleAddNewPurchase = this.handleAddNewPurchase.bind(this);
     this.addIssueToPurchase = this.addIssueToPurchase.bind(this);
     this.showPurchaseAdd = this.showPurchaseAdd.bind(this);
-    this.addNewPurchase = this.addNewPurchase.bind(this);
     this.closePurchaseDetail = this.closePurchaseDetail.bind(this);
     this.loadMorePurchase = this.loadMorePurchase.bind(this);
   }
 
   componentWillReceiveProps (newProps) {
-    if( newProps.purchases !== this.props.purchases ){
-      this.setState({purchases: newProps.purchases});
+    if( newProps.Purchases !== this.props.Purchases ){
+      this.setState({purchases: newProps.Purchases});
     }
   }
 
@@ -75,18 +72,6 @@ class PurchaseList extends Component {
     });
   }
 
-  handleDescriptionChange(event){
-    this.setState({description: event.target.value});
-  }
-
-  handlePurchaseDateChange(event){
-    this.setState({purchaseDate: event.target.value});
-  }
-
-  handlePriceChange(event){
-    this.setState({price: event.target.value});
-  }
-
   showPurchases(event){
     var target = event.target.closest(".purchaseDetail");
     var targetId = target.getAttribute('data-id');
@@ -103,19 +88,11 @@ class PurchaseList extends Component {
     });
   }
 
-  addNewPurchase(){
-    ClosetSpaceComicsApi.addPurchase(this.props.userId, null, this.state.description, this.state.purchaseDate, this.state.price)
-      .then(newPurchase => {
-        this.props.purchases.unshift(newPurchase);
-        this.setState({activePurchaseId: newPurchase.id, showPurchaseList: false, showSearch:true});
-      });
-  }
-
   addIssueToPurchase(event){
     var targetId = event.target.getAttribute('data-id');
-    ClosetSpaceComicsApi.addIssueToPurchase(this.props.userId, this.state.activePurchaseId, targetId)
+    ClosetSpaceComicsApi.addIssueToPurchase(this.props.UserId, this.state.activePurchaseId, targetId)
     .then(newIssue => {
-      var targetPurchase = this.props.purchases.find(element => {
+      var targetPurchase = this.props.Purchases.find(element => {
         return element.id === this.state.activePurchaseId;
       });
       targetPurchase.size++;
@@ -168,7 +145,7 @@ class PurchaseList extends Component {
   }
 
   loadMorePurchase(event){
-    ClosetSpaceComicsApi.getPurchases(this.props.userId, this.state.page+1).then(response => {
+    ClosetSpaceComicsApi.getPurchases(this.props.UserId, this.state.page+1).then(response => {
       this.setState({purchases: this.state.purchases.concat(response.Purchases), page: this.state.page+1});
     });
   }
@@ -215,13 +192,21 @@ class PurchaseList extends Component {
     });
   }
 
+  handleAddNewPurchase(description, purchaseDate,price){
+    ClosetSpaceComicsApi.addPurchase(this.props.UserId, null, description, purchaseDate, price)
+      .then(newPurchase => {
+        this.props.Purchases.unshift(newPurchase);
+        this.setState({activePurchaseId: newPurchase.id, showPurchaseList: false, showSearch:true});
+      });
+  }
+
   renderPurchaseList(){
     if (this.state.showPurchaseList){
       return(
         <div>
           <Row className="purchaseTitle">
             <Col md={{span:1, offset:11}} className="addPurchaseBtn">
-              <PurchaseModal Description={this.state.description} PurchaseDate={this.state.purchaseDate} Price={this.state.price}/>
+              <PurchaseModal UserId={this.props.UserId} Description={this.state.description} PurchaseDate={this.state.purchaseDate} Price={this.state.price} HandleAddNewPurchase={this.handleAddNewPurchase}/>
             </Col>
           </Row>
           <Row className="purchases">

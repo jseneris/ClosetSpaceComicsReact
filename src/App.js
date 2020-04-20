@@ -81,7 +81,7 @@ class App extends Component {
     if (this.state.navCollection)
     {
       return (
-        <Collection authenticated={this.state.authenticated} userId={this.state.userId}/>
+        <Collection Authenticated={this.state.authenticated} UserId={this.state.userId}/>
       );
     }
   }
@@ -90,7 +90,7 @@ class App extends Component {
     if (this.state.navPurchases)
     {
       return (
-        <Purchases authenticated={this.state.authenticated} userId={this.state.userId}/>
+        <Purchases Authenticated={this.state.authenticated} UserId={this.state.userId}/>
       );
     }
   }

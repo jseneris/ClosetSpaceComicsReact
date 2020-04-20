@@ -25,7 +25,7 @@ class Purchases extends Component {
   }
 
   componentWillReceiveProps (newProps) {
-    if( newProps.userId !== this.props.userId ){
+    if( newProps.UserId !== this.props.UserId ){
       this.setState({refresh: true});
     }
   }
@@ -34,27 +34,27 @@ class Purchases extends Component {
     if (this.state.loaded){
       this.setState({loaded:false, purchaseList:[]});
     }
-    ClosetSpaceComicsApi.getPurchases(this.props.userId).then(response => {
+    ClosetSpaceComicsApi.getPurchases(this.props.UserId).then(response => {
       this.setState({purchaseList: response.Purchases, loaded: true, refresh: false});
     });
   }
 
   render(){
-    if ((this.state.loaded && this.state.refresh) || (!this.state.loaded && this.props.authenticated)){
+    if ((this.state.loaded && this.state.refresh) || (!this.state.loaded && this.props.Authenticated)){
       this.getPurchaseList();
     }
 
-    if (this.state.loaded && this.props.authenticated){
+    if (this.state.loaded && this.props.Authenticated){
       return (
-        <PurchaseList purchases={this.state.purchaseList} ref={this.issueListElement} userId={this.props.userId}/>
+        <PurchaseList Purchases={this.state.purchaseList} Ref={this.issueListElement} UserId={this.props.UserId}/>
       );
     }
     else{
-        return(
-          <Row className="purchaseTitle">
-            <Col md="12" className="text-center purchaseHeader">loading</Col>
-          </Row>
-        )
+      return(
+        <Row className="purchaseTitle">
+          <Col md="12" className="text-center purchaseHeader">loading</Col>
+        </Row>
+      )
     }
   }
 }
