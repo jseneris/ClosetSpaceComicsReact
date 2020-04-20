@@ -17,11 +17,6 @@ class Purchases extends Component {
     };
 
     this.getPurchaseList = this.getPurchaseList.bind(this);
-    this.issueListElement = React.createRef();
-  }
-
-  componentDidMount(){
-    //this.getPurchaseList();
   }
 
   componentWillReceiveProps (newProps) {
@@ -46,7 +41,7 @@ class Purchases extends Component {
 
     if (this.state.loaded && this.props.Authenticated){
       return (
-        <PurchaseList Purchases={this.state.purchaseList} Ref={this.issueListElement} UserId={this.props.UserId}/>
+        <PurchaseList Purchases={this.state.purchaseList} UserId={this.props.UserId}/>
       );
     }
     else{

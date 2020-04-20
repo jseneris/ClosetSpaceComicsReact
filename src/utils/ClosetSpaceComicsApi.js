@@ -181,7 +181,7 @@ let ClosetSpaceComicsApi = {
     });
   },
 
-  addPurchase: function(userId, purchaseId, description, purchaseDate, price){
+  addPurchase: function(userId, description, purchaseDate, price){
 //    let urlToFetch = `https://cors-anywhere.herokuapp.com/${clientUrl}/home/homepage`;
     var data = {
       Description: description,
@@ -191,6 +191,37 @@ let ClosetSpaceComicsApi = {
     let urlToFetch = `${clientUrl}/user/purchases`;
     return fetch(urlToFetch,{
       method: 'post',
+      headers: {
+        'userId': userId,
+        'Content-Type': 'application/json',
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(jsonResponse => {
+//      return jsonResponse;
+        return {
+          id: jsonResponse.Id,
+          description: jsonResponse.Description,
+          purchaseDate: jsonResponse.PurchaseDate,
+          price: jsonResponse.Price,
+          size: 0,
+          issues: []
+        }
+    });
+  },
+
+  editPurchase: function(userId, purchaseId, description, purchaseDate, price){
+//    let urlToFetch = `https://cors-anywhere.herokuapp.com/${clientUrl}/home/homepage`;
+    var data = {
+      Description: description,
+      PurchaseDate: purchaseDate,
+      Price: price
+    };
+    let urlToFetch = `${clientUrl}/user/purchases/${purchaseId}`;
+    return fetch(urlToFetch,{
+      method: 'put',
       headers: {
         'userId': userId,
         'Content-Type': 'application/json',

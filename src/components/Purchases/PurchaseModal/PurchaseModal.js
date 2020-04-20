@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faPenSquare } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
@@ -13,7 +13,8 @@ class PurchaseModal extends Component {
       show: false,
       description: this.props.Description,
       purchaseDate: this.props.PurchaseDate,
-      price: this.props.price
+      price: this.props.Price,
+      icon: this.props.PurchaseId ? faPenSquare : faPlusCircle
     };
 
     this.handleClose = this.handleClose.bind(this);
@@ -22,7 +23,7 @@ class PurchaseModal extends Component {
     this.handlePurchaseDateChange = this.handlePurchaseDateChange.bind(this);
     this.handlePriceChange = this.handlePriceChange.bind(this);
 
-    this.addNewPurchase = this.addNewPurchase.bind(this);
+    this.handleSaveButton = this.handleSaveButton.bind(this);
   }
 
   handleClose(){
@@ -46,15 +47,20 @@ class PurchaseModal extends Component {
   }
 
 
-  addNewPurchase(){
-    this.props.HandleAddNewPurchase(this.state.description, this.state.purchaseDate, this.state.price);
+  handleSaveButton(){
+    if (this.props.PurchaseId){
+      this.props.HandleSaveButton(this.props.PurchaseId, this.state.description, this.state.purchaseDate, this.state.price);
+    }
+    else{
+      this.props.HandleSaveButton(this.state.description, this.state.purchaseDate, this.state.price);
+    }
     this.handleClose();
   }
 
   render(){
     return (
       <>
-        <FontAwesomeIcon icon={faPlusCircle} className="clickable" onClick={this.handleShow}/>
+        <FontAwesomeIcon icon={this.state.icon} className="clickable addEditGroup" onClick={this.handleShow}/>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
@@ -75,7 +81,7 @@ class PurchaseModal extends Component {
             <Button variant="secondary" onClick={this.handleClose}>
               Close
             </Button>
-            <Button variant="primary" onClick={this.addNewPurchase}>
+            <Button variant="primary" onClick={this.handleSaveButton}>
               Save Changes
             </Button>
           </Modal.Footer>

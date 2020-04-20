@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import PurchaseModal from './PurchaseModal';
+import PurchaseModal from '../PurchaseModal/PurchaseModal';
+import PurchaseItemList from '../PurchaseItemList/PurchaseItemList'
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faPenSquare } from '@fortawesome/free-solid-svg-icons';
@@ -21,9 +22,6 @@ class PurchaseList extends Component {
 
     this.state = {
       purchaseItems: [],
-      description: "",
-      purchaseDate: "",
-      price: "",
       showPurchaseList: true,
       showSearch: false,
       showPurchaseDetail: false,
@@ -32,7 +30,7 @@ class PurchaseList extends Component {
       titleIssues: [],
       dateSearch:closestDateString,
       page: 1,
-      purchases: props.Purchases
+      purchases: this.props.Purchases
     };
 
     this.handleDateChange = this.handleDateChange.bind(this);
@@ -44,6 +42,7 @@ class PurchaseList extends Component {
     this.fillTitle = this.fillTitle.bind(this);
     this.toggleSearch = this.toggleSearch.bind(this);
     this.handleAddNewPurchase = this.handleAddNewPurchase.bind(this);
+    this.handleEditPurchase = this.handleEditPurchase.bind(this);
     this.addIssueToPurchase = this.addIssueToPurchase.bind(this);
     this.showPurchaseAdd = this.showPurchaseAdd.bind(this);
     this.closePurchaseDetail = this.closePurchaseDetail.bind(this);
@@ -83,6 +82,8 @@ class PurchaseList extends Component {
       purchaseItems: targetPurchase.issues,
       description: targetPurchase.description,
       size: targetPurchase.size,
+      price: targetPurchase.price,
+      purchaseDate: targetPurchase.purchaseDate,
       activePurchaseId: targetId,
       showPurchaseIssues: true
     });
@@ -192,11 +193,22 @@ class PurchaseList extends Component {
     });
   }
 
-  handleAddNewPurchase(description, purchaseDate,price){
-    ClosetSpaceComicsApi.addPurchase(this.props.UserId, null, description, purchaseDate, price)
+  handleAddNewPurchase(description, purchaseDate, price){
+    ClosetSpaceComicsApi.addPurchase(this.props.UserId, description, purchaseDate, price)
       .then(newPurchase => {
         this.props.Purchases.unshift(newPurchase);
         this.setState({activePurchaseId: newPurchase.id, showPurchaseList: false, showSearch:true});
+      });
+  }
+
+  handleEditPurchase(purchaseId, description, purchaseDate, price){
+    ClosetSpaceComicsApi.editPurchase(this.props.UserId, purchaseId, description, purchaseDate, price)
+      .then(editedPurchase => {
+        var targetIndex = this.props.Purchases.findIndex(p => p.id === parseInt(purchaseId));
+        this.props.Purchases[targetIndex].description = description;
+        this.props.Purchases[targetIndex].purchaseDate = purchaseDate;
+        this.props.Purchases[targetIndex].price = price;
+        this.setState({description: description, purchaseDate: purchaseDate, price: price});
       });
   }
 
@@ -206,7 +218,7 @@ class PurchaseList extends Component {
         <div>
           <Row className="purchaseTitle">
             <Col md={{span:1, offset:11}} className="addPurchaseBtn">
-              <PurchaseModal UserId={this.props.UserId} Description={this.state.description} PurchaseDate={this.state.purchaseDate} Price={this.state.price} HandleAddNewPurchase={this.handleAddNewPurchase}/>
+              <PurchaseModal UserId={this.props.UserId} HandleSaveButton={this.handleAddNewPurchase}/>
             </Col>
           </Row>
           <Row className="purchases">
@@ -278,29 +290,14 @@ class PurchaseList extends Component {
   }
 
   renderPurchaseItems(){
-    if (this.state.showPurchaseIssues){
-      return(
-        <div className="purchaseItems">
-          <Row>
-            <Col md={{offset:1, span:10}} className="purchaseItemsHeader text-center">{this.state.description}<span>({this.state.size})</span></Col>
-            <Col md={{span:1}} className="addPurchaseBtn">
-              <FontAwesomeIcon icon={faPenSquare} className="clickable" />
-              <FontAwesomeIcon icon={faPlusCircle} className="clickable" onClick={this.toggleSearch}/>
-            </Col>
-          </Row>
-          <Row className="items">
-            {this.state.purchaseItems.map(item => {
-              return (
-                <Col md="1" sm="3" xs="4" >
-                  <img src={item.imageUrl} height="200px" alt={item.title}/>
-                </Col>
-              )
-            })}
-          </Row>
-        </div>
-      )
+    if (this.state.showPurchaseIssues)
+    {
+      return (
+        <PurchaseItemList PurchaseItems={this.state.purchaseItems} Description={this.state.description} Size={this.state.size} Price={this.state.price} PurchaseDate={this.state.purchaseDate} PurchaseId={this.state.activePurchaseId} HandleSaveButton={this.handleEditPurchase}/>
+      );
     }
   }
+
 
   render(){
     return(

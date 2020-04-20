@@ -51,3 +51,8 @@
   font-size: 2em;
   font-weight: bold;
 }
+
+.addEditGroup{
+  margin: 0 2px;
+  color: green;
+}
