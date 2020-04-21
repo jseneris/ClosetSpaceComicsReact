@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import BoxItems from '../BoxItems/BoxItems'
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faPenSquare } from '@fortawesome/free-solid-svg-icons';
@@ -106,20 +107,7 @@ class CollectionList extends Component {
   renderBoxItems(){
     if (this.state.showBoxItems){
       return(
-        <div className="locationBoxHeader">
-          <div>{this.state.locationName}</div>
-          <Row className="issues">
-            {this.state.boxItems.map(item => {
-              return (
-                <Col className="issueDetail" md="2" data-id={item.id} >
-                  <div>
-                    <img src={item.imageUrl} height="200px" alt={item.imageUrl}/>
-                  </div>
-                </Col>
-              )
-            })}
-          </Row>
-        </div>
+        <BoxItems LocationName={this.state.locationName} BoxItems={this.state.boxItems} />
       )
     }
 
