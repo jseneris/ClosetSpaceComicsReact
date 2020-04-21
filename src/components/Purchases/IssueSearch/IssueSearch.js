@@ -32,6 +32,7 @@ class IssueSearch extends Component {
     this.searchByTitle = this.searchByTitle.bind(this);
     this.searchByDate = this.searchByDate.bind(this);
     this.fillTitle = this.fillTitle.bind(this);
+    this.addIssueToPurchase = this.addIssueToPurchase.bind(this);
   }
 
   searchByTitle(event){
@@ -74,6 +75,12 @@ class IssueSearch extends Component {
     });
   }
 
+  addIssueToPurchase(event){
+    var targetId = event.target.getAttribute('data-id');
+    this.props.AddItems(targetId);
+  }
+
+
   renderSortByOptions() {
     let currentDate = new Date();
     let options = [];
@@ -105,6 +112,7 @@ class IssueSearch extends Component {
             { this.renderSortByOptions()}
           </select>
           <button onClick={this.searchByDate}>Search</button>
+          <button onClick={this.props.CloseSearch}>Close</button>
         </Row>
         <Row className="searchTitles">
         {this.state.searchTitles.map(title => {

@@ -38,7 +38,7 @@ class PurchaseList extends Component {
     this.toggleSearch = this.toggleSearch.bind(this);
     this.handleAddNewPurchase = this.handleAddNewPurchase.bind(this);
     this.handleEditPurchase = this.handleEditPurchase.bind(this);
-    this.addIssueToPurchase = this.addIssueToPurchase.bind(this);
+    this.handleAddIssueToPurchase = this.handleAddIssueToPurchase.bind(this);
     this.loadMorePurchase = this.loadMorePurchase.bind(this);
   }
 
@@ -63,22 +63,6 @@ class PurchaseList extends Component {
       purchaseDate: targetPurchase.purchaseDate,
       activePurchaseId: targetId,
       showPurchaseIssues: true
-    });
-  }
-
-  addIssueToPurchase(event){
-    var targetId = event.target.getAttribute('data-id');
-    ClosetSpaceComicsApi.addIssueToPurchase(this.props.UserId, this.state.activePurchaseId, targetId)
-    .then(newIssue => {
-      var targetPurchase = this.props.Purchases.find(element => {
-        return element.id === this.state.activePurchaseId;
-      });
-      targetPurchase.size++;
-      targetPurchase.issues.unshift(newIssue);
-      this.setState({
-        purchaseItems: targetPurchase.issues,
-        size: targetPurchase.size
-      });
     });
   }
 
@@ -126,6 +110,21 @@ class PurchaseList extends Component {
       });
   }
 
+  handleAddIssueToPurchase(bookId, ){
+    ClosetSpaceComicsApi.addIssueToPurchase(this.props.UserId, this.state.activePurchaseId, bookId)
+    .then(newIssue => {
+      var targetPurchase = this.props.Purchases.find(element => {
+        return element.id === parseInt(this.state.activePurchaseId);
+      });
+      targetPurchase.size++;
+      targetPurchase.issues.unshift(newIssue);
+      this.setState({
+        purchaseItems: targetPurchase.issues,
+        size: targetPurchase.size
+      });
+    });
+  }
+
   renderPurchaseList(){
     if (this.state.showPurchaseList){
       return(
@@ -161,7 +160,7 @@ class PurchaseList extends Component {
   renderSearch(){
     if (this.state.showSearch){
       return(
-        <IssueSearch Description={this.state.description} Size={this.state.size} PurchaseItems={this.state.purchaseItems} CloseSearch={this.toggleSearch} />
+        <IssueSearch PurchaseId={this.state.activePurchaseId} Description={this.state.description} Size={this.state.size} PurchaseItems={this.state.purchaseItems} AddItems={this.handleAddIssueToPurchase} CloseSearch={this.toggleSearch} />
       );
     }
   }
