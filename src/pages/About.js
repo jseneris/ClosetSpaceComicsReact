@@ -53,7 +53,6 @@ class About extends Component {
                   <li>Formatting for purchase list</li>
                   <li>Handle end of list for more button</li>
                   <li>Collapse purchase list when purchase selected</li>
-                  <li>Edit purchase details</li>
                   <li>Refactor</li>
                 </ul>
             </ul>

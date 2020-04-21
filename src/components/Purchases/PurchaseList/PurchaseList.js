@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PurchaseModal from '../PurchaseModal/PurchaseModal';
 import PurchaseItemList from '../PurchaseItemList/PurchaseItemList'
+import IssueSearch from '../IssueSearch/IssueSearch'
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faPenSquare } from '@fortawesome/free-solid-svg-icons';
@@ -33,19 +34,11 @@ class PurchaseList extends Component {
       purchases: this.props.Purchases
     };
 
-    this.handleDateChange = this.handleDateChange.bind(this);
-
     this.showPurchases = this.showPurchases.bind(this);
-    this.searchByTitle = this.searchByTitle.bind(this);
-    this.searchByDate = this.searchByDate.bind(this);
-    this.showTitleIssues = this.showTitleIssues.bind(this);
-    this.fillTitle = this.fillTitle.bind(this);
     this.toggleSearch = this.toggleSearch.bind(this);
     this.handleAddNewPurchase = this.handleAddNewPurchase.bind(this);
     this.handleEditPurchase = this.handleEditPurchase.bind(this);
     this.addIssueToPurchase = this.addIssueToPurchase.bind(this);
-    this.showPurchaseAdd = this.showPurchaseAdd.bind(this);
-    this.closePurchaseDetail = this.closePurchaseDetail.bind(this);
     this.loadMorePurchase = this.loadMorePurchase.bind(this);
   }
 
@@ -53,22 +46,6 @@ class PurchaseList extends Component {
     if( newProps.Purchases !== this.props.Purchases ){
       this.setState({purchases: newProps.Purchases});
     }
-  }
-
-  renderSortByOptions() {
-    let currentDate = new Date();
-    let options = [];
-    let dayOffset = currentDate.getDay();
-    if (dayOffset < 3){
-      dayOffset += 7;
-    }
-    for(var x = 0; x < 10; x++){
-      let closestWed = new Date(new Date().setDate(currentDate.getDate() - dayOffset + 3 - (7*x)));
-      options.push((closestWed.getMonth()+1) + '/' + closestWed.getDate() + '/' + closestWed.getFullYear());
-    }
-    return options.map(closestWedDate => {
-      return <option key={closestWedDate} value={closestWedDate}>{closestWedDate}</option>;
-    });
   }
 
   showPurchases(event){
@@ -105,63 +82,9 @@ class PurchaseList extends Component {
     });
   }
 
-  searchByTitle(event){
-    var target = document.getElementById("txtSearch");
-
-    ClosetSpaceComicsApi.searchByTitle(target.value).then(response => {
-      this.setState({searchTitles: response.Titles});
-    });
-  }
-
-  handleDateChange(event){
-    this.setState({dateSearch: event.target.value});
-  }
-
-  searchByDate(event){
-    ClosetSpaceComicsApi.searchByDate(this.state.dateSearch).then(response => {
-      this.setState({titleIssues: response.Issues});
-    });
-  }
-
-  showTitleIssues(event){
-    var target = event.target.closest(".title");
-    var targetId = target.getAttribute('data-name');
-    var targetPurchase = this.state.searchTitles.find(element => {
-      return element.title === targetId;
-    });
-
-    this.setState({titleIssues: targetPurchase.issues});
-  }
-
-  fillTitle(event){
-    var target = event.target.closest(".title");
-    var targetId = target.getAttribute('data-id');
-    ClosetSpaceComicsApi.fillTitle(targetId).then(response => {
-      var target = document.getElementById("txtSearch");
-
-      ClosetSpaceComicsApi.searchByTitle(target.value).then(response => {
-        this.setState({searchTitles: response.Titles});
-      });
-    });
-  }
-
   loadMorePurchase(event){
     ClosetSpaceComicsApi.getPurchases(this.props.UserId, this.state.page+1).then(response => {
       this.setState({purchases: this.state.purchases.concat(response.Purchases), page: this.state.page+1});
-    });
-  }
-
-  showPurchaseAdd(){
-    var nowDate = new Date();
-    var date = (nowDate.getMonth()+1) +'/'+ nowDate.getDate() +'/'+ nowDate.getFullYear();
-    this.setState({
-      showPurchaseList: false,
-      showSearch: false,
-      showPurchaseDetail: true,
-      showPurchaseIssues: false,
-      description: "New Purchase",
-      purchaseDate: date,
-      price: "$0.00"
     });
   }
 
@@ -182,15 +105,6 @@ class PurchaseList extends Component {
         showPurchaseIssues: false,
       });
     }
-  }
-
-  closePurchaseDetail(){
-    this.setState({
-      showPurchaseList: true,
-      showSearch: false,
-      showPurchaseDetail: false,
-      showPurchaseIssues: false,
-    });
   }
 
   handleAddNewPurchase(description, purchaseDate, price){
@@ -246,45 +160,8 @@ class PurchaseList extends Component {
 
   renderSearch(){
     if (this.state.showSearch){
-      return (
-        <div className="search">
-        <div>
-          {this.state.description}
-          <span>({this.state.size})</span>
-        </div>
-        <Row className="add">
-          title: <input type="text" id="txtSearch" />
-          <button onClick={this.searchByTitle}>Search</button>
-          <button onClick={this.toggleSearch}>Close</button>
-          <select id="weekSelect" onChange={this.handleDateChange}>
-            { this.renderSortByOptions()}
-          </select>
-          <button onClick={this.searchByDate}>Search</button>
-        </Row>
-          <Row className="searchTitles">
-          {this.state.searchTitles.map(title => {
-            return (
-              <Col className="title" md="1" data-id={title.id} data-name={title.title}>
-                <div onClick={this.showTitleIssues}>
-                  <img src={title.imageUrl} height="100" alt={title.title}/>
-                  <div>{title.title}</div>
-                </div>
-                <div onClick={this.fillTitle}>(fill title)</div>
-              </Col>
-            )
-          })}
-          </Row>
-          <Row className="searchItems">
-            {this.state.titleIssues.map(item => {
-              return (
-                <Col md="1" >
-                  <img src={item.imageUrl} data-id={item.id} height="200px" onClick={this.addIssueToPurchase} alt={item.issueNum}/>
-                  <div>{item.issueNum}</div>
-                </Col>
-              )
-            })}
-          </Row>
-        </div>
+      return(
+        <IssueSearch Description={this.state.description} Size={this.state.size} PurchaseItems={this.state.purchaseItems} CloseSearch={this.toggleSearch} />
       );
     }
   }
@@ -293,11 +170,10 @@ class PurchaseList extends Component {
     if (this.state.showPurchaseIssues)
     {
       return (
-        <PurchaseItemList PurchaseItems={this.state.purchaseItems} Description={this.state.description} Size={this.state.size} Price={this.state.price} PurchaseDate={this.state.purchaseDate} PurchaseId={this.state.activePurchaseId} HandleSaveButton={this.handleEditPurchase}/>
+        <PurchaseItemList PurchaseItems={this.state.purchaseItems} Description={this.state.description} Size={this.state.size} Price={this.state.price} PurchaseDate={this.state.purchaseDate} PurchaseId={this.state.activePurchaseId} HandleSaveButton={this.handleEditPurchase} ShowSearch={this.toggleSearch}/>
       );
     }
   }
-
 
   render(){
     return(

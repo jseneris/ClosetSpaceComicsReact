@@ -9,10 +9,14 @@ class PurchaseModal extends Component {
   constructor(props){
     super(props);
 
+    let nowDate = new Date();
+    let date = (nowDate.getMonth()+1) +'/'+ nowDate.getDate() +'/'+ nowDate.getFullYear();
+    let useDate = this.props.PurchaseDate ? this.props.PurchaseDate : date;
+
     this.state = {
       show: false,
       description: this.props.Description,
-      purchaseDate: this.props.PurchaseDate,
+      purchaseDate: useDate,
       price: this.props.Price,
       icon: this.props.PurchaseId ? faPenSquare : faPlusCircle
     };
@@ -60,7 +64,7 @@ class PurchaseModal extends Component {
   render(){
     return (
       <>
-        <FontAwesomeIcon icon={this.state.icon} className="clickable addEditGroup" onClick={this.handleShow}/>
+        <FontAwesomeIcon icon={this.state.icon} className="clickable addEditButton" onClick={this.handleShow}/>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>

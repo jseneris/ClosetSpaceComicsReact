@@ -17,7 +17,7 @@ class PurchaseItemList extends Component {
           <Col md={{offset:1, span:10}} className="purchaseItemsHeader text-center">{this.props.Description}<span>({this.props.Size})</span></Col>
           <Col md={{span:1}} >
             <PurchaseModal UserId={this.props.UserId} PurchaseId={this.props.PurchaseId} Description={this.props.Description} Price={this.props.Price} PurchaseDate={this.props.PurchaseDate} HandleSaveButton={this.props.HandleSaveButton}/>
-            <FontAwesomeIcon icon={faPlusCircle} className="clickable addEditGroup" onClick={this.toggleSearch}/>
+            <FontAwesomeIcon icon={faPlusCircle} className="clickable addEditButton" onClick={this.props.ShowSearch}/>
           </Col>
         </Row>
         <Row className="items">
