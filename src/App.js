@@ -52,6 +52,10 @@ class App extends Component {
     });
   }
 
+  componentDidMount() {
+    document.title = "Closet Space Comics";
+}
+
   displayCatalog(){
     this.setState({navCatalog: true, navCollection: false, navPurchases:false, navAbout:false})
   }
