@@ -221,7 +221,7 @@ let ClosetSpaceComicsApi = {
     };
     let urlToFetch = `${clientUrl}/user/purchases/${purchaseId}`;
     return fetch(urlToFetch,{
-      method: 'put',
+      method: 'post',
       headers: {
         'userId': userId,
         'Content-Type': 'application/json',
