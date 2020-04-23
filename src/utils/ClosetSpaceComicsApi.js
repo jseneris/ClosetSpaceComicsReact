@@ -1,7 +1,7 @@
-//const herokuPrefix = ''
-const herokuPrefix = 'https://cors-anywhere.herokuapp.com/'
-const baseClientUrl = 'http://api.closetspacecomics.com/api'
-//const baseClientUrl = 'http://localhost:53089/api'
+const herokuPrefix = ''
+//const herokuPrefix = 'https://cors-anywhere.herokuapp.com/'
+//const baseClientUrl = 'http://api.closetspacecomics.com/api'
+const baseClientUrl = 'http://localhost:53089/api'
 //const baseClientUrl = 'http://closetspacecomics-api2.azurewebsites.net/api';
 
 
@@ -243,6 +243,15 @@ let ClosetSpaceComicsApi = {
     });
   },
 
-};
+  moveBook: function(userId, bookId, newPosition){
+    let urlToFetch = `${clientUrl}/user/moveBook/${bookId}/${newPosition}`;
+    return fetch(urlToFetch,{
+      method: 'put',
+      headers: {
+        'userId': userId,
+        'Content-Type': 'application/json',
+      },
+    });
+  },
 
 export default ClosetSpaceComicsApi;
