@@ -246,7 +246,7 @@ let ClosetSpaceComicsApi = {
   moveBook: function(userId, bookId, newPosition){
     let urlToFetch = `${clientUrl}/user/moveBook/${bookId}/${newPosition}`;
     return fetch(urlToFetch,{
-      method: 'put',
+      method: 'post',
       headers: {
         'userId': userId,
         'Content-Type': 'application/json',
