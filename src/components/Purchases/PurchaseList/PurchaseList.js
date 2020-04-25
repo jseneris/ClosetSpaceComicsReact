@@ -125,6 +125,16 @@ class PurchaseList extends Component {
     });
   }
 
+  renderMoreButton(){
+    if (this.state.page < this.props.TotalPages){
+      return(
+        <Row>
+          <Col md="12" className="text-center"><span onClick={this.loadMorePurchase}>More</span></Col>
+        </Row>
+      );
+    }
+  }
+
   renderPurchaseList(){
     if (this.state.showPurchaseList){
       return(
@@ -149,9 +159,7 @@ class PurchaseList extends Component {
               )
             })}
           </Row>
-          <Row>
-            <Col md="12" className="text-center"><span onClick={this.loadMorePurchase}>More</span></Col>
-          </Row>
+          {this.renderMoreButton()}
         </div>
       )
     }

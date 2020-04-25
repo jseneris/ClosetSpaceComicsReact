@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import BoxItems from '../BoxItems/BoxItems'
+import LocationModal from '../LocationModal/LocationModal'
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faPenSquare } from '@fortawesome/free-solid-svg-icons';
@@ -15,15 +16,16 @@ class CollectionList extends Component {
       showLocationList: true,
       showBoxList: false,
       showBoxItems: false,
-      locations: props.locations
+      locations: props.Locations
     };
 
-    this.showLocationBoxes = this.showLocationBoxes.bind(this);
     this.showBoxIssues = this.showBoxIssues.bind(this);
 
     this.renderLocationList = this.renderLocationList.bind(this);
     this.renderBoxList = this.renderBoxList.bind(this);
 
+    this.handleLocationSelect = this.handleLocationSelect.bind(this);
+    this.handleAddNewLocation = this.handleAddNewLocation.bind(this);
   }
 
   componentWillReceiveProps (newProps) {
@@ -32,14 +34,14 @@ class CollectionList extends Component {
     }
   }
 
-  showLocationBoxes(event){
+  handleLocationSelect(event){
     var target = event.target.closest(".locationDetail");
     var targetId = target.getAttribute('data-id');
-    var targetLocation = this.props.locations.find(element => {
+    var targetLocation = this.state.locations.find(element => {
       return element.id === parseInt(targetId);
     });
 
-    this.setState({activeLocationId: targetId, locationName: targetLocation.name, boxes: targetLocation.boxes, showLocationList: false, showBoxList: true});
+    this.setState({activeLocationId: targetId, locationName: targetLocation.name, boxes: targetLocation.boxes, showLocationList: true, showBoxList: true});
   }
 
   showBoxIssues(event){
@@ -51,6 +53,23 @@ class CollectionList extends Component {
       });
   }
 
+  handleAddNewLocation(description){
+    ClosetSpaceComicsApi.addLocation(this.props.UserId, description)
+      .then(newLocation => {
+        this.state.locations.unshift(newLocation);
+        this.setState({activeLocationId: newLocation.id});
+      });
+  }
+
+  handleEditLocation(locationId, description){
+    ClosetSpaceComicsApi.editPurchase(this.props.UserId, locationId, description)
+      .then(editedPurchase => {
+        var targetIndex = this.props.Locations.findIndex(p => p.id === parseInt(locationId));
+        this.props.Locations[targetIndex].description = description;
+        this.setState({description: description});
+      });
+  }
+
   renderLocationList(){
     if (this.state.showLocationList){
       return(
@@ -58,7 +77,7 @@ class CollectionList extends Component {
           <Row className="locationList">
             {this.state.locations.map(location => {
               return (
-                <Col className="locationDetail clickable" md="2" data-id={location.id} onClick={this.showLocationBoxes} key={location.id}>
+                <Col className={"locationDetail clickable " + (this.state.activeLocationId ? location.id === parseInt(this.state.activeLocationId) ? '': 'inactive' : '')} md="2" data-id={location.id} onClick={this.handleLocationSelect} key={location.id}>
                   <div className="text-center">
                     <div>
                       <img className="locationImage" src={location.imageUrl} alt={location.name} />
@@ -118,7 +137,9 @@ class CollectionList extends Component {
       <Container className="collectionList" fluid="true">
         <div className="locationHeader">
           <Row className="locationTitle">
-            <Col md={{span:1, offset:11}} className="addPurchaseBtn" onClick={this.showPurchaseAdd}><FontAwesomeIcon icon={faPlusCircle} className="clickable"/></Col>
+            <Col md={{span:1, offset:11}} className="addPurchaseBtn">
+              <LocationModal UserId={this.props.UserId} LocationId={this.state.activeLocationId}  LocationName={this.state.locationName} HandleSaveButton={this.handleAddNewLocation}/>
+            </Col>
           </Row>
         </div>
         {this.renderLocationList()}
@@ -127,7 +148,6 @@ class CollectionList extends Component {
       </Container>
     );
   }
-
 }
 
 export default CollectionList;

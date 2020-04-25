@@ -1,7 +1,7 @@
-//const herokuPrefix = ''
-const herokuPrefix = 'https://cors-anywhere.herokuapp.com/'
-const baseClientUrl = 'http://api.closetspacecomics.com/api'
-//const baseClientUrl = 'http://localhost:53089/api'
+const herokuPrefix = ''
+const baseClientUrl = 'http://localhost:53089/api'
+//const herokuPrefix = 'https://cors-anywhere.herokuapp.com/'
+//const baseClientUrl = 'http://api.closetspacecomics.com/api'
 //const baseClientUrl = 'http://closetspacecomics-api2.azurewebsites.net/api';
 
 
@@ -9,7 +9,6 @@ const clientUrl = herokuPrefix + baseClientUrl;
 
 let ClosetSpaceComicsApi = {
   searchByDate: function(date){
-//    let urlToFetch = `https://cors-anywhere.herokuapp.com/${clientUrl}/home/homepage`;
     let urlToFetch = `${clientUrl}/catalog/issues?date=${date}`;
     return fetch(urlToFetch,{})
     .then(response => response.json())
@@ -41,7 +40,6 @@ let ClosetSpaceComicsApi = {
   },
 
   searchByTitle: function(title){
-//    let urlToFetch = `https://cors-anywhere.herokuapp.com/${clientUrl}/home/homepage`;
     let urlToFetch = `${clientUrl}/catalog/issues?title=${title}`;
     return fetch(urlToFetch,{})
     .then(response => response.json())
@@ -73,7 +71,6 @@ let ClosetSpaceComicsApi = {
   },
 
   fillTitle: function(titleId){
-//    let urlToFetch = `https://cors-anywhere.herokuapp.com/${clientUrl}/home/homepage`;
     let urlToFetch = `${clientUrl}/catalog/newissues/${titleId}`;
     return fetch(urlToFetch,{})
     .then(response => {return response});
@@ -142,7 +139,8 @@ let ClosetSpaceComicsApi = {
     .then(jsonResponse => {
       let response = {Purchases: []};
       if (jsonResponse){
-        response.Purchases = jsonResponse.map(purchase => {
+        response.totalPages = jsonResponse.TotalPages;
+        response.Purchases = jsonResponse.Purchases.map(purchase => {
           return {
             id: purchase.Id,
             description: purchase.Description,
@@ -164,7 +162,6 @@ let ClosetSpaceComicsApi = {
   },
 
   addIssueToPurchase: function(userId, purchaseId, issueId){
-//    let urlToFetch = `https://cors-anywhere.herokuapp.com/${clientUrl}/home/homepage`;
     let urlToFetch = `${clientUrl}/user/purchase/${purchaseId}/${issueId}`;
     return fetch(urlToFetch,{
       method: 'post',
@@ -182,7 +179,6 @@ let ClosetSpaceComicsApi = {
   },
 
   addPurchase: function(userId, description, purchaseDate, price){
-//    let urlToFetch = `https://cors-anywhere.herokuapp.com/${clientUrl}/home/homepage`;
     var data = {
       Description: description,
       PurchaseDate: purchaseDate,
@@ -194,13 +190,11 @@ let ClosetSpaceComicsApi = {
       headers: {
         'userId': userId,
         'Content-Type': 'application/json',
-        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: JSON.stringify(data)
     })
     .then(response => response.json())
     .then(jsonResponse => {
-//      return jsonResponse;
         return {
           id: jsonResponse.Id,
           description: jsonResponse.Description,
@@ -213,7 +207,6 @@ let ClosetSpaceComicsApi = {
   },
 
   editPurchase: function(userId, purchaseId, description, purchaseDate, price){
-//    let urlToFetch = `https://cors-anywhere.herokuapp.com/${clientUrl}/home/homepage`;
     var data = {
       Description: description,
       PurchaseDate: purchaseDate,
@@ -225,13 +218,11 @@ let ClosetSpaceComicsApi = {
       headers: {
         'userId': userId,
         'Content-Type': 'application/json',
-        // 'Content-Type': 'application/x-www-form-urlencoded',
       },
       body: JSON.stringify(data)
     })
     .then(response => response.json())
     .then(jsonResponse => {
-//      return jsonResponse;
         return {
           id: jsonResponse.Id,
           description: jsonResponse.Description,
@@ -239,6 +230,52 @@ let ClosetSpaceComicsApi = {
           price: jsonResponse.Price,
           size: 0,
           issues: []
+        }
+    });
+  },
+
+  addLocation: function(userId, description){
+    var data = {
+      Name: description
+    };
+    let urlToFetch = `${clientUrl}/user/locations`;
+    return fetch(urlToFetch,{
+      method: 'post',
+      headers: {
+        'userId': userId,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(jsonResponse => {
+        return {
+          id: jsonResponse.Id,
+          name: jsonResponse.Name,
+          imageUrl: jsonResponse.ImageUrl,
+        }
+    });
+  },
+
+  editLocation: function(userId, locationId, description){
+    var data = {
+      Name: description
+    };
+    let urlToFetch = `${clientUrl}/user/locations/${locationId}`;
+    return fetch(urlToFetch,{
+      method: 'post',
+      headers: {
+        'userId': userId,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(jsonResponse => {
+        return {
+          id: jsonResponse.Id,
+          name: jsonResponse.Name,
+          imageUrl: jsonResponse.ImageUrl,
         }
     });
   },

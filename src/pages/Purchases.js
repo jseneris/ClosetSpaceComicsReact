@@ -30,7 +30,7 @@ class Purchases extends Component {
       this.setState({loaded:false, purchaseList:[]});
     }
     ClosetSpaceComicsApi.getPurchases(this.props.UserId).then(response => {
-      this.setState({purchaseList: response.Purchases, loaded: true, refresh: false});
+      this.setState({purchaseList: response.Purchases, totalPages: response.totalPages, loaded: true, refresh: false});
     });
   }
 
@@ -41,7 +41,7 @@ class Purchases extends Component {
 
     if (this.state.loaded && this.props.Authenticated){
       return (
-        <PurchaseList Purchases={this.state.purchaseList} UserId={this.props.UserId}/>
+        <PurchaseList Purchases={this.state.purchaseList} TotalPages={this.state.totalPages} UserId={this.props.UserId}/>
       );
     }
     else{

@@ -45,7 +45,7 @@ class Collection extends Component {
       return (
         <div className="App">
           <div className="container-fluid">
-              <CollectionList locations={this.state.locations} ref={this.issueListElement} UserId={this.props.UserId} />
+              <CollectionList Locations={this.state.locations} ref={this.issueListElement} UserId={this.props.UserId} />
             </div>
         </div>
       );
