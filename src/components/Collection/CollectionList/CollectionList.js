@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import BoxItems from '../BoxItems/BoxItems'
 import LocationModal from '../LocationModal/LocationModal'
+import BoxList from '../BoxList/BoxList'
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faPenSquare } from '@fortawesome/free-solid-svg-icons';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -25,7 +25,7 @@ class CollectionList extends Component {
     this.renderBoxList = this.renderBoxList.bind(this);
 
     this.handleLocationSelect = this.handleLocationSelect.bind(this);
-    this.handleAddNewLocation = this.handleAddNewLocation.bind(this);
+    this.handleAddEditLocation = this.handleAddEditLocation.bind(this);
   }
 
   componentWillReceiveProps (newProps) {
@@ -53,21 +53,22 @@ class CollectionList extends Component {
       });
   }
 
-  handleAddNewLocation(description){
-    ClosetSpaceComicsApi.addLocation(this.props.UserId, description)
-      .then(newLocation => {
-        this.state.locations.unshift(newLocation);
-        this.setState({activeLocationId: newLocation.id});
-      });
-  }
-
-  handleEditLocation(locationId, description){
-    ClosetSpaceComicsApi.editPurchase(this.props.UserId, locationId, description)
-      .then(editedPurchase => {
-        var targetIndex = this.props.Locations.findIndex(p => p.id === parseInt(locationId));
-        this.props.Locations[targetIndex].description = description;
-        this.setState({description: description});
-      });
+  handleAddEditLocation(locationId, description){
+    if (locationId){
+      ClosetSpaceComicsApi.editLocation(this.props.UserId, locationId, description)
+        .then(editedPurchase => {
+          var targetIndex = this.state.locations.findIndex(p => p.id === parseInt(locationId));
+          this.state.locations[targetIndex].name = description;
+          this.setState({locations: this.state.locations});
+        });
+    }
+    else{
+      ClosetSpaceComicsApi.addLocation(this.props.UserId, description)
+        .then(newLocation => {
+          this.state.locations.unshift(newLocation);
+          this.setState({activeLocationId: newLocation.id});
+        });
+    }
   }
 
   renderLocationList(){
@@ -96,29 +97,7 @@ class CollectionList extends Component {
   renderBoxList(){
     if (this.state.showBoxList){
       return(
-        <div className="locationBoxHeader">
-          <Row>
-            <Col md={{offset:1, span:10}} className="boxHeader text-center">{this.state.locationName}</Col>
-            <Col md={{span:1}} className="addPurchaseBtn">
-              <FontAwesomeIcon icon={faPenSquare} className="clickable" />
-              <FontAwesomeIcon icon={faPlusCircle} className="clickable" />
-            </Col>
-          </Row>
-          <Row className="boxes">
-            {this.state.boxes.map(box => {
-              return (
-                <Col className="boxDetail clickable" md="2" data-id={box.id} onClick={this.showBoxIssues} key={box.id}>
-                  <div className="text-center">
-                    <div>
-                      <img className="boxImage" src={box.imageUrl} alt={box.name} />
-                    </div>
-                    <span>{box.name}</span>
-                  </div>
-                </Col>
-              )
-            })}
-          </Row>
-        </div>
+        <BoxList LocationId={this.state.activeLocationId} Boxes={this.state.boxes} />
       )
     }
   }
@@ -138,11 +117,12 @@ class CollectionList extends Component {
         <div className="locationHeader">
           <Row className="locationTitle">
             <Col md={{span:1, offset:11}} className="addPurchaseBtn">
-              <LocationModal UserId={this.props.UserId} LocationId={this.state.activeLocationId}  LocationName={this.state.locationName} HandleSaveButton={this.handleAddNewLocation}/>
+              <LocationModal UserId={this.props.UserId} LocationId={this.state.activeLocationId}  LocationName={this.state.locationName} HandleSaveButton={this.handleAddEditLocation}/>
             </Col>
           </Row>
         </div>
         {this.renderLocationList()}
+
         {this.renderBoxList()}
         {this.renderBoxItems()}
       </Container>

@@ -290,6 +290,53 @@ let ClosetSpaceComicsApi = {
       },
     });
   },
+
+  addBox: function(userId, locationId, name){
+    var data = {
+      Name: name
+    };
+    let urlToFetch = `${clientUrl}/user/locations/${locationId}/boxes`;
+    return fetch(urlToFetch,{
+      method: 'post',
+      headers: {
+        'userId': userId,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(jsonResponse => {
+        return {
+          id: jsonResponse.Id,
+          name: jsonResponse.Name,
+          imageUrl: jsonResponse.ImageUrl,
+        }
+    });
+  },
+
+  editBox: function(userId, locationId, boxId, name){
+    var data = {
+      Name: name
+    };
+    let urlToFetch = `${clientUrl}/user/locations/${locationId}/boxes/${boxId}`;
+    return fetch(urlToFetch,{
+      method: 'post',
+      headers: {
+        'userId': userId,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(jsonResponse => {
+        return {
+          id: jsonResponse.Id,
+          name: jsonResponse.Name,
+          imageUrl: jsonResponse.ImageUrl,
+        }
+    });
+  },
+
 };
 
 export default ClosetSpaceComicsApi;

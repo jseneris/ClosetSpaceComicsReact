@@ -4,14 +4,14 @@ import { faPlusCircle, faPenSquare } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
-class LocationModal extends Component {
+class BoxModal extends Component {
   constructor(props){
     super(props);
 
     this.state = {
       show: false,
-      description: this.props.LocationName,
-      title: 'Add Location'
+      name: this.props.BoxName,
+      title: 'Add Box'
     };
 
     this.handleClose = this.handleClose.bind(this);
@@ -19,8 +19,8 @@ class LocationModal extends Component {
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
 
     this.handleSaveButton = this.handleSaveButton.bind(this);
-
     this.renderEditButton = this.renderEditButton.bind(this);
+
     this.renderAddButton = this.renderAddButton.bind(this);
   }
 
@@ -31,21 +31,21 @@ class LocationModal extends Component {
   handleShow(event){
     if(event.target.classList.contains('addButton'))
     {
-      this.setState({show:true, description: '', title: 'Add Location', action: 'add'});
+      this.setState({show:true, name: '', title: 'Add Box', action: 'add'});
     }
     else if(event.target.classList.contains('editButton'))
     {
-      this.setState({show:true, description: this.props.LocationName, title:'Edit Location', action:'edit'});
+      this.setState({show:true, name: this.props.LocationName, title:'Edit Box', action:'edit'});
     }
   }
 
   handleDescriptionChange(event){
-    this.setState({description: event.target.value});
+    this.setState({name: event.target.value});
   }
 
   handleSaveButton(){
     if (this.state.action === 'edit'){
-      this.props.HandleSaveButton(this.props.LocationId, this.state.description);
+      this.props.HandleSaveButton(this.props.BoxId, this.state.description);
     }
     else{
       this.props.HandleSaveButton(this.state.description);
@@ -100,4 +100,4 @@ class LocationModal extends Component {
   }
 }
 
-export default LocationModal;
+export default BoxModal;
