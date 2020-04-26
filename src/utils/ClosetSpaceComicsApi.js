@@ -1,7 +1,7 @@
-//const herokuPrefix = ''
-//const baseClientUrl = 'http://localhost:53089/api'
-const herokuPrefix = 'https://cors-anywhere.herokuapp.com/'
-const baseClientUrl = 'http://api.closetspacecomics.com/api'
+const herokuPrefix = ''
+const baseClientUrl = 'http://localhost:53089/api'
+//const herokuPrefix = 'https://cors-anywhere.herokuapp.com/'
+//const baseClientUrl = 'http://api.closetspacecomics.com/api'
 //const baseClientUrl = 'http://closetspacecomics-api2.azurewebsites.net/api';
 
 

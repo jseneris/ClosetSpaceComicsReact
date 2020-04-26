@@ -35,7 +35,7 @@ class BoxModal extends Component {
     }
     else if(event.target.classList.contains('editButton'))
     {
-      this.setState({show:true, name: this.props.LocationName, title:'Edit Box', action:'edit'});
+      this.setState({show:true, name: this.props.BoxName, title:'Edit Box', action:'edit'});
     }
   }
 
@@ -45,16 +45,16 @@ class BoxModal extends Component {
 
   handleSaveButton(){
     if (this.state.action === 'edit'){
-      this.props.HandleSaveButton(this.props.BoxId, this.state.description);
+      this.props.HandleSaveButton(this.props.BoxId, this.state.name);
     }
     else{
-      this.props.HandleSaveButton(this.state.description);
+      this.props.HandleSaveButton(null, this.state.name);
     }
     this.handleClose();
   }
 
   renderEditButton(){
-    if (this.props.LocationId){
+    if (this.props.BoxId){
       return (
         <span className="clickable addEditButton editButton" onClick={this.handleShow}>
           <FontAwesomeIcon className="notEvent" icon={faPenSquare}/>
@@ -83,7 +83,7 @@ class BoxModal extends Component {
           </Modal.Header>
           <Modal.Body>
             <div>
-              <span>Description:</span><span><input type="text" name="description" id="description" value={this.state.description} onChange={this.handleDescriptionChange}/></span>
+              <span>Description:</span><span><input type="text" name="description" id="description" value={this.state.name} onChange={this.handleDescriptionChange}/></span>
             </div>
           </Modal.Body>
           <Modal.Footer>

@@ -19,8 +19,6 @@ class CollectionList extends Component {
       locations: props.Locations
     };
 
-    this.showBoxIssues = this.showBoxIssues.bind(this);
-
     this.renderLocationList = this.renderLocationList.bind(this);
     this.renderBoxList = this.renderBoxList.bind(this);
 
@@ -42,15 +40,6 @@ class CollectionList extends Component {
     });
 
     this.setState({activeLocationId: targetId, locationName: targetLocation.name, boxes: targetLocation.boxes, showLocationList: true, showBoxList: true});
-  }
-
-  showBoxIssues(event){
-    var target = event.target.closest(".boxDetail");
-    var targetId = target.getAttribute('data-id');
-    ClosetSpaceComicsApi.getBoxList(this.props.UserId, this.state.activeLocationId, targetId)
-      .then(response => {
-        this.setState({boxItems: response.items, showBoxList: false, showBoxItems: true});
-      });
   }
 
   handleAddEditLocation(locationId, description){
@@ -97,18 +86,9 @@ class CollectionList extends Component {
   renderBoxList(){
     if (this.state.showBoxList){
       return(
-        <BoxList LocationId={this.state.activeLocationId} Boxes={this.state.boxes} />
+        <BoxList UserId={this.props.UserId} LocationId={this.state.activeLocationId} Boxes={this.state.boxes} />
       )
     }
-  }
-
-  renderBoxItems(){
-    if (this.state.showBoxItems){
-      return(
-        <BoxItems LocationName={this.state.locationName} BoxItems={this.state.boxItems} />
-      )
-    }
-
   }
 
   render(){
@@ -124,7 +104,6 @@ class CollectionList extends Component {
         {this.renderLocationList()}
 
         {this.renderBoxList()}
-        {this.renderBoxItems()}
       </Container>
     );
   }

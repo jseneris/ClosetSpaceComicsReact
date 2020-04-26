@@ -14,8 +14,21 @@ class BoxList extends Component {
       boxes: props.Boxes
     };
 
-    this.handleAddEditBox = this.handleAddEditBox.bind(this);
 
+    this.handleBoxSelect = this.handleBoxSelect.bind(this);
+    this.handleAddEditBox = this.handleAddEditBox.bind(this);
+  }
+
+  handleBoxSelect(event){
+    var target = event.target.closest(".boxDetail");
+    var targetId = target.getAttribute('data-id');
+    var targetBox = this.state.boxes.find(element => {
+      return element.id === parseInt(targetId);
+    });
+    ClosetSpaceComicsApi.getBoxList(this.props.UserId, this.props.LocationId, targetId)
+      .then(response => {
+        this.setState({activeBoxId: targetId, boxName: targetBox.name, boxItems: response.items, showBoxItems: true});
+      });
   }
 
   handleAddEditBox(boxId, name){
@@ -36,19 +49,27 @@ class BoxList extends Component {
     }
   }
 
+  renderBoxItems(){
+    if (this.state.showBoxItems){
+      return(
+        <BoxItems LocationName={this.state.locationName} BoxItems={this.state.boxItems} />
+      )
+    }
+  }
+
   render(){
     return(
       <div className="locationBoxHeader">
         <Row>
-          <Col md={{offset:1, span:10}} className="boxHeader text-center">{this.state.locationName}</Col>
+          <Col md={{offset:1, span:10}} className="boxHeader text-center">{this.state.boxName}</Col>
           <Col md={{span:1}} className="addPurchaseBtn">
-            <BoxModal UserId={this.props.UserId} BoxId={this.state.activeBoxId} BoxName={this.state.locationName} HandleSaveButton={this.handleAddEditBox}/>
+            <BoxModal UserId={this.props.UserId} BoxId={this.state.activeBoxId} BoxName={this.state.boxName} HandleSaveButton={this.handleAddEditBox}/>
           </Col>
         </Row>
         <Row className="boxes">
           {this.state.boxes.map(box => {
             return (
-              <Col className="boxDetail clickable" md="2" data-id={box.id} onClick={this.showBoxIssues} key={box.id}>
+              <Col className={"boxDetail clickable" + (this.state.activeBoxId ? box.id === parseInt(this.state.activeBoxId) ? '': 'inactive' : '')} md="2" data-id={box.id} onClick={this.handleBoxSelect} key={box.id}>
                 <div className="text-center">
                   <div>
                     <img className="boxImage" src={box.imageUrl} alt={box.name} />
@@ -59,6 +80,7 @@ class BoxList extends Component {
             )
           })}
         </Row>
+        {this.renderBoxItems()}
       </div>
     )
   }
