@@ -39,6 +39,16 @@
     margin: 0 5px;
 }
 
+@media screen and (max-width: 520px){
+  .nav-button{
+      border-radius: 1.5rem !important;
+      padding: .15rem 1rem !important;
+      line-height: 1 !important;
+      margin: 0 5px;
+      font-size:.5rem !important;
+  }
+}
+
 .clickable {
   cursor: pointer;
 }

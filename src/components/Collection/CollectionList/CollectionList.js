@@ -67,7 +67,7 @@ class CollectionList extends Component {
           <Row className="locationList">
             {this.state.locations.map(location => {
               return (
-                <Col className={"locationDetail clickable " + (this.state.activeLocationId ? location.id === parseInt(this.state.activeLocationId) ? '': 'inactive' : '')} md="2" data-id={location.id} onClick={this.handleLocationSelect} key={location.id}>
+                <Col className={"locationDetail clickable " + (this.state.activeLocationId ? location.id === parseInt(this.state.activeLocationId) ? '': 'inactive' : '')} md="2" sm="3" xs="6" data-id={location.id} onClick={this.handleLocationSelect} key={location.id}>
                   <div className="text-center">
                     <div>
                       <img className="locationImage" src={location.imageUrl} alt={location.name} />

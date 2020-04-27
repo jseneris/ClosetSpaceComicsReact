@@ -144,7 +144,7 @@ class App extends Component {
           <Row className="legend">
             <img className="title-big" src={banner} alt="banner"/>
           </Row>
-          <Row className="justify-content-md-center">
+          <Row className="justify-content-center">
               <Button className="nav-button" variant="outline-primary" active={this.state.navCatalog} onClick={this.displayCatalog}>Catalog</Button>
               <Button className="nav-button" variant="outline-primary" active={this.state.navCollection} onClick={this.displayCollection}>Collection</Button>
               <Button className="nav-button" variant="outline-primary" active={this.state.navPurchases} onClick={this.displayPurchases}>Purchases</Button>

@@ -7,7 +7,7 @@ import Col from 'react-bootstrap/Col';
 
 const SortableItem = SortableElement(({value}) => {
   return (
-    <Col className="issueDetail" md="2" data-id={value.id} >
+    <Col className="issueDetail" md="2" sm="3" xs="6"  data-id={value.id} >
       <div>
         <img src={value.imageUrl} height="200px" alt={value.imageUrl}/>
       </div>
