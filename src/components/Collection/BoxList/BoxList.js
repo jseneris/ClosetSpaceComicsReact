@@ -14,9 +14,14 @@ class BoxList extends Component {
       boxes: props.Boxes
     };
 
-
     this.handleBoxSelect = this.handleBoxSelect.bind(this);
     this.handleAddEditBox = this.handleAddEditBox.bind(this);
+  }
+
+  componentWillReceiveProps (newProps) {
+    if( newProps.Boxes !== this.props.Boxes ){
+      this.setState({boxes: newProps.Boxes});
+    }
   }
 
   handleBoxSelect(event){
@@ -43,7 +48,7 @@ class BoxList extends Component {
     else{
       ClosetSpaceComicsApi.addBox(this.props.UserId, this.props.LocationId, name)
         .then(newBox => {
-          this.state.boxes.unshift(newBox);
+          this.state.boxes.push(newBox);
           this.setState({activeBoxId: newBox.id});
         });
     }
