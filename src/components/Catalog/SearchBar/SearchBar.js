@@ -11,14 +11,14 @@ class SearchBar extends Component{
     }
     let closestWed = new Date(new Date().setDate(currentDate.getDate() - dayOffset + 3));
     let closestDateString = (closestWed.getMonth()+1) + '/' + closestWed.getDate() + '/' + closestWed.getFullYear();
-    this.props.searchByDate(closestDateString);
+    this.props.SearchByDate(closestDateString);
 
     this.state = {sortBy:closestDateString};
 
     this.handleSearch = this.handleSearch.bind(this);
   }
 
-  renderSortByOptions() {
+  renderWeeklyOptions() {
     let currentDate = new Date();
     let options = [];
     let dayOffset = currentDate.getDay();
@@ -35,7 +35,7 @@ class SearchBar extends Component{
   }
 
   handleSearch(event){
-    this.props.searchByDate(event.target.value);
+    this.props.SearchByDate(event.target.value);
   }
 
   render(){
@@ -43,7 +43,7 @@ class SearchBar extends Component{
       <div className="SearchBar">
       <label>Week of:</label>
         <select id="weekSelect" onChange={this.handleSearch}>
-          { this.renderSortByOptions()}
+          { this.renderWeeklyOptions()}
         </select>
       </div>
     );

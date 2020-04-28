@@ -14,7 +14,6 @@ class Collection extends Component {
     };
 
     this.getCollectionList = this.getCollectionList.bind(this);
-    this.issueListElement = React.createRef();
   }
 
   componentDidMount(){
@@ -45,7 +44,7 @@ class Collection extends Component {
       return (
         <div className="App">
           <div className="container-fluid">
-              <CollectionList Locations={this.state.locations} ref={this.issueListElement} UserId={this.props.UserId} />
+              <CollectionList Locations={this.state.locations} UserId={this.props.UserId} />
             </div>
         </div>
       );

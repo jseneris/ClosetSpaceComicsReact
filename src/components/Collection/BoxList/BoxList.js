@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import BoxItems from '../BoxItems/BoxItems'
 import BoxModal from '../BoxModal/BoxModal'
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 

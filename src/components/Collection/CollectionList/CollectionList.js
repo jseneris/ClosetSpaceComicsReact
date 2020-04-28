@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
-import BoxItems from '../BoxItems/BoxItems'
 import LocationModal from '../LocationModal/LocationModal'
 import BoxList from '../BoxList/BoxList'
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Container from 'react-bootstrap/Container';
+  import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './CollectionList.css';
@@ -46,9 +44,13 @@ class CollectionList extends Component {
     if (locationId){
       ClosetSpaceComicsApi.editLocation(this.props.UserId, locationId, description)
         .then(editedPurchase => {
-          var targetIndex = this.state.locations.findIndex(p => p.id === parseInt(locationId));
-          this.state.locations[targetIndex].name = description;
-          this.setState({locations: this.state.locations});
+          var newLocations = this.state.locations.map(location => {
+            if (location.id === parseInt(locationId)){
+              location.name = description;
+            }
+            return location;
+          });
+          this.setState({locations: newLocations});
         });
     }
     else{

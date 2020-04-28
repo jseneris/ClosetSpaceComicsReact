@@ -8,31 +8,25 @@ class Catalog extends Component {
   constructor(props){
     super(props);
 
-    this.state = {issues: [], filters:[]};
+    this.state = {
+      issues: [],
+      filters:[]};
 
-    this.searchByDate = this.searchByDate.bind(this);
-    this.issueListElement = React.createRef();
+    this.handleSearchByDate = this.handleSearchByDate.bind(this);
   }
 
 
-  searchByDate(date){
+  handleSearchByDate(date){
     ClosetSpaceComicsApi.searchByDate(date).then(response => {
       this.setState({issues: response.Issues, filters: response.Filters});
     });
-    if (this.issueListElement != null ){
-      if (this.issueListElement.current != null){
-        if (this.issueListElement.current.resetFilter != null){
-          this.issueListElement.current.resetFilter();
-        }
-      }
-    }
   }
 
   render(){
     return (
       <div className="catalogDiv">
-        <SearchBar searchByDate={this.searchByDate}/>
-        <IssueList issues={this.state.issues} filters={this.state.filters} ref={this.issueListElement} />
+        <SearchBar SearchByDate={this.handleSearchByDate}/>
+        <IssueList Issues={this.state.issues} Filters={this.state.filters} />
       </div>
     );
   }

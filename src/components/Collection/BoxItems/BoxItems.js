@@ -35,7 +35,6 @@ class BoxItems extends Component {
   }
   onSortEnd = ({oldIndex, newIndex}) => {
     var oldBook = this.state.items[oldIndex];
-    var newBook = this.state.items[newIndex];
     ClosetSpaceComicsApi.moveBook(0, oldBook.id, newIndex);
     this.setState(({items}) => ({
       items: arrayMove(items, oldIndex, newIndex),

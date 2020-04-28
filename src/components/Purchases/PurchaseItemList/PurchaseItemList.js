@@ -1,14 +1,11 @@
 import React, {Component} from 'react';
 import PurchaseModal from '../PurchaseModal/PurchaseModal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faPenSquare } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 class PurchaseItemList extends Component {
-  constructor(props){
-    super(props);
-  }
 
   render(){
     return(

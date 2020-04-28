@@ -8,9 +8,11 @@ import Issue from '../Issue/Issue';
 class IssueList extends Component {
   constructor(props){
     super(props);
-    this.issues = this.props.issues;
 
-    this.state = {pubFilter: []};
+    this.state = {
+      issues: this.props.Issues,
+      pubFilter: []
+    };
 
     this.applyFilter = this.applyFilter.bind(this);
     this.handleIssueClick = this.applyFilter.bind(this);
@@ -29,18 +31,14 @@ class IssueList extends Component {
     else{
       newFilter.push(pubFilter);
     }
-    this.issues = this.props.issues.filter(issue => {
+    var filteredIssues = this.props.Issues.filter(issue => {
       return (this.state.pubFilter.length === 0 || this.state.pubFilter.includes(issue.publisher))
     });
-    this.setState({pubFilter: newFilter});
-  }
-
-  resetFilter = () => {
-    this.setState({pubFilter: [], zoom: false});
+    this.setState({pubFilter: newFilter, issues: filteredIssues});
   }
 
   zoomToIssue(title){
-    var target = this.props.issues.find(issue => issue.title + ' ' + issue.issueNum === title);
+    var target = this.props.Issues.find(issue => issue.title + ' ' + issue.issueNum === title);
     this.setState({zoom: true, issue: target});
   }
 
@@ -52,31 +50,33 @@ class IssueList extends Component {
     this.setState({zoom:false});
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    this.updateIssues(nextProps.issues);
-    return true;
+  componentWillReceiveProps (newProps) {
+    if( newProps.Issues !== this.props.Issues ){
+      this.setState({issues: newProps.Issues, pubFilter: [], zoom: false});
+    }
   }
 
   updateIssues(issues){
-    this.issues = issues.filter(issue => {
+    var filteredIssues = issues.filter(issue => {
       return (this.state.pubFilter.length === 0 || this.state.pubFilter.includes(issue.publisher))
     });
+    this.setState({issues: filteredIssues});
   }
 
   render(){
     if (this.state.zoom){
       return (
-          <IssueZoom issue={this.state.issue} issues={this.issues} handleZoomChange={this.zoomChange} handleZoomExit={this.zoomExit}/>
+          <IssueZoom issue={this.state.issue} issues={this.state.issues} handleZoomChange={this.zoomChange} handleZoomExit={this.zoomExit}/>
       );
     }
-    else if(this.props.loading){
+    else if(this.state.Loading){
       return (
         <div className="center-text">
             loading
         </div>
       );
     }
-    else if(this.issues.length === 0){
+    else if(this.state.issues.length === 0){
       return (
         <div className="center-text">
             No books released this week
@@ -91,13 +91,13 @@ class IssueList extends Component {
           </div>
           <div className="IssueFilter">
             <div className="filterList">
-              {this.props.filters.map(filter => {
+              {this.props.Filters.map(filter => {
                 return <IssueFilter filter={filter} key={filter.publisher} active={this.state.pubFilter.length === 0 || this.state.pubFilter.includes(filter.publisher)} applyFilter={this.applyFilter}/>
               })}
             </div>
           </div>
           <div className="row">
-            {this.issues.map(issue => {
+            {this.state.issues.map(issue => {
               return <Issue issue={issue} zoomToIssue={this.zoomToIssue}/>
             })}
           </div>

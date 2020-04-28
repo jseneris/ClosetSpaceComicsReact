@@ -16,8 +16,6 @@ class IssueSearch extends Component {
     let closestWed = new Date(new Date().setDate(currentDate.getDate() - dayOffset + 3));
     let closestDateString = (closestWed.getMonth()+1) + '/' + closestWed.getDate() + '/' + closestWed.getFullYear();
 
-    var date = (currentDate.getMonth()+1) +'/'+ currentDate.getDate() +'/'+ currentDate.getFullYear();
-
     this.state = {
       description: this.props.Description,
       size: this.props.Size,

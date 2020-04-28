@@ -3,8 +3,6 @@ import PurchaseModal from '../PurchaseModal/PurchaseModal';
 import PurchaseItemList from '../PurchaseItemList/PurchaseItemList'
 import IssueSearch from '../IssueSearch/IssueSearch'
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlusCircle, faPenSquare } from '@fortawesome/free-solid-svg-icons';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './PurchaseList.css';
