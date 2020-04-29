@@ -21,10 +21,6 @@ class PurchaseModal extends Component {
     };
 
     this.handleClose = this.handleClose.bind(this);
-    this.handleShow = this.handleShow.bind(this);
-    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-    this.handlePurchaseDateChange = this.handlePurchaseDateChange.bind(this);
-    this.handlePriceChange = this.handlePriceChange.bind(this);
 
     this.handleSaveButton = this.handleSaveButton.bind(this);
   }
@@ -32,23 +28,6 @@ class PurchaseModal extends Component {
   handleClose(){
     this.setState({show:false});
   }
-
-  handleShow(){
-    this.setState({show:true});
-  }
-
-  handleDescriptionChange(event){
-    this.setState({description: event.target.value});
-  }
-
-  handlePurchaseDateChange(event){
-    this.setState({purchaseDate: event.target.value});
-  }
-
-  handlePriceChange(event){
-    this.setState({price: event.target.value});
-  }
-
 
   handleSaveButton(){
     if (this.props.PurchaseId){
@@ -63,7 +42,7 @@ class PurchaseModal extends Component {
   render(){
     return (
       <>
-        <FontAwesomeIcon icon={this.state.icon} className="clickable addEditButton" onClick={this.handleShow}/>
+        <FontAwesomeIcon icon={this.state.icon} className="clickable addEditButton" onClick={e => this.setState({show:true})}/>
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
@@ -71,13 +50,13 @@ class PurchaseModal extends Component {
           </Modal.Header>
           <Modal.Body>
             <div>
-              <span>Description:</span><span><input type="text" name="despcription" id="despcription" value={this.state.description} onChange={this.handleDescriptionChange}/></span>
+              <span>Description:</span><span><input type="text" name="despcription" id="despcription" value={this.state.description} onChange={e => this.setState({'description': e.target.value })}/></span>
             </div>
             <div>
-              <span>Price:</span><span><input type="text" name="price" id="price" value={this.state.price} onChange={this.handlePriceChange}/></span>
+              <span>Price:</span><span><input type="text" name="price" id="price" value={this.state.price} onChange={e => this.setState({'price': e.target.value })}/></span>
             </div>
             <div>
-              <span>Date:</span><span><input type="text" name="purchaseDate" id="purchaseDate" value={this.state.purchaseDate} onChange={this.handlePurchaseDateChange}/></span>
+              <span>Date:</span><span><input type="text" name="purchaseDate" id="purchaseDate" value={this.state.purchaseDate} onChange={e => this.setState({'purchaseDate': e.target.value })}/></span>
             </div>
           </Modal.Body>
           <Modal.Footer>

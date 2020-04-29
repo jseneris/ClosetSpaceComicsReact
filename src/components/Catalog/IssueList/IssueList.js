@@ -11,15 +11,21 @@ class IssueList extends Component {
 
     this.state = {
       issues: this.props.Issues,
-      pubFilter: []
+      pubFilter: [],
+      zoom: false
     };
 
     this.applyFilter = this.applyFilter.bind(this);
-    this.handleIssueClick = this.applyFilter.bind(this);
     this.zoomToIssue = this.zoomToIssue.bind(this);
     this.zoomChange = this.zoomChange.bind(this);
     this.zoomExit = this.zoomExit.bind(this);
     this.updateIssues = this.updateIssues.bind(this);
+  }
+
+  componentWillReceiveProps (newProps) {
+    if( newProps.Issues !== this.props.Issues ){
+      this.setState({issues: newProps.Issues, pubFilter: [], zoom: false});
+    }
   }
 
   applyFilter(pubFilter){
@@ -48,12 +54,6 @@ class IssueList extends Component {
 
   zoomExit(){
     this.setState({zoom:false});
-  }
-
-  componentWillReceiveProps (newProps) {
-    if( newProps.Issues !== this.props.Issues ){
-      this.setState({issues: newProps.Issues, pubFilter: [], zoom: false});
-    }
   }
 
   updateIssues(issues){

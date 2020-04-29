@@ -151,7 +151,12 @@ let ClosetSpaceComicsApi = {
             issues: purchase.Issues.map(issue => {
               return {
                 id: issue.Id,
-                imageUrl: issue.ImageUrl
+                imageUrl: issue.ImageUrl,
+                title: issue.Title,
+                issueNum: issue.IssueNum,
+                condition: issue.Condition,
+                locationName: issue.LocationName,
+                boxName: issue.BoxName
               }
             })
           }

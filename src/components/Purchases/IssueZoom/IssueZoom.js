@@ -14,11 +14,11 @@ class IssueZoom extends Component {
 
   changeZoom(event){
     var tartgetIndex = event.target.getAttribute('data-index');
-    this.props.handleZoomChange(this.props.issues[tartgetIndex]);
+    this.props.HandleZoomChange(this.props.Issues[tartgetIndex]);
   }
 
   exitZoom(){
-    this.props.handleZoomExit();
+    this.props.HandleZoomExit();
   }
 
   render(){
@@ -33,23 +33,24 @@ class IssueZoom extends Component {
     return(
       <Container>
         <Row>
-          <Col md="10" className="zoomHeader">{this.props.issue.title}</Col>
+          <Col md="10" className="zoomHeader">{`${this.props.Issue.title} #${this.props.Issue.issueNum}`}</Col>
           <Col md="2" className="clickable" onClick={this.exitZoom}>X</Col>
         </Row>
         <Row>
           <Col sm={7}>
-            <img className="img-responsive" src={this.props.issue.imageUrl} height={400} alt={this.props.issue.title}/>
+            <img className="img-responsive" src={this.props.Issue.imageUrl} height={400} alt={this.props.Issue.title}/>
           </Col>
           <Col sm={5}>
-            <span>{this.props.issue.description}</span>
-            <p>Cover Price: {this.props.issue.coverprice}</p>
+            <p>Condition: {this.props.Issue.condition}</p>
+            <p>Location: {this.props.Issue.locationName}</p>
+            <p>Box: {this.props.Issue.boxName}</p>
           </Col>
         </Row>
         <Slider {...settings}>
-          {this.props.issues.map((issue, index) => {
+          {this.props.Issues.map((issue, index) => {
             return (
               <div>
-                <img src={issue.imageUrl} data-index={index} height={80} onClick={this.changeZoom}  alt={this.props.issue.title}/>
+                <img src={issue.imageUrl} data-index={index} height={80} onClick={this.changeZoom}  alt={this.props.Issue.title}/>
               </div>
             )
           })}

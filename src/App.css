@@ -70,3 +70,16 @@
 .notEvent{
    pointer-events: none;
 }
+
+.zoomHeader{
+  font-size: 2.5rem;
+  margin-top: 0;
+  margin-bottom: .5rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: black;
+}
