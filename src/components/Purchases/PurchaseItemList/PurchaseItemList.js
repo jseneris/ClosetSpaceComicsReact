@@ -25,7 +25,7 @@ class PurchaseItemList extends Component {
   zoomToIssue(event){
     var targetId = event.target.getAttribute('data-id');
     var target = this.props.PurchaseItems.find(issue => issue.id === parseInt(targetId));
-    this.setState({zoom: true, issue: target});
+    this.setState({zoom: true, issue: target, purchaseItems: this.props.PurchaseItems });
   }
 
   zoomChange(target){
@@ -43,6 +43,8 @@ class PurchaseItemList extends Component {
         if (item.id === issue.id){
           item.boxName = newIssue.boxName;
           item.boxId = newIssue.boxId;
+          item.locationName = newIssue.locationName;
+          item.locationId = newIssue.locationId;
         }
       });
       this.setState({issue: newIssue, purchaseItems: newPurchaseItems});

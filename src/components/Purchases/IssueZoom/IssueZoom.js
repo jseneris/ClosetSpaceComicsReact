@@ -10,6 +10,7 @@ class IssueZoom extends Component {
 
     this.state = {
       selectedBox: this.props.Issue.boxId,
+      selectedLocation: this.props.Issue.locationId,
       showButtons: false,
       issues: this.props.Issues
     }
@@ -17,13 +18,14 @@ class IssueZoom extends Component {
     this.changeZoom = this.changeZoom.bind(this);
     this.exitZoom = this.exitZoom.bind(this);
     this.handleBoxChange = this.handleBoxChange.bind(this);
+    this.handleLocationChange = this.handleLocationChange.bind(this);
     this.resetLocation = this.resetLocation.bind(this);
     this.saveBook = this.saveBook.bind(this);
   }
 
   componentWillReceiveProps (newProps) {
     if( newProps.Issue !== this.props.Issue ){
-      this.setState({selectedBox: newProps.Issue.boxId, showButtons: false, issues: newProps.Issues});
+      this.setState({selectedBox: newProps.Issue.boxId, selectedLocation: newProps.Issue.locationId, showButtons: false, issues: newProps.Issues});
     }
   }
 
@@ -41,6 +43,11 @@ class IssueZoom extends Component {
     this.setState({selectedBox: event.target.value, showButtons: showButton});
   }
 
+  handleLocationChange(event){
+    var showButton = this.props.Issue.LocationId != event.target.value;
+    this.setState({selectedLocation: event.target.value, showButtons: showButton});
+  }
+
   saveBook(){
     this.props.HandleBookChange(this.props.Issue, this.state.selectedBox);
   }
@@ -49,10 +56,16 @@ class IssueZoom extends Component {
     this.setState({selectedBox: this.props.Issue.boxId, showButtons: false});
   }
 
-  renderBoxOptions(locationId) {
-    var targetLocation = this.props.Locations.find(loc => loc.id === locationId);
+  renderBoxOptions() {
+    var targetLocation = this.props.Locations.find(loc => loc.id === parseInt(this.state.selectedLocation));
     return targetLocation.boxes.map(box => {
       return (<option key={box.id} value={box.id}>{box.name}</option>)
+    });
+  }
+
+  renderLocationOptions() {
+    return this.props.Locations.map(locations => {
+      return (<option key={locations.id} value={locations.id}>{locations.name}</option>)
     });
   }
 
@@ -87,10 +100,14 @@ class IssueZoom extends Component {
             <img className="img-responsive" src={this.props.Issue.imageUrl} height={400} alt={this.props.Issue.title}/>
           </Col>
           <Col sm={5}>
-            <p>Location: {this.props.Issue.locationName}</p>
+            <p>Location:
+              <select id="locationSelect" value={this.state.selectedLocation} onChange={this.handleLocationChange}>
+                { this.renderLocationOptions()}
+              </select>
+            </p>
             <p>Box:
               <select id="boxSelect" value={this.state.selectedBox} onChange={this.handleBoxChange}>
-                { this.renderBoxOptions(this.props.Issue.locationId)}
+                { this.renderBoxOptions()}
               </select>
             </p>
             {this.renderButtons()}
