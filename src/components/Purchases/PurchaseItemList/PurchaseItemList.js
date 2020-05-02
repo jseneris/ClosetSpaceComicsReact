@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import PurchaseModal from '../PurchaseModal/PurchaseModal';
 import IssueZoom from '../IssueZoom/IssueZoom';
+import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import Row from 'react-bootstrap/Row';
@@ -11,12 +12,14 @@ class PurchaseItemList extends Component {
     super(props);
 
     this.state = {
-      zoom: false
+      zoom: false,
+      purchaseItems: this.props.PurchaseItems
     }
 
     this.zoomToIssue = this.zoomToIssue.bind(this);
     this.zoomChange = this.zoomChange.bind(this);
     this.zoomExit = this.zoomExit.bind(this);
+    this.handleIssueSave = this.handleIssueSave.bind(this);
   }
 
   zoomToIssue(event){
@@ -33,10 +36,23 @@ class PurchaseItemList extends Component {
     this.setState({zoom:false});
   }
 
+  handleIssueSave(issue, boxId){
+    ClosetSpaceComicsApi.editBook(this.props.UserId, issue.locationId, issue.boxId, issue.id, boxId).then(newIssue => {
+      var newPurchaseItems = this.state.purchaseItems.slice();
+      newPurchaseItems.map(item => {
+        if (item.id === issue.id){
+          item.boxName = newIssue.boxName;
+          item.boxId = newIssue.boxId;
+        }
+      });
+      this.setState({issue: newIssue, purchaseItems: newPurchaseItems});
+    });
+  }
+
   render(){
     if (this.state.zoom){
       return (
-          <IssueZoom Issue={this.state.issue} Issues={this.props.PurchaseItems} HandleZoomChange={this.zoomChange} HandleZoomExit={this.zoomExit}/>
+          <IssueZoom Issue={this.state.issue} Issues={this.state.purchaseItems} Locations={this.props.Locations} HandleZoomChange={this.zoomChange} HandleZoomExit={this.zoomExit} HandleBookChange={this.handleIssueSave}/>
       );
     }
     else{

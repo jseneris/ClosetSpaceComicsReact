@@ -175,7 +175,7 @@ class PurchaseList extends Component {
     if (this.state.showPurchaseIssues)
     {
       return (
-        <PurchaseItemList PurchaseItems={this.state.purchaseItems} Description={this.state.description} Size={this.state.size} Price={this.state.price} PurchaseDate={this.state.purchaseDate} PurchaseId={this.state.activePurchaseId} HandleSaveButton={this.handleEditPurchase} ShowSearch={this.toggleSearch}/>
+        <PurchaseItemList PurchaseItems={this.state.purchaseItems} Description={this.state.description} Size={this.state.size} Price={this.state.price} PurchaseDate={this.state.purchaseDate} PurchaseId={this.state.activePurchaseId} Locations={this.props.Locations} HandleSaveButton={this.handleEditPurchase} ShowSearch={this.toggleSearch}/>
       );
     }
   }

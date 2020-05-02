@@ -155,7 +155,9 @@ let ClosetSpaceComicsApi = {
                 title: issue.Title,
                 issueNum: issue.IssueNum,
                 condition: issue.Condition,
+                locationId: issue.LocationId,
                 locationName: issue.LocationName,
+                boxId: issue.BoxId,
                 boxName: issue.BoxName
               }
             })
@@ -338,6 +340,36 @@ let ClosetSpaceComicsApi = {
           id: jsonResponse.Id,
           name: jsonResponse.Name,
           imageUrl: jsonResponse.ImageUrl,
+        }
+    });
+  },
+
+  editBook: function(userId, locationId, boxId, bookId, newBoxId){
+    var data = {
+      BookId: bookId,
+      BoxId: newBoxId
+    };
+    let urlToFetch = `${clientUrl}/user/locations/${locationId}/boxes/${boxId}/books/${bookId}`;
+    return fetch(urlToFetch,{
+      method: 'post',
+      headers: {
+        'userId': userId,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(jsonResponse => {
+        return {
+          id: jsonResponse.Id,
+          imageUrl: jsonResponse.ImageUrl,
+          title: jsonResponse.Title,
+          issueNum: jsonResponse.IssueNum,
+          condition: jsonResponse.Condition,
+          locationId: jsonResponse.LocationId,
+          locationName: jsonResponse.LocationName,
+          boxId: jsonResponse.BoxId,
+          boxName: jsonResponse.BoxName
         }
     });
   },
