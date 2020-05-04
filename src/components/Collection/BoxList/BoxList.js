@@ -9,7 +9,9 @@ class BoxList extends Component {
   constructor(props){
     super(props);
     this.state = {
-      boxes: props.Boxes
+      boxes: props.Boxes,
+      showBoxItems: false,
+      activeBoxId: null
     };
 
     this.handleBoxSelect = this.handleBoxSelect.bind(this);
@@ -18,7 +20,7 @@ class BoxList extends Component {
 
   componentWillReceiveProps (newProps) {
     if( newProps.Boxes !== this.props.Boxes ){
-      this.setState({boxes: newProps.Boxes});
+      this.setState({boxes: newProps.Boxes, showBoxItems: false, activeBoxId:null});
     }
   }
 
@@ -64,15 +66,14 @@ class BoxList extends Component {
     return(
       <div className="locationBoxHeader">
         <Row>
-          <Col md={{offset:1, span:10}} className="boxHeader text-center">{this.state.boxName}</Col>
-          <Col md={{span:1}} className="addPurchaseBtn">
+          <Col md={{span:1, offset:11}} className="addPurchaseBtn">
             <BoxModal UserId={this.props.UserId} BoxId={this.state.activeBoxId} BoxName={this.state.boxName} HandleSaveButton={this.handleAddEditBox}/>
           </Col>
         </Row>
         <Row className="boxes">
           {this.state.boxes.map(box => {
             return (
-              <Col className={"boxDetail clickable" + (this.state.activeBoxId ? box.id === parseInt(this.state.activeBoxId) ? '': 'inactive' : '')} md="2" data-id={box.id} onClick={this.handleBoxSelect} key={box.id}>
+              <Col className={"boxDetail clickable " + (this.state.activeBoxId ? box.id === parseInt(this.state.activeBoxId) ? '': 'inactive' : '')} md="2" data-id={box.id} onClick={this.handleBoxSelect} key={box.id}>
                 <div className="text-center">
                   <div>
                     <img className="boxImage" src={box.imageUrl} alt={box.name} />

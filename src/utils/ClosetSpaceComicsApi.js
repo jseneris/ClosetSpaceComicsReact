@@ -177,10 +177,17 @@ let ClosetSpaceComicsApi = {
       }
     })
     .then(response => response.json())
-    .then(jsonResponse => {
+    .then(issue => {
       return {
-          id: jsonResponse.Id,
-          imageUrl: jsonResponse.ImageUrl
+          id: issue.Id,
+          imageUrl: issue.ImageUrl,
+          title: issue.Title,
+          issueNum: issue.IssueNum,
+          condition: issue.Condition,
+          locationId: issue.LocationId,
+          locationName: issue.LocationName,
+          boxId: issue.BoxId,
+          boxName: issue.BoxName
       };
     });
   },
@@ -260,9 +267,16 @@ let ClosetSpaceComicsApi = {
           id: jsonResponse.Id,
           name: jsonResponse.Name,
           imageUrl: jsonResponse.ImageUrl,
+          boxes: jsonResponse.Boxes.map(box => {
+            return {
+              id: box.Id,
+              name: box.Name,
+              imageUrl: box.ImageUrl
+            }
+          })
         }
-    });
-  },
+      });
+    },
 
   editLocation: function(userId, locationId, description){
     var data = {

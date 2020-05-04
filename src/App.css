@@ -72,14 +72,26 @@
 }
 
 .zoomHeader{
-  font-size: 2.5rem;
+  font-size: 1.75rem;
   margin-top: 0;
   margin-bottom: .5rem;
   font-weight: 500;
   line-height: 1.2;
 }
 
+.zoomBody{
+  margin: 10px 0;
+}
+
 .slick-prev:before,
 .slick-next:before {
   color: black;
+}
+
+.slick-slider{
+  max-height: 100px;
+}
+
+.slick-active::selection{
+  color:yellow;
 }

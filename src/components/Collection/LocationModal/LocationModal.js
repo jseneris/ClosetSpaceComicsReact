@@ -48,7 +48,7 @@ class LocationModal extends Component {
       this.props.HandleSaveButton(this.props.LocationId, this.state.description);
     }
     else{
-      this.props.HandleSaveButton(this.state.description);
+      this.props.HandleSaveButton('', this.state.description);
     }
     this.handleClose();
   }

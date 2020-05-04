@@ -3,7 +3,7 @@ import banner from '../banner.jpeg';
 import SearchBar from '../components/Catalog/SearchBar/SearchBar';
 import IssueList from '../components/Catalog/IssueList/IssueList';
 import ClosetSpaceComicsApi from '../utils/ClosetSpaceComicsApi';
-
+import Container from 'react-bootstrap/Container';
 
 class Home extends Component {
   constructor(props){
@@ -32,7 +32,7 @@ class Home extends Component {
   render(){
     return (
       <div className="App">
-        <div className="container-fluid">
+        <Container fluid>
             <div className="legend">
                 <div>
                     <img className="title-big" src={banner} alt="banner"/>
@@ -40,7 +40,7 @@ class Home extends Component {
             </div>
             <SearchBar searchByDate={this.searchByDate}/>
             <IssueList issues={this.state.issues} filters={this.state.filters} ref={this.issueListElement} loading={this.state.loading} />
-          </div>
+          </Container>
       </div>
     );
   }

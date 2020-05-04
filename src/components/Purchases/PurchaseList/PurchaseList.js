@@ -34,8 +34,7 @@ class PurchaseList extends Component {
 
     this.showPurchases = this.showPurchases.bind(this);
     this.toggleSearch = this.toggleSearch.bind(this);
-    this.handleAddNewPurchase = this.handleAddNewPurchase.bind(this);
-    this.handleEditPurchase = this.handleEditPurchase.bind(this);
+    this.handleAddEditPurchase = this.handleAddEditPurchase.bind(this);
     this.handleAddIssueToPurchase = this.handleAddIssueToPurchase.bind(this);
     this.loadMorePurchase = this.loadMorePurchase.bind(this);
   }
@@ -89,23 +88,25 @@ class PurchaseList extends Component {
     }
   }
 
-  handleAddNewPurchase(description, purchaseDate, price){
-    ClosetSpaceComicsApi.addPurchase(this.props.UserId, description, purchaseDate, price)
-      .then(newPurchase => {
-        this.props.Purchases.unshift(newPurchase);
-        this.setState({activePurchaseId: newPurchase.id, showPurchaseList: false, showSearch:true});
-      });
-  }
+  handleAddEditPurchase(purchaseId, description, purchaseDate, price){
+    if (purchaseId){
+      ClosetSpaceComicsApi.editPurchase(this.props.UserId, purchaseId, description, purchaseDate, price)
+        .then(editedPurchase => {
+          var targetIndex = this.props.Purchases.findIndex(p => p.id === parseInt(purchaseId));
+          this.props.Purchases[targetIndex].description = description;
+          this.props.Purchases[targetIndex].purchaseDate = purchaseDate;
+          this.props.Purchases[targetIndex].price = price;
+          this.setState({description: description, purchaseDate: purchaseDate, price: price});
+        });
+    }
+    else{
+      ClosetSpaceComicsApi.addPurchase(this.props.UserId, description, purchaseDate, price)
+        .then(newPurchase => {
+          this.props.Purchases.unshift(newPurchase);
+          this.setState({activePurchaseId: newPurchase.id, showPurchaseList: false, showSearch:true, showPurchaseIssues: false});
+        });
+    }
 
-  handleEditPurchase(purchaseId, description, purchaseDate, price){
-    ClosetSpaceComicsApi.editPurchase(this.props.UserId, purchaseId, description, purchaseDate, price)
-      .then(editedPurchase => {
-        var targetIndex = this.props.Purchases.findIndex(p => p.id === parseInt(purchaseId));
-        this.props.Purchases[targetIndex].description = description;
-        this.props.Purchases[targetIndex].purchaseDate = purchaseDate;
-        this.props.Purchases[targetIndex].price = price;
-        this.setState({description: description, purchaseDate: purchaseDate, price: price});
-      });
   }
 
   handleAddIssueToPurchase(bookId, ){
@@ -139,13 +140,13 @@ class PurchaseList extends Component {
         <div>
           <Row className="purchaseTitle">
             <Col md={{span:1, offset:11}} className="addPurchaseBtn">
-              <PurchaseModal UserId={this.props.UserId} HandleSaveButton={this.handleAddNewPurchase}/>
+              <PurchaseModal UserId={this.props.UserId} PurchaseId={this.state.activePurchaseId} Description={this.state.description} Price={this.state.price} PurchaseDate={this.state.purchaseDate} HandleSaveButton={this.handleAddEditPurchase}/>
             </Col>
           </Row>
           <Row className="purchases">
             {this.state.purchases.map(purchase => {
               return (
-                <Col className="purchaseDetail clickable" md="2" sm="4" xs="6" data-id={purchase.id} onClick={this.showPurchases} key={purchase.id}>
+                <Col className={"purchaseDetail clickable " + (this.state.activePurchaseId ? purchase.id === parseInt(this.state.activePurchaseId) ? '': 'inactive' : '')} md="2" sm="4" xs="6" data-id={purchase.id} onClick={this.showPurchases} key={purchase.id}>
                   <div className="text-center">
                     <div>
                       <img className="purchaseImage" src={purchase.imageUrl} alt={purchase.description} />

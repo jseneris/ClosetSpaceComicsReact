@@ -33,6 +33,13 @@ class BoxItems extends Component {
       items: this.props.BoxItems
     };
   }
+
+  componentWillReceiveProps (newProps) {
+    if( newProps.BoxItems !== this.props.BoxItems ){
+      this.setState({items: newProps.BoxItems});
+    }
+  }
+
   onSortEnd = ({oldIndex, newIndex}) => {
     var oldBook = this.state.items[oldIndex];
     ClosetSpaceComicsApi.moveBook(0, oldBook.id, newIndex);

@@ -21,8 +21,23 @@ class PurchaseModal extends Component {
     };
 
     this.handleClose = this.handleClose.bind(this);
-
+    this.handleShow = this.handleShow.bind(this);
     this.handleSaveButton = this.handleSaveButton.bind(this);
+
+    this.renderEditButton = this.renderEditButton.bind(this);
+    this.renderAddButton = this.renderAddButton.bind(this);
+
+  }
+
+  handleShow(event){
+    if(event.target.classList.contains('addButton'))
+    {
+      this.setState({show:true, description: '', price: '', purchaseDate: '', title: 'Add Purchase', action: 'add'});
+    }
+    else if(event.target.classList.contains('editButton'))
+    {
+      this.setState({show:true, description: this.props.Description, price: this.props.Price, purchaseDate: this.props.PurchaseDate, title:'Edit Purchase', action:'edit'});
+    }
   }
 
   handleClose(){
@@ -34,19 +49,38 @@ class PurchaseModal extends Component {
       this.props.HandleSaveButton(this.props.PurchaseId, this.state.description, this.state.purchaseDate, this.state.price);
     }
     else{
-      this.props.HandleSaveButton(this.state.description, this.state.purchaseDate, this.state.price);
+      this.props.HandleSaveButton('', this.state.description, this.state.purchaseDate, this.state.price);
     }
     this.handleClose();
+  }
+
+  renderEditButton(){
+    if (this.props.PurchaseId){
+      return (
+        <span className="clickable addEditButton editButton" onClick={this.handleShow}>
+          <FontAwesomeIcon className="notEvent" icon={faPenSquare}/>
+        </span>
+      );
+    }
+  }
+
+  renderAddButton(){
+    return (
+      <span className="clickable addEditButton addButton" onClick={this.handleShow}>
+        <FontAwesomeIcon className="notEvent" icon={faPlusCircle}  />
+      </span  >
+    );
   }
 
   render(){
     return (
       <>
-        <FontAwesomeIcon icon={this.state.icon} className="clickable addEditButton" onClick={e => this.setState({show:true})}/>
+        {this.renderEditButton()}
+        {this.renderAddButton()}
 
         <Modal show={this.state.show} onHide={this.handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>New Purchase</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div>

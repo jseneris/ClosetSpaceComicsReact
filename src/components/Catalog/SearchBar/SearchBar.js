@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton  from 'react-bootstrap/DropdownButton'
 
 class SearchBar extends Component{
   constructor(props){
@@ -29,21 +31,25 @@ class SearchBar extends Component{
       options.push((closestWed.getMonth()+1) + '/' + closestWed.getDate() + '/' + closestWed.getFullYear());
     }
     return options.map(closestWedDate => {
-      return <option key={closestWedDate} value={closestWedDate}>{closestWedDate}</option>;
+      return <Dropdown.Item eventKey={closestWedDate} value={closestWedDate} >{closestWedDate}</Dropdown.Item>;
     });
   }
 
   handleSearch(event){
-    this.props.SearchByDate(event.target.value);
+    if (event != 'Week of'){
+      this.props.SearchByDate(event);
+      var target = document.getElementById("weekSelect");
+      target.innerText= event;
+    }
   }
 
   render(){
     return (
       <div className="SearchBar">
-      <label>Week of:</label>
-        <select id="weekSelect" onChange={this.handleSearch}>
+        <DropdownButton id="weekSelect" onSelect={this.handleSearch} title={this.state.sortBy}>
+          <Dropdown.Item eventKey="Week of" value="Week of" >Week of</Dropdown.Item>
           { this.renderWeeklyOptions()}
-        </select>
+        </DropdownButton >
       </div>
     );
   }

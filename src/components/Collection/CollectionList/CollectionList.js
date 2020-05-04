@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import LocationModal from '../LocationModal/LocationModal'
 import BoxList from '../BoxList/BoxList'
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
-  import Container from 'react-bootstrap/Container';
+import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import './CollectionList.css';
@@ -57,7 +57,7 @@ class CollectionList extends Component {
       ClosetSpaceComicsApi.addLocation(this.props.UserId, description)
         .then(newLocation => {
           this.state.locations.unshift(newLocation);
-          this.setState({activeLocationId: newLocation.id});
+          this.setState({activeLocationId: newLocation.id, showBoxList: true, boxes: newLocation.boxes});
         });
     }
   }

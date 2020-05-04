@@ -33,10 +33,10 @@ class IssueZoom extends Component {
     return(
       <Container>
         <Row>
-          <Col md="10" className="zoomHeader">{this.props.issue.title}</Col>
-          <Col md="2" className="clickable" onClick={this.exitZoom}>X</Col>
+          <Col md="11" className="zoomHeader">{this.props.issue.title}</Col>
+          <Col md="1" className="clickable" onClick={this.exitZoom}>X</Col>
         </Row>
-        <Row>
+        <Row className="zoomBody">
           <Col sm={7}>
             <img className="img-responsive" src={this.props.issue.imageUrl} height={400} alt={this.props.issue.title}/>
           </Col>
