@@ -241,11 +241,11 @@ class PurchaseList extends Component {
     }
   }
 
-  renderpurchaseItems() {
+  renderPurchaseItems() {
     if (this.state.showPurchaseIssues) {
       return (
         <PurchaseItemList
-          purchase-items={this.state.purchaseItems}
+          PurchaseItems={this.state.purchaseItems}
           Description={this.state.description}
           Size={this.state.size}
           Price={this.state.price}
