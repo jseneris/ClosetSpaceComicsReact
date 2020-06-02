@@ -1,94 +1,138 @@
-import React, {Component} from 'react';
-import BoxItems from '../BoxItems/BoxItems'
-import BoxModal from '../BoxModal/BoxModal'
+import React, { Component } from 'react';
+import BoxItems from '../BoxItems/BoxItems';
+import BoxModal from '../BoxModal/BoxModal';
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 class BoxList extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       boxes: props.Boxes,
       showBoxItems: false,
-      activeBoxId: null
+      activeBoxId: null,
     };
 
     this.handleBoxSelect = this.handleBoxSelect.bind(this);
     this.handleAddEditBox = this.handleAddEditBox.bind(this);
   }
 
-  componentWillReceiveProps (newProps) {
-    if( newProps.Boxes !== this.props.Boxes ){
-      this.setState({boxes: newProps.Boxes, showBoxItems: false, activeBoxId:null});
+  componentWillReceiveProps(newProps) {
+    if (newProps.Boxes !== this.props.Boxes) {
+      this.setState({
+        boxes: newProps.Boxes,
+        showBoxItems: false,
+        activeBoxId: null,
+      });
     }
   }
 
-  handleBoxSelect(event){
-    var target = event.target.closest(".boxDetail");
+  handleBoxSelect(event) {
+    var target = event.target.closest('.boxDetail');
     var targetId = target.getAttribute('data-id');
-    var targetBox = this.state.boxes.find(element => {
+    var targetBox = this.state.boxes.find((element) => {
       return element.id === parseInt(targetId);
     });
-    ClosetSpaceComicsApi.getBoxList(this.props.UserId, this.props.LocationId, targetId)
-      .then(response => {
-        this.setState({activeBoxId: targetId, boxName: targetBox.name, boxItems: response.items, showBoxItems: true});
+    ClosetSpaceComicsApi.getBoxList(
+      this.props.UserId,
+      this.props.LocationId,
+      targetId
+    ).then((response) => {
+      this.setState({
+        activeBoxId: targetId,
+        boxName: targetBox.name,
+        boxItems: response.items,
+        showBoxItems: true,
       });
+    });
   }
 
-  handleAddEditBox(boxId, name){
-    if (boxId){
-      ClosetSpaceComicsApi.editBox(this.props.UserId, this.props.LocationId, boxId, name)
-        .then(editedBox => {
-          var targetIndex = this.props.Boxes.findIndex(p => p.id === parseInt(boxId));
-          this.props.Boxes[targetIndex].name = name;
-          this.setState({name: name});
-        });
-    }
-    else{
-      ClosetSpaceComicsApi.addBox(this.props.UserId, this.props.LocationId, name)
-        .then(newBox => {
-          this.state.boxes.push(newBox);
-          this.setState({activeBoxId: newBox.id});
-        });
+  handleAddEditBox(boxId, name) {
+    if (boxId) {
+      ClosetSpaceComicsApi.editBox(
+        this.props.UserId,
+        this.props.LocationId,
+        boxId,
+        name
+      ).then((editedBox) => {
+        var targetIndex = this.props.Boxes.findIndex(
+          (p) => p.id === parseInt(boxId)
+        );
+        this.props.Boxes[targetIndex].name = name;
+        this.setState({ name: name });
+      });
+    } else {
+      ClosetSpaceComicsApi.addBox(
+        this.props.UserId,
+        this.props.LocationId,
+        name
+      ).then((newBox) => {
+        this.state.boxes.push(newBox);
+        this.setState({ activeBoxId: newBox.id });
+      });
     }
   }
 
-  renderBoxItems(){
-    if (this.state.showBoxItems){
-      return(
-        <BoxItems LocationName={this.state.locationName} BoxItems={this.state.boxItems} />
-      )
+  renderBoxItems() {
+    if (this.state.showBoxItems) {
+      return (
+        <BoxItems
+          LocationName={this.state.locationName}
+          BoxItems={this.state.boxItems}
+        />
+      );
     }
   }
 
-  render(){
-    return(
-      <div className="locationBoxHeader">
+  render() {
+    return (
+      <div className="locationbox-header">
         <Row>
-          <Col md={{span:1, offset:11}} className="addPurchaseBtn">
-            <BoxModal UserId={this.props.UserId} BoxId={this.state.activeBoxId} BoxName={this.state.boxName} HandleSaveButton={this.handleAddEditBox}/>
+          <Col md={{ span: 1, offset: 11 }} className="addPurchaseBtn">
+            <BoxModal
+              UserId={this.props.UserId}
+              BoxId={this.state.activeBoxId}
+              BoxName={this.state.boxName}
+              HandleSaveButton={this.handleAddEditBox}
+            />
           </Col>
         </Row>
         <Row className="boxes">
-          {this.state.boxes.map(box => {
+          {this.state.boxes.map((box) => {
             return (
-              <Col className={"boxDetail clickable " + (this.state.activeBoxId ? box.id === parseInt(this.state.activeBoxId) ? '': 'inactive' : '')} md="2" data-id={box.id} onClick={this.handleBoxSelect} key={box.id}>
+              <Col
+                className={
+                  'boxDetail clickable ' +
+                  (this.state.activeBoxId
+                    ? box.id === parseInt(this.state.activeBoxId)
+                      ? ''
+                      : 'inactive'
+                    : '')
+                }
+                md="2"
+                data-id={box.id}
+                onClick={this.handleBoxSelect}
+                key={box.id}
+              >
                 <div className="text-center">
                   <div>
-                    <img className="boxImage" src={box.imageUrl} alt={box.name} />
+                    <img
+                      className="box-image"
+                      src={box.imageUrl}
+                      alt={box.name}
+                    />
                   </div>
                   <span>{box.name}</span>
                 </div>
               </Col>
-            )
+            );
           })}
         </Row>
         {this.renderBoxItems()}
       </div>
-    )
+    );
   }
-
 }
 
 export default BoxList;

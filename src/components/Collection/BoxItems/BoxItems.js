@@ -1,21 +1,21 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import ClosetSpaceComicsApi from '../../../utils/ClosetSpaceComicsApi';
-import {SortableContainer, SortableElement} from 'react-sortable-hoc';
+import { SortableContainer, SortableElement } from 'react-sortable-hoc';
 import arrayMove from 'array-move';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-const SortableItem = SortableElement(({value}) => {
+const SortableItem = SortableElement(({ value }) => {
   return (
-    <Col className="issueDetail" md="2" sm="3" xs="6"  data-id={value.id} >
+    <Col className="issueDetail" md="2" sm="3" xs="6" data-id={value.id}>
       <div>
-        <img src={value.imageUrl} height="200px" alt={value.imageUrl}/>
+        <img src={value.imageUrl} height="200px" alt={value.imageUrl} />
       </div>
     </Col>
-  )
+  );
 });
 
-const SortableList = SortableContainer(({items}) => {
+const SortableList = SortableContainer(({ items }) => {
   return (
     <Row className="issues">
       {items.map((value, index) => (
@@ -26,34 +26,38 @@ const SortableList = SortableContainer(({items}) => {
 });
 
 class BoxItems extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
-      items: this.props.BoxItems
+      items: this.props.BoxItems,
     };
   }
 
-  componentWillReceiveProps (newProps) {
-    if( newProps.BoxItems !== this.props.BoxItems ){
-      this.setState({items: newProps.BoxItems});
+  componentWillReceiveProps(newProps) {
+    if (newProps.BoxItems !== this.props.BoxItems) {
+      this.setState({ items: newProps.BoxItems });
     }
   }
 
-  onSortEnd = ({oldIndex, newIndex}) => {
+  onSortEnd = ({ oldIndex, newIndex }) => {
     var oldBook = this.state.items[oldIndex];
     ClosetSpaceComicsApi.moveBook(0, oldBook.id, newIndex);
-    this.setState(({items}) => ({
+    this.setState(({ items }) => ({
       items: arrayMove(items, oldIndex, newIndex),
     }));
-
   };
 
-  render(){
-    return(
-      <div className="locationBoxHeader">
+  render() {
+    return (
+      <div className="locationbox-header">
         <div>{this.props.LocationName}</div>
-          <SortableList items={this.state.items} onSortEnd={this.onSortEnd} axis="xy" />;
+        <SortableList
+          items={this.state.items}
+          onSortEnd={this.onSortEnd}
+          axis="xy"
+        />
+        ;
       </div>
     );
   }

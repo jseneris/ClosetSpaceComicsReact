@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faPenSquare } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 class BoxModal extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
       show: false,
       name: this.props.BoxName,
-      title: 'Add Box'
+      title: 'Add Box',
     };
 
     this.handleClose = this.handleClose.bind(this);
@@ -24,54 +24,61 @@ class BoxModal extends Component {
     this.renderAddButton = this.renderAddButton.bind(this);
   }
 
-  handleClose(){
-    this.setState({show:false});
+  handleClose() {
+    this.setState({ show: false });
   }
 
-  handleShow(event){
-    if(event.target.classList.contains('addButton'))
-    {
-      this.setState({show:true, name: '', title: 'Add Box', action: 'add'});
+  handleShow(event) {
+    if (event.target.classList.contains('addButton')) {
+      this.setState({ show: true, name: '', title: 'Add Box', action: 'add' });
+    } else if (event.target.classList.contains('editButton')) {
+      this.setState({
+        show: true,
+        name: this.props.BoxName,
+        title: 'Edit Box',
+        action: 'edit',
+      });
     }
-    else if(event.target.classList.contains('editButton'))
-    {
-      this.setState({show:true, name: this.props.BoxName, title:'Edit Box', action:'edit'});
-    }
   }
 
-  handleDescriptionChange(event){
-    this.setState({name: event.target.value});
+  handleDescriptionChange(event) {
+    this.setState({ name: event.target.value });
   }
 
-  handleSaveButton(){
-    if (this.state.action === 'edit'){
+  handleSaveButton() {
+    if (this.state.action === 'edit') {
       this.props.HandleSaveButton(this.props.BoxId, this.state.name);
-    }
-    else{
+    } else {
       this.props.HandleSaveButton(null, this.state.name);
     }
     this.handleClose();
   }
 
-  renderEditButton(){
-    if (this.props.BoxId){
+  renderEditButton() {
+    if (this.props.BoxId) {
       return (
-        <span className="clickable addEditButton editButton" onClick={this.handleShow}>
-          <FontAwesomeIcon className="notEvent" icon={faPenSquare}/>
+        <span
+          className="clickable btn-add-edit editButton"
+          onClick={this.handleShow}
+        >
+          <FontAwesomeIcon className="not-event" icon={faPenSquare} />
         </span>
       );
     }
   }
 
-  renderAddButton(){
+  renderAddButton() {
     return (
-      <span className="clickable addEditButton addButton" onClick={this.handleShow}>
-        <FontAwesomeIcon className="notEvent" icon={faPlusCircle}  />
-      </span  >
+      <span
+        className="clickable btn-add-edit addButton"
+        onClick={this.handleShow}
+      >
+        <FontAwesomeIcon className="not-event" icon={faPlusCircle} />
+      </span>
     );
   }
 
-  render(){
+  render() {
     return (
       <>
         {this.renderEditButton()}
@@ -83,7 +90,16 @@ class BoxModal extends Component {
           </Modal.Header>
           <Modal.Body>
             <div>
-              <span>Description:</span><span><input type="text" name="description" id="description" value={this.state.name} onChange={this.handleDescriptionChange}/></span>
+              <span>Description:</span>
+              <span>
+                <input
+                  type="text"
+                  name="description"
+                  id="description"
+                  value={this.state.name}
+                  onChange={this.handleDescriptionChange}
+                />
+              </span>
             </div>
           </Modal.Body>
           <Modal.Footer>

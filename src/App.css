@@ -1,3 +1,7 @@
+/*---------------------------------------*/
+/*Generic settings*/
+/*---------------------------------------*/
+
 .App {
   font-family: 'Noto Sans', sans-serif;
   font-size: 1em;
@@ -6,8 +10,67 @@
   text-align: left;
 }
 
+/*---------------------------------------*/
+/*Reusable Controls*/
+/*---------------------------------------*/
+.inactive {
+  background-color: light-grey !important;
+  opacity: 0.4;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+/*---------------------------------------*/
+/*sliders*/
+/*---------------------------------------*/
+
+.slick-prev:before,
+.slick-next:before {
+  color: black;
+}
+
+.slick-slider {
+  max-height: 100px;
+}
+
+.slick-active::selection {
+  color: yellow;
+}
+
+/*---------------------------------------*/
+/*Buttons*/
+/*---------------------------------------*/
+
+.btn-nav {
+  border-radius: 1.5rem !important;
+  padding: 0.15rem 1.75rem !important;
+  line-height: 1 !important;
+  margin: 0 5px;
+}
+
+@media screen and (max-width: 520px) {
+  .btn-nav {
+    border-radius: 1.5rem !important;
+    padding: 0.15rem 1rem !important;
+    line-height: 1 !important;
+    margin: 0 5px;
+    font-size: 0.5rem !important;
+  }
+}
+
+.btn-add-edit {
+  margin: 0 2px;
+  color: green;
+}
+
+/*---------------------------------------*/
+/*Header*/
+/*---------------------------------------*/
+
 .logo {
-  align-content:center;
+  align-content: center;
   margin: auto;
   display: block;
   max-width: 100%;
@@ -18,80 +81,151 @@
 }
 
 .title-big {
-  width:100%;
+  width: 100%;
 }
 
-.loginLink{
-  cursor:pointer;
-  color: blue;
+/*---------------------------------------*/
+/*Nav Contorl*/
+/*---------------------------------------*/
 
-}
-
-.loginLink:hover{
-    color: blue;
-    text-decoration: underline;
-}
-
-.nav-button{
-    border-radius: 1.5rem !important;
-    padding: .15rem 1.75rem !important;
-    line-height: 1 !important;
-    margin: 0 5px;
-}
-
-@media screen and (max-width: 520px){
-  .nav-button{
-      border-radius: 1.5rem !important;
-      padding: .15rem 1rem !important;
-      line-height: 1 !important;
-      margin: 0 5px;
-      font-size:.5rem !important;
-  }
-}
-
-.clickable {
+.login-link {
   cursor: pointer;
+  color: blue;
 }
 
-.aboutDiv {
+.login-link:hover {
+  color: blue;
+  text-decoration: underline;
+}
+
+/*---------------------------------------*/
+/*Issue Filter*/
+/*---------------------------------------*/
+.filter-list {
+  text-align: center;
+  padding-bottom: 10px;
+  border-bottom: 2px solid black;
+  margin-bottom: 10px;
+}
+
+.pub-logo {
+  display: inline-block;
+  background-color: white;
+  height: 80px;
+  border-color: white;
+  border: 0;
+  border-radius: 0;
+  background: none;
+}
+
+.pub-logo img {
+  max-height: 80px;
+  padding: 5px;
+}
+
+/*---------------------------------------*/
+/*Issue List*/
+/*---------------------------------------*/
+.filter-div {
+  display: block;
+  border-bottom: 2px solid lightgrey;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.filter-label {
+  position: relative;
+  background-color: white;
+  font-weight: 700;
+  top: 10px;
+  margin-left: 8%;
+  padding: 0 20px;
+}
+
+/*---------------------------------------*/
+/*Issue */
+/*---------------------------------------*/
+.issue-image {
+  padding-bottom: 10px;
+}
+
+.issue-image img {
+  max-height: 300px;
+  margin: auto;
+  display: block;
+}
+
+/*---------------------------------------*/
+/*Collection List*/
+/*---------------------------------------*/
+.location-header {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.box-header {
+  font-weight: 600;
+}
+
+.location-image {
+  height: 80px;
+  width: 80px;
+}
+
+.box-image {
+  height: 60px;
+  width: 60px;
+}
+
+/*---------------------------------------*/
+/*Purchase List*/
+/*---------------------------------------*/
+
+.purchase-header {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.purchase-image {
+  height: 140px;
+  margin: auto;
+  display: block;
+}
+
+.purchase-items {
+  border-top: 2px solid black;
+}
+
+.purchase-items-header {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+/*---------------------------------------*/
+/*About section*/
+/*---------------------------------------*/
+
+.about-div {
   margin: 15px;
 }
 
-.aboutHeader {
+.about-header {
   font-size: 2em;
   font-weight: bold;
 }
 
-.addEditButton{
-  margin: 0 2px;
-  color: green;
+.not-event {
+  pointer-events: none;
 }
 
-.notEvent{
-   pointer-events: none;
-}
-
-.zoomHeader{
+.zoom-header {
   font-size: 1.75rem;
   margin-top: 0;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
   font-weight: 500;
   line-height: 1.2;
 }
 
-.zoomBody{
+.zoom-body {
   margin: 10px 0;
-}
-
-.slick-prev:before,
-.slick-next:before {
-  color: black;
-}
-
-.slick-slider{
-  max-height: 100px;
-}
-
-.slick-active::selection{
-  color:yellow;
 }

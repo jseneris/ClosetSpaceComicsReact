@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import './App.css';
 import logo from './logo125.png';
 import banner from './banner.jpeg';
-import withFirebaseAuth from 'react-with-firebase-auth'
+import withFirebaseAuth from 'react-with-firebase-auth';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import firebaseConfig from './firebaseConfig';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Container from 'react-bootstrap/Container'
+import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -19,17 +19,17 @@ import About from './pages/About';
 const firebaseApp = firebase.initializeApp(firebaseConfig);
 
 class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
-      authenticated:false,
+      authenticated: false,
       userId: 0,
       navCatalog: true,
       navPurchases: false,
       navCollection: false,
       navAbout: false,
-    }
+    };
 
     this.displayCatalog = this.displayCatalog.bind(this);
     this.displayCollection = this.displayCollection.bind(this);
@@ -41,121 +41,168 @@ class App extends Component {
     this.renderAbout = this.renderAbout.bind(this);
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.removeAuthListener = firebaseAppAuth.onAuthStateChanged((user) => {
-      if (user){
-        this.setState({authenticated: true, userId: user.uid});
-      }
-      else{
-        this.setState({authenticated: true, userId: 0});
+      if (user) {
+        this.setState({ authenticated: true, userId: user.uid });
+      } else {
+        this.setState({ authenticated: true, userId: 0 });
       }
     });
   }
 
   componentDidMount() {
-    document.title = "Closet Space Comics";
-}
-
-  displayCatalog(){
-    this.setState({navCatalog: true, navCollection: false, navPurchases:false, navAbout:false})
+    document.title = 'Closet Space Comics';
   }
 
-  displayCollection(){
-    this.setState({navCatalog: false, navCollection: true, navPurchases:false, navAbout:false})
+  displayCatalog() {
+    this.setState({
+      navCatalog: true,
+      navCollection: false,
+      navPurchases: false,
+      navAbout: false,
+    });
   }
 
-  displayPurchases(){
-    this.setState({navCatalog: false, navCollection: false, navPurchases:true, navAbout:false})
+  displayCollection() {
+    this.setState({
+      navCatalog: false,
+      navCollection: true,
+      navPurchases: false,
+      navAbout: false,
+    });
   }
 
-  displayAbout(){
-    this.setState({navCatalog: false, navCollection: false, navPurchases:false, navAbout:true})
+  displayPurchases() {
+    this.setState({
+      navCatalog: false,
+      navCollection: false,
+      navPurchases: true,
+      navAbout: false,
+    });
   }
 
-  renderCatalog(){
-    if (this.state.navCatalog)
-    {
+  displayAbout() {
+    this.setState({
+      navCatalog: false,
+      navCollection: false,
+      navPurchases: false,
+      navAbout: true,
+    });
+  }
+
+  renderCatalog() {
+    if (this.state.navCatalog) {
+      return <Catalog />;
+    }
+  }
+
+  renderCollection() {
+    if (this.state.navCollection) {
       return (
-        <Catalog />
+        <Collection
+          Authenticated={this.state.authenticated}
+          UserId={this.state.userId}
+        />
       );
     }
   }
 
-  renderCollection(){
-    if (this.state.navCollection)
-    {
+  renderPurchases() {
+    if (this.state.navPurchases) {
       return (
-        <Collection Authenticated={this.state.authenticated} UserId={this.state.userId}/>
+        <Purchases
+          Authenticated={this.state.authenticated}
+          UserId={this.state.userId}
+        />
       );
     }
   }
 
-  renderPurchases(){
-    if (this.state.navPurchases)
-    {
-      return (
-        <Purchases Authenticated={this.state.authenticated} UserId={this.state.userId}/>
-      );
+  renderAbout() {
+    if (this.state.navAbout) {
+      return <About />;
     }
   }
 
-  renderAbout(){
-    if (this.state.navAbout)
-    {
-      return (
-        <About />
-      );
-    }
-  }
-
-  render(){
-    const
-    {
-      user,
-      signOut,
-      signInWithGoogle,
-    } = this.props;
+  render() {
+    const { user, signOut, signInWithGoogle } = this.props;
 
     return (
-        <Container className="App" fluid>
-          <Row className="top-bar">
-            <Col md="2">
-              {user ? (
-                <div>
-                  {user.displayName}
-                  <span>
-                    (<span className="loginLink" onClick={signOut}>sign out</span>)
+      <Container className="App" fluid>
+        <Row className="top-bar">
+          <Col md="2">
+            {user ? (
+              <div>
+                {user.displayName}
+                <span>
+                  (
+                  <span className="login-link" onClick={signOut}>
+                    sign out
                   </span>
-                </div>
-              )
-                :
-                <div>
-                  Demo
-                  <span>
-                    (<span className="loginLink" onClick={signInWithGoogle}>sign in</span>)
+                  )
+                </span>
+              </div>
+            ) : (
+              <div>
+                Demo
+                <span>
+                  (
+                  <span className="login-link" onClick={signInWithGoogle}>
+                    sign in
                   </span>
-                </div>
-              }
-            </Col>
-            <Col md="8">
-                <img  className="logo" src={logo} alt="logo"/>
-            </Col>
-          </Row>
-          <Row className="legend">
-            <img className="title-big" src={banner} alt="banner"/>
-          </Row>
-          <Row className="justify-content-center">
-              <Button className="nav-button" variant="outline-primary" active={this.state.navCatalog} onClick={this.displayCatalog}>Catalog</Button>
-              <Button className="nav-button" variant="outline-primary" active={this.state.navCollection} onClick={this.displayCollection}>Collection</Button>
-              <Button className="nav-button" variant="outline-primary" active={this.state.navPurchases} onClick={this.displayPurchases}>Purchases</Button>
-              <Button className="nav-button" variant="outline-primary" active={this.state.navAbout} onClick={this.displayAbout}>About</Button>
-          </Row>
-          <div>
-            {this.renderCatalog()}
-            {this.renderCollection()}
-            {this.renderPurchases()}
-            {this.renderAbout()}
-          </div>
+                  )
+                </span>
+              </div>
+            )}
+          </Col>
+          <Col md="8">
+            <img className="logo" src={logo} alt="logo" />
+          </Col>
+        </Row>
+        <Row className="legend">
+          <img className="title-big" src={banner} alt="banner" />
+        </Row>
+        <Row className="justify-content-center">
+          <Button
+            className="btn-nav"
+            variant="outline-primary"
+            active={this.state.navCatalog}
+            onClick={this.displayCatalog}
+          >
+            Catalog
+          </Button>
+          <Button
+            className="btn-nav"
+            variant="outline-primary"
+            active={this.state.navCollection}
+            onClick={this.displayCollection}
+          >
+            Collection
+          </Button>
+          <Button
+            className="btn-nav"
+            variant="outline-primary"
+            active={this.state.navPurchases}
+            onClick={this.displayPurchases}
+          >
+            Purchases
+          </Button>
+          <Button
+            className="btn-nav"
+            variant="outline-primary"
+            active={this.state.navAbout}
+            onClick={this.displayAbout}
+          >
+            About
+          </Button>
+        </Row>
+        <div>
+          {this.renderCatalog()}
+          {this.renderCollection()}
+          {this.renderPurchases()}
+          {this.renderAbout()}
+        </div>
       </Container>
     );
   }

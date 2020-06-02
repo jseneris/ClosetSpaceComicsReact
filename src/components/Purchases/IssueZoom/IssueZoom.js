@@ -1,19 +1,19 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Slider from "react-slick";
+import Slider from 'react-slick';
 
 class IssueZoom extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
       selectedBox: this.props.Issue.boxId,
       selectedLocation: this.props.Issue.locationId,
       showButtons: false,
-      issues: this.props.Issues
-    }
+      issues: this.props.Issues,
+    };
 
     this.changeZoom = this.changeZoom.bind(this);
     this.exitZoom = this.exitZoom.bind(this);
@@ -23,55 +23,73 @@ class IssueZoom extends Component {
     this.saveBook = this.saveBook.bind(this);
   }
 
-  componentWillReceiveProps (newProps) {
-    if( newProps.Issue !== this.props.Issue ){
-      this.setState({selectedBox: newProps.Issue.boxId, selectedLocation: newProps.Issue.locationId, showButtons: false, issues: newProps.Issues});
+  componentWillReceiveProps(newProps) {
+    if (newProps.Issue !== this.props.Issue) {
+      this.setState({
+        selectedBox: newProps.Issue.boxId,
+        selectedLocation: newProps.Issue.locationId,
+        showButtons: false,
+        issues: newProps.Issues,
+      });
     }
   }
 
-  changeZoom(event){
+  changeZoom(event) {
     var tartgetIndex = event.target.getAttribute('data-index');
     this.props.HandleZoomChange(this.state.issues[tartgetIndex]);
   }
 
-  exitZoom(){
+  exitZoom() {
     this.props.HandleZoomExit();
   }
 
-  handleBoxChange(event){
+  handleBoxChange(event) {
     var showButton = this.props.Issue.boxId != event.target.value;
-    this.setState({selectedBox: event.target.value, showButtons: showButton});
+    this.setState({ selectedBox: event.target.value, showButtons: showButton });
   }
 
-  handleLocationChange(event){
+  handleLocationChange(event) {
     var showButton = this.props.Issue.LocationId != event.target.value;
-    this.setState({selectedLocation: event.target.value, showButtons: showButton});
+    this.setState({
+      selectedLocation: event.target.value,
+      showButtons: showButton,
+    });
   }
 
-  saveBook(){
+  saveBook() {
     this.props.HandleBookChange(this.props.Issue, this.state.selectedBox);
   }
 
-  resetLocation(){
-    this.setState({selectedBox: this.props.Issue.boxId, showButtons: false});
+  resetLocation() {
+    this.setState({ selectedBox: this.props.Issue.boxId, showButtons: false });
   }
 
   renderBoxOptions() {
-    var targetLocation = this.props.Locations.find(loc => loc.id === parseInt(this.state.selectedLocation));
-    return targetLocation.boxes.map(box => {
-      return (<option key={box.id} value={box.id}>{box.name}</option>)
+    var targetLocation = this.props.Locations.find(
+      (loc) => loc.id === parseInt(this.state.selectedLocation)
+    );
+    return targetLocation.boxes.map((box) => {
+      return (
+        <option key={box.id} value={box.id}>
+          {box.name}
+        </option>
+      );
     });
   }
 
   renderLocationOptions() {
-    return this.props.Locations.map(locations => {
-      return (<option key={locations.id} value={locations.id}>{locations.name}</option>)
+    return this.props.Locations.map((locations) => {
+      return (
+        <option key={locations.id} value={locations.id}>
+          {locations.name}
+        </option>
+      );
     });
   }
 
-  renderButtons(){
-    if (this.state.showButtons){
-      return(
+  renderButtons() {
+    if (this.state.showButtons) {
+      return (
         <div className="divButtons">
           <button onClick={this.resetLocation}>Cancel</button>
           <button onClick={this.saveBook}>Save</button>
@@ -80,34 +98,54 @@ class IssueZoom extends Component {
     }
   }
 
-  render(){
+  render() {
     var settings = {
       dots: true,
       arrows: true,
       infinite: true,
       speed: 500,
       slidesToShow: 12,
-      slidesToScroll: 12
+      slidesToScroll: 12,
     };
-    return(
+    return (
       <Container>
         <Row>
-          <Col md="11" className="zoomHeader">{`${this.props.Issue.title} #${this.props.Issue.issueNum}`}</Col>
-          <Col md="1" className="clickable" onClick={this.exitZoom}>X</Col>
+          <Col
+            md="11"
+            className="zoom-header"
+          >{`${this.props.Issue.title} #${this.props.Issue.issueNum}`}</Col>
+          <Col md="1" className="clickable" onClick={this.exitZoom}>
+            X
+          </Col>
         </Row>
-        <Row className="zoomBody">
+        <Row className="zoom-body">
           <Col sm={7}>
-            <img className="img-responsive" src={this.props.Issue.imageUrl} height={400} alt={this.props.Issue.title}/>
+            <img
+              className="img-responsive"
+              src={this.props.Issue.imageUrl}
+              height={400}
+              alt={this.props.Issue.title}
+            />
           </Col>
           <Col sm={5}>
-            <p>Location:
-              <select id="locationSelect" value={this.state.selectedLocation} onChange={this.handleLocationChange}>
-                { this.renderLocationOptions()}
+            <p>
+              Location:
+              <select
+                id="locationSelect"
+                value={this.state.selectedLocation}
+                onChange={this.handleLocationChange}
+              >
+                {this.renderLocationOptions()}
               </select>
             </p>
-            <p>Box:
-              <select id="boxSelect" value={this.state.selectedBox} onChange={this.handleBoxChange}>
-                { this.renderBoxOptions()}
+            <p>
+              Box:
+              <select
+                id="boxSelect"
+                value={this.state.selectedBox}
+                onChange={this.handleBoxChange}
+              >
+                {this.renderBoxOptions()}
               </select>
             </p>
             {this.renderButtons()}
@@ -117,15 +155,20 @@ class IssueZoom extends Component {
           {this.state.issues.map((issue, index) => {
             return (
               <div>
-                <img src={issue.imageUrl} data-index={index} height={80} onClick={this.changeZoom}  alt={this.props.Issue.title}/>
+                <img
+                  src={issue.imageUrl}
+                  data-index={index}
+                  height={80}
+                  onClick={this.changeZoom}
+                  alt={this.props.Issue.title}
+                />
               </div>
-            )
+            );
           })}
         </Slider>
       </Container>
     );
   }
 }
-
 
 export default IssueZoom;

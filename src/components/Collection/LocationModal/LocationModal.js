@@ -1,17 +1,17 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlusCircle, faPenSquare } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 class LocationModal extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
 
     this.state = {
       show: false,
       description: this.props.LocationName,
-      title: 'Add Location'
+      title: 'Add Location',
     };
 
     this.handleClose = this.handleClose.bind(this);
@@ -24,54 +24,69 @@ class LocationModal extends Component {
     this.renderAddButton = this.renderAddButton.bind(this);
   }
 
-  handleClose(){
-    this.setState({show:false});
+  handleClose() {
+    this.setState({ show: false });
   }
 
-  handleShow(event){
-    if(event.target.classList.contains('addButton'))
-    {
-      this.setState({show:true, description: '', title: 'Add Location', action: 'add'});
-    }
-    else if(event.target.classList.contains('editButton'))
-    {
-      this.setState({show:true, description: this.props.LocationName, title:'Edit Location', action:'edit'});
+  handleShow(event) {
+    if (event.target.classList.contains('addButton')) {
+      this.setState({
+        show: true,
+        description: '',
+        title: 'Add Location',
+        action: 'add',
+      });
+    } else if (event.target.classList.contains('editButton')) {
+      this.setState({
+        show: true,
+        description: this.props.LocationName,
+        title: 'Edit Location',
+        action: 'edit',
+      });
     }
   }
 
-  handleDescriptionChange(event){
-    this.setState({description: event.target.value});
+  handleDescriptionChange(event) {
+    this.setState({ description: event.target.value });
   }
 
-  handleSaveButton(){
-    if (this.state.action === 'edit'){
-      this.props.HandleSaveButton(this.props.LocationId, this.state.description);
-    }
-    else{
+  handleSaveButton() {
+    if (this.state.action === 'edit') {
+      this.props.HandleSaveButton(
+        this.props.LocationId,
+        this.state.description
+      );
+    } else {
       this.props.HandleSaveButton('', this.state.description);
     }
     this.handleClose();
   }
 
-  renderEditButton(){
-    if (this.props.LocationId){
+  renderEditButton() {
+    if (this.props.LocationId) {
       return (
-        <span className="clickable addEditButton editButton" onClick={this.handleShow}>
-          <FontAwesomeIcon className="notEvent" icon={faPenSquare}/>
+        <span
+          className="clickable btn-add-edit editButton"
+          onClick={this.handleShow}
+        >
+          <FontAwesomeIcon className="not-event" icon={faPenSquare} />
         </span>
       );
     }
   }
 
-  renderAddButton(){
+  renderAddButton() {
     return (
-      <span className="clickable addEditButton addButton" onClick={this.handleShow}>
-        <FontAwesomeIcon className="notEvent" icon={faPlusCircle}  />
-      </span  >
+      <span
+        className="clickable btn-add-edit addButton"
+        onClick={this.handleShow}
+      >
+        <FontAwesomeIcon className="not-event" icon={faPlusCircle} />
+      </span>
     );
   }
 
-  render(){
+  render() {
     return (
       <>
         {this.renderEditButton()}
@@ -83,7 +98,16 @@ class LocationModal extends Component {
           </Modal.Header>
           <Modal.Body>
             <div>
-              <span>Description:</span><span><input type="text" name="description" id="description" value={this.state.description} onChange={this.handleDescriptionChange}/></span>
+              <span>Description:</span>
+              <span>
+                <input
+                  type="text"
+                  name="description"
+                  id="description"
+                  value={this.state.description}
+                  onChange={this.handleDescriptionChange}
+                />
+              </span>
             </div>
           </Modal.Body>
           <Modal.Footer>
